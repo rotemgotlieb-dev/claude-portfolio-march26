@@ -1,8 +1,21 @@
+# Heavy / internal — never deploy
 _archive/
-photos /
+node_modules/
 .claude/
+.git/
+.gitignore
+.superpowers/
+
+# Working materials not referenced by the site
+Projects/
+photos\ /
+animations/
+animation-reference-frames:/
+reference-audits/
+resume/
+
+# Dev sandboxes + internal docs
+sandbox-*.html
+CLAUDE.md
+*.log
 .DS_Store
-*.zip
-img/lexisnexis/Screenshot*.png
-img/lexisnexis/Archive.zip
-img/lexisnexis/*-old.png
