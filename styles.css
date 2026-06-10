@@ -8494,123 +8494,220 @@ body.modal-open { overflow: hidden; }
 .lx-demo.lxt-reduced .lxt-var-row[data-step="2"] .lxt-var-name::before { content: 'brand-action'; }
 
 /* ====================================================================
-   2. RESEARCH TAXONOMY (lxr)
-   Quote chips fly into three tag buckets; counts tick; insight lands.
+   2. RESEARCH TAXONOMY (lxr) — authentic-Dovetail restyle (2026-06-10)
+   Research-informed: real Dovetail palette (ink #190041, muted #73648B,
+   orange #FF6E00, indigo #5450FF, emerald #00784F with pale pairs),
+   transcript speaker rows, highlight-tint sweep, floating action
+   toolbar with dark Tag tooltip, tag-group columns with solid chips,
+   spark insight bar. Sentence case, no monospace inside the frame.
    ==================================================================== */
 .lxr-stage {
   position: relative;
-  height: 292px;
-  padding: 22px 28px;
+  height: 300px;
+  padding: 20px 28px;
   display: flex;
   flex-direction: column;
+  background: #FFFFFF;
 }
 .lxr-quote-slot {
   position: relative;
-  height: 64px;
-  margin-bottom: 18px;
+  height: 84px;
+  margin-bottom: 16px;
 }
 .lxr-quote {
   position: absolute;
   inset: 0;
   display: flex;
-  align-items: center;
-  gap: 12px;
-  background: #FFFFFF;
-  border: 1px solid rgba(31,29,26,0.10);
-  border-radius: 10px;
-  padding: 0 18px;
+  flex-direction: column;
+  gap: 7px;
+  padding: 4px 2px;
   opacity: 0;
-  transform: translateY(10px) scale(0.98);
+  transform: translateY(8px);
   transition: opacity 320ms cubic-bezier(0.16, 1, 0.3, 1), transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 .lxr-quote.is-visible {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
 }
 .lxr-quote.is-flying {
   opacity: 0;
-  transform: translateY(74px) scale(0.6);
-  transition: opacity 480ms cubic-bezier(0.7, 0, 0.84, 0), transform 520ms cubic-bezier(0.7, 0, 0.84, 0);
+  transform: translateY(92px) scale(0.72);
+  transition: opacity 560ms cubic-bezier(0.7, 0, 0.84, 0), transform 640ms cubic-bezier(0.7, 0, 0.84, 0);
+}
+.lxr-quote-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 .lxr-quote-avatar {
-  width: 26px; height: 26px;
+  width: 22px; height: 22px;
   border-radius: 50%;
   flex-shrink: 0;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   font-size: 10px;
   font-weight: 700;
   color: #FFFFFF;
 }
-.lxr-quote-text {
+.lxr-speaker {
   font-size: 12.5px;
-  font-style: italic;
-  color: rgba(31,29,26,0.78);
-  line-height: 1.35;
+  font-weight: 600;
+  color: #190041;
 }
+.lxr-timestamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #73648B;
+  font-variant-numeric: tabular-nums;
+}
+.lxr-quote-text {
+  font-size: 13px;
+  line-height: 1.55;
+  color: #190041;
+  padding-left: 30px;
+}
+/* Dovetail highlight-tint sweep: pale background grows left-to-right
+   across the quote text. --lxr-tint set inline per quote (pale pair
+   of the destination tag's colour family). */
+.lxr-tint {
+  background-image: linear-gradient(var(--lxr-tint, #E4DCFF), var(--lxr-tint, #E4DCFF));
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  border-radius: 3px;
+  padding: 1px 3px;
+  margin-left: -3px;
+  transition: background-size 550ms cubic-bezier(0.16, 1, 0.3, 1);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.lxr-quote.is-tinted .lxr-tint {
+  background-size: 100% 100%;
+}
+/* Floating action toolbar + dark Tag tooltip — the signature Dovetail
+   element. Positioned over the quote slot's right side. */
+.lxr-toolbar {
+  position: absolute;
+  top: 34px;
+  right: 8%;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: #FFFFFF;
+  border: 1px solid #E5E2E9;
+  border-radius: 8px;
+  padding: 4px;
+  box-shadow: 0 4px 14px rgba(25,0,65,0.12), 0 1px 4px rgba(25,0,65,0.06);
+  opacity: 0;
+  transform: translateY(6px) scale(0.94);
+  transition: opacity 220ms cubic-bezier(0.16, 1, 0.3, 1), transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 4;
+  pointer-events: none;
+}
+.lxr-toolbar.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.lxr-toolbar-icon {
+  width: 24px; height: 24px;
+  border-radius: 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #73648B;
+}
+.lxr-toolbar-icon.is-active {
+  background: #F6F5F7;
+  color: #190041;
+}
+.lxr-tooltip {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #190041;
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 9px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+/* Tag-group columns (Dovetail tag board): pale group tint, solid-colour
+   sentence-case name + count, white tag cards with solid chips. */
 .lxr-buckets {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
+  gap: 12px;
 }
 .lxr-bucket {
-  background: #FFFFFF;
-  border: 1px solid rgba(31,29,26,0.10);
   border-radius: 10px;
-  padding: 13px 15px;
+  padding: 11px 12px;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  transition: border-color 240ms ease, box-shadow 240ms ease, transform 240ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: background 260ms ease;
 }
-.lxr-bucket.is-receiving {
-  border-color: #1F1D1A;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.10);
-  transform: translateY(-3px);
-}
+.lxr-bucket--persona  { background: #FFEBE0; }
+.lxr-bucket--migrated { background: #EBEAFF; }
+.lxr-bucket--product  { background: #E0EFEA; }
+.lxr-bucket--persona.is-receiving  { background: #FFDCC8; }
+.lxr-bucket--migrated.is-receiving { background: #DDDCFF; }
+.lxr-bucket--product.is-receiving  { background: #CDE5DB; }
 .lxr-bucket-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 .lxr-bucket-name {
-  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-  color: rgba(31,29,26,0.60);
+  font-size: 12.5px;
+  font-weight: 600;
 }
 .lxr-bucket-count {
-  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 12.5px;
+  font-weight: 600;
   font-variant-numeric: tabular-nums;
-  color: #1F1D1A;
 }
-.lxr-bucket-bars {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+.lxr-bucket--persona  .lxr-bucket-name, .lxr-bucket--persona  .lxr-bucket-count { color: #FF6E00; }
+.lxr-bucket--migrated .lxr-bucket-name, .lxr-bucket--migrated .lxr-bucket-count { color: #5450FF; }
+.lxr-bucket--product  .lxr-bucket-name, .lxr-bucket--product  .lxr-bucket-count { color: #00784F; }
+.lxr-tagcard {
+  background: #FFFFFF;
+  border-radius: 10px;
+  padding: 8px 9px;
 }
-.lxr-bucket-bars span {
-  height: 5px;
-  border-radius: 3px;
-  background: rgba(31,29,26,0.10);
+.lxr-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 6px;
+  padding: 3px 9px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #FFFFFF;
 }
-.lxr-bucket--persona  .lxr-bucket-bars span:first-child { background: #8FD3B6; }
-.lxr-bucket--migrated .lxr-bucket-bars span:first-child { background: #7CC4E8; }
-.lxr-bucket--product  .lxr-bucket-bars span:first-child { background: #B9A8E8; }
+.lxr-chip--persona  { background: #FF6E00; }
+.lxr-chip--migrated { background: #5450FF; }
+.lxr-chip--product  { background: #00784F; }
+.lxr-chip-count {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.lxr-chip--persona  .lxr-chip-count { color: #FFC599; }
+.lxr-chip--migrated .lxr-chip-count { color: #C7C5FF; }
+.lxr-chip--product  .lxr-chip-count { color: #9ED3BD; }
+/* Insight bar: Dovetail magic-highlight artifact — deep violet-navy
+   with the orange four-point spark. */
 .lxr-insight {
   margin-top: auto;
   display: flex;
   align-items: center;
-  gap: 12px;
-  background: #1F1D1A;
+  gap: 10px;
+  background: #190041;
   border-radius: 10px;
-  padding: 12px 18px;
+  padding: 11px 16px;
   opacity: 0;
   transform: translateY(12px);
   transition: opacity 360ms cubic-bezier(0.16, 1, 0.3, 1), transform 460ms cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -8619,23 +8716,27 @@ body.modal-open { overflow: hidden; }
   opacity: 1;
   transform: translateY(0);
 }
+.lxr-insight-spark {
+  color: #FF6E00;
+  font-size: 15px;
+  line-height: 1;
+}
 .lxr-insight-badge {
-  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-  font-size: 9.5px;
-  font-weight: 700;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-  color: #8FD3B6;
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.65);
   white-space: nowrap;
 }
 .lxr-insight-text {
   font-size: 12.5px;
-  color: rgba(255,255,255,0.92);
+  color: #FFFFFF;
   font-weight: 500;
 }
 .lx-demo.lxr-reduced .lxr-insight { opacity: 1; transform: none; }
+.lx-demo.lxr-reduced .lxr-tint { background-size: 100% 100%; }
 @media (prefers-reduced-motion: reduce) {
   #lxrResearchDemo .lxr-insight { opacity: 1; transform: none; transition: none; }
+  #lxrResearchDemo .lxr-tint { background-size: 100% 100%; transition: none; }
 }
 
 /* ====================================================================
@@ -8970,4 +9071,58 @@ body.modal-open { overflow: hidden; }
   .lxo-node { min-width: 44px; }
   .lxo-node-label { font-size: 7px; max-width: 52px; }
   .lxo-node-icon { width: 26px; height: 26px; }
+}
+
+/* ====================================================================
+   LEXISNEXIS BENTO THUMBNAIL — "Token Snap" (2026-06-10)
+   24 real-ramp color chips scatter in two clusters (two design
+   systems), snap into one ordered 6x4 token grid, stamp lands,
+   release, loop. JS: js/demos/lexisnexis-thumb.js (RAF-driven,
+   pixel-precise scatter/grid interpolation).
+   ==================================================================== */
+.lxs-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  /* Keeps the established LexisNexis card tint (#E8EDF2) with a faint
+     paper gradient for depth. */
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0) 60%),
+    #E8EDF2;
+  border-radius: inherit;
+}
+.lxs-chip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.65);
+  box-shadow: 0 1px 3px rgba(20,30,45,0.10), 0 4px 10px rgba(20,30,45,0.05);
+  will-change: transform;
+}
+.lxs-stamp {
+  position: absolute;
+  left: 50%;
+  bottom: 7%;
+  transform: translateX(-50%) translateY(6px);
+  background: #1A1A1A;
+  color: #FAFAF8;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  padding: 6px 14px;
+  border-radius: 999px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 300ms cubic-bezier(0.16, 1, 0.3, 1), transform 380ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.18);
+  z-index: 3;
+}
+.lxs-stamp.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+@media (max-width: 767px) {
+  .lxs-stamp { font-size: 9px; padding: 4px 10px; }
 }

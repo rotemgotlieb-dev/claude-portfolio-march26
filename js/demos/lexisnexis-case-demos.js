@@ -148,35 +148,53 @@ function autoplay(rootEl, loopMs, buildTimeline, resetAll) {
   var quotes = rootEl.querySelectorAll('.lxr-quote[data-step]');
   var buckets = rootEl.querySelectorAll('.lxr-bucket');
   var counts = rootEl.querySelectorAll('.lxr-bucket-count');
+  var chipCounts = rootEl.querySelectorAll('.lxr-chip-count');
+  var toolbar = rootEl.querySelector('.lxr-toolbar');
   var insight = rootEl.querySelector('.lxr-insight');
   var baseCounts = [12, 18, 9];
+  var baseChipCounts = [8, 11, 6];
 
   function resetAll() {
-    quotes.forEach(function (q) { q.classList.remove('is-visible', 'is-flying'); });
+    quotes.forEach(function (q) { q.classList.remove('is-visible', 'is-tinted', 'is-flying'); });
     buckets.forEach(function (b) { b.classList.remove('is-receiving'); });
     counts.forEach(function (c, i) { c.textContent = String(baseCounts[i]); });
+    chipCounts.forEach(function (c, i) { c.textContent = String(baseChipCounts[i]); });
+    if (toolbar) toolbar.classList.remove('is-visible');
     if (insight) insight.classList.remove('is-visible');
   }
 
-  /* Pacing (2026-06-09 readability fix): each quote now holds on
-   * screen for 2.2s before flying into its bucket (was 0.9s, which
-   * the user flagged as too fast to read). Loop grew 9.4s -> 13.6s. */
+  /* Authentic Dovetail gesture per quote (2026-06-10 restyle):
+   *   appear -> read hold (1.5s) -> highlight-tint sweep -> floating
+   *   toolbar with Tag tooltip -> file into the tag-group column,
+   *   chip + group counts tick. ~3.5s per quote, loop 14.4s. */
   function beatFor(step, atMs) {
     var q = rootEl.querySelector('.lxr-quote[data-step="' + step + '"]');
     var b = buckets[step];
     var c = counts[step];
+    var cc = chipCounts[step];
     return [
       { at: atMs, do: function () {
         if (q) q.classList.add('is-visible');
       }},
-      { at: atMs + 2200, do: function () {
+      /* read hold, then the tint sweeps across the text */
+      { at: atMs + 1500, do: function () {
+        if (q) q.classList.add('is-tinted');
+      }},
+      /* the action toolbar pops with the Tag tooltip */
+      { at: atMs + 2100, do: function () {
+        if (toolbar) toolbar.classList.add('is-visible');
+      }},
+      /* toolbar away; quote files into its column */
+      { at: atMs + 2700, do: function () {
+        if (toolbar) toolbar.classList.remove('is-visible');
         if (q) q.classList.add('is-flying');
         if (b) b.classList.add('is-receiving');
       }},
-      { at: atMs + 2750, do: function () {
-        if (q) q.classList.remove('is-visible', 'is-flying');
+      { at: atMs + 3350, do: function () {
+        if (q) q.classList.remove('is-visible', 'is-tinted', 'is-flying');
         if (b) b.classList.remove('is-receiving');
         if (c) c.textContent = String(baseCounts[step] + 1);
+        if (cc) cc.textContent = String(baseChipCounts[step] + 1);
       }}
     ];
   }
@@ -184,15 +202,15 @@ function autoplay(rootEl, loopMs, buildTimeline, resetAll) {
   function buildTimeline() {
     return []
       .concat(beatFor(0, 400))
-      .concat(beatFor(1, 3600))
-      .concat(beatFor(2, 6800))
+      .concat(beatFor(1, 3900))
+      .concat(beatFor(2, 7400))
       .concat([
-        { at: 10000, do: function () { if (insight) insight.classList.add('is-visible'); } }
-        /* hold insight through T=13600 */
+        { at: 10900, do: function () { if (insight) insight.classList.add('is-visible'); } }
+        /* hold insight through T=14400 */
       ]);
   }
 
-  autoplay(rootEl, 13600, buildTimeline, resetAll);
+  autoplay(rootEl, 14400, buildTimeline, resetAll);
 })();
 
 /* ================================================================== */
