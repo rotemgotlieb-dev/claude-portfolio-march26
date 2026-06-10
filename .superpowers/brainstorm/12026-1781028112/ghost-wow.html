@@ -1,0 +1,133 @@
+<h2>Three swings at the wow factor — for Ghost</h2>
+<p class="subtitle">The design-system reality scanner. The slider is already the differentiator; the question is how far to push it. Each direction preserves shippability.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="living-slider" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#FAFAF8;padding:0;font-family:system-ui;position:relative;overflow:hidden;color:#1a1a1a;">
+      <div style="display:flex;height:130px;position:relative;">
+        <div style="flex:1;background:#F8F9FB;padding:10px;display:flex;flex-direction:column;gap:5px;">
+          <div style="height:14px;background:#fff;border-radius:3px;box-shadow:0 1px 2px rgba(0,0,0,0.06);"></div>
+          <div style="display:flex;gap:3px;">
+            <div style="flex:1;height:22px;background:#fff;border-radius:3px;box-shadow:0 1px 2px rgba(0,0,0,0.06);"></div>
+            <div style="flex:1;height:22px;background:#fff;border-radius:3px;box-shadow:0 1px 2px rgba(0,0,0,0.06);"></div>
+          </div>
+          <div style="flex:1;background:#fff;border-radius:3px;box-shadow:0 1px 2px rgba(0,0,0,0.06);"></div>
+          <div style="height:9px;width:38px;background:#4F46E5;border-radius:3px;"></div>
+        </div>
+        <div style="width:2.5px;background:#fff;box-shadow:0 0 8px rgba(0,0,0,0.3);position:relative;">
+          <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:14px;height:24px;border-radius:7px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.2),0 0 8px rgba(255,255,255,0.4);"></div>
+        </div>
+        <div style="flex:1;background:#F6F7F9;padding:10px;display:flex;flex-direction:column;gap:5px;position:relative;">
+          <div style="height:16px;background:#fff;border-radius:2px;box-shadow:0 1px 2px rgba(0,0,0,0.06);"></div>
+          <div style="display:flex;gap:3px;">
+            <div style="flex:1;height:22px;background:#EEEEFF;border-radius:3px;box-shadow:0 1px 2px rgba(0,0,0,0.06);outline:1.5px dashed #EF4444;"></div>
+            <div style="flex:1;height:22px;background:#fff;border-radius:3px;box-shadow:0 1px 2px rgba(0,0,0,0.06);"></div>
+          </div>
+          <div style="flex:1;background:#fff;border-radius:2px;box-shadow:0 1px 2px rgba(0,0,0,0.06);"></div>
+          <div style="height:9px;width:38px;background:#7C3AED;border-radius:2px;outline:1.5px dashed #EF4444;outline-offset:1px;"></div>
+        </div>
+      </div>
+      <div style="position:absolute;left:0;right:0;bottom:0;padding:8px 12px;background:linear-gradient(transparent,rgba(0,0,0,0.7));font-size:10px;color:#fafaf8;font-weight:600;">
+        ↑ Drag the slider. Click a deviation. The fix flow plays.
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>I · The Living Slider Page</h3>
+      <p><strong>The case study page hosts a working Ghost slider.</strong> Real design-system mock vs production mock. You drag, you click a deviation marker, the AI Fix Flow plays under your finger. View modes (Slider / Side-by-Side / Overlay / Timeline) are real buttons. The current case study videos become real interactive demos, vanilla, embedded inline.</p>
+      <p style="font-size:13px;color:#888;margin-top:6px;"><strong>Wow:</strong> "wait, this is the actual product running on the case study page?"<br><strong>Ships:</strong> as work/ghost.html, no separate product domain needed.<br><strong>Effort:</strong> 3-4 sprints. Engine work + slider port from Next.js to vanilla.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="real-product" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#FAFAF8;padding:18px;color:#1a1a1a;font-family:system-ui;">
+      <div style="display:flex;align-items:center;gap:6px;font-size:9px;color:#888;margin-bottom:10px;">
+        <span style="width:8px;height:8px;border-radius:50%;background:#28c840;"></span>
+        <span>ghost.rotemgotlieb.com · live</span>
+      </div>
+      <div style="font-size:22px;font-weight:800;line-height:1.05;margin-bottom:6px;">Ghost</div>
+      <div style="font-size:11px;color:#555;line-height:1.4;margin-bottom:10px;">Design system reality scanner. Spot the drift between your Figma spec and what shipped.</div>
+      <div style="display:flex;gap:6px;">
+        <span style="font-size:9px;background:#4F46E5;color:#fafaf8;padding:4px 10px;border-radius:4px;font-weight:600;">Scan a page →</span>
+        <span style="font-size:9px;background:transparent;color:#1a1a1a;padding:4px 10px;border-radius:4px;font-weight:600;border:1px solid #1a1a1a;">Read the case study</span>
+      </div>
+      <div style="margin-top:10px;padding-top:10px;border-top:1px solid #ddd;font-size:8px;color:#888;display:flex;justify-content:space-between;">
+        <span>29 deviation types tracked</span>
+        <span>Built by Rotem</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>II · The Real Product</h3>
+      <p><strong>Ghost becomes a real, public, deployable product.</strong> The Next.js app gets a full UX research + onboarding pass. Real demo flow: paste a Figma URL + a production URL, Ghost runs (or stylized-but-defensible demonstrates) and surfaces drift. Hosted at ghost.rotemgotlieb.com. Hiring managers can <em>use</em> the scanner.</p>
+      <p style="font-size:13px;color:#888;margin-top:6px;"><strong>Wow:</strong> "this is a real product, not a concept?"<br><strong>Ships:</strong> a deployable product + a polished case study page linking to it.<br><strong>Effort:</strong> 5-7 sprints. Real product UX work is the unknown.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="merged" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#FAFAF8;padding:0;font-family:system-ui;position:relative;overflow:hidden;color:#1a1a1a;">
+      <div style="padding:12px 18px 8px;">
+        <div style="font-size:9px;letter-spacing:0.2em;color:#888;">CHAPTER 01 · THE PROBLEM</div>
+        <div style="font-size:13px;font-weight:700;line-height:1.2;margin-top:2px;">Figma says one thing. Production shipped another.</div>
+      </div>
+      <div style="display:flex;height:90px;margin:0 18px 14px;border:1px solid #ddd;border-radius:4px;overflow:hidden;position:relative;">
+        <div style="flex:1;background:#F8F9FB;padding:6px;">
+          <div style="height:8px;background:#fff;border-radius:2px;margin-bottom:3px;"></div>
+          <div style="height:14px;background:#fff;border-radius:2px;margin-bottom:3px;"></div>
+          <div style="height:30px;background:#fff;border-radius:2px;"></div>
+        </div>
+        <div style="width:2.5px;background:#fff;box-shadow:0 0 8px rgba(0,0,0,0.3);position:relative;">
+          <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:12px;height:20px;border-radius:6px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.2);"></div>
+        </div>
+        <div style="flex:1;background:#F6F7F9;padding:6px;">
+          <div style="height:8px;background:#fff;border-radius:1px;margin-bottom:3px;"></div>
+          <div style="height:14px;background:#EEEEFF;border-radius:2px;margin-bottom:3px;outline:1.5px dashed #EF4444;"></div>
+          <div style="height:30px;background:#fff;border-radius:2px;"></div>
+        </div>
+      </div>
+      <div style="padding:0 18px 12px;font-size:8px;color:#888;text-align:center;">↓ keep scrolling · chapter 02 reveals the insight inside this scanner ↓</div>
+    </div>
+    <div class="card-body">
+      <h3>III · The Merged Experience</h3>
+      <p><strong>Case study and product fuse into one site.</strong> The page opens with the slider running on a real example. You scroll through chapters; each chapter reveals product moves inside the persistent scanner canvas. The cursor demos become real interactions you can take over. There is no separate "case study page" anymore — the strategic narrative <em>is</em> the product walkthrough.</p>
+      <p style="font-size:13px;color:#888;margin-top:6px;"><strong>Wow:</strong> "I've never seen a portfolio do this."<br><strong>Ships:</strong> as one immersive page at rotemgotlieb.com/work/ghost, replaces the current case study.<br><strong>Effort:</strong> 6-9 sprints. The highest novelty; the most invention.</p>
+    </div>
+  </div>
+
+</div>
+
+<h3 style="margin-top:28px;">My recommendation: III · The Merged Experience</h3>
+<p>Ghost's existing thesis — "let the slider be the wedge demo at Beat 2" — already proves the format works at chapter scale. III takes it to the whole page. <strong>I</strong> is wow-by-interactivity but the prose blocks still read as case-study scaffolding around a hot canvas — the canvas is a guest. <strong>II</strong> is the founder play but splits attention across two artifacts. <strong>III</strong> dissolves the case study format itself: the slider runs through every chapter, the deviation markers turn from demo callouts into real callouts you can poke, the AI Fix Flow plays at your finger when the narrative reaches the "remediation" beat. The reader doesn't read about the design-system reality scanner — they <em>operate</em> it while the strategic argument unfolds around their hands.</p>
+<p>Risk: III demands inventing a portfolio format. Gated week-on-week sprints. If we hit a wall we can back down to <strong>I</strong> and still ship something great.</p>
+
+<p class="subtitle" style="margin-top:24px;">Pick one — or push back.</p>
+
+<div class="options">
+  <div class="option" data-choice="go-iii" onclick="toggleSelect(this)">
+    <div class="letter">III</div>
+    <div class="content">
+      <h3>Go merged — III.</h3>
+      <p>Invent the format. The whole page is the scanner; the narrative is the walkthrough.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="go-i" onclick="toggleSelect(this)">
+    <div class="letter">I</div>
+    <div class="content">
+      <h3>Go living-slider page — I.</h3>
+      <p>Same interactivity, case-study scaffolding stays.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="go-ii" onclick="toggleSelect(this)">
+    <div class="letter">II</div>
+    <div class="content">
+      <h3>Go real-product — II.</h3>
+      <p>Founder energy. Public Ghost. Two artifacts both world-class.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="bigger" onclick="toggleSelect(this)">
+    <div class="letter">+</div>
+    <div class="content">
+      <h3>Bigger than these.</h3>
+      <p>Tell me what's missing.</p>
+    </div>
+  </div>
+</div>

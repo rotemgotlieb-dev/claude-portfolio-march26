@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- 2026-06-09 Ghost Bento Thumbnail v3 sandbox.
+       Composition: a miniature design-system inventory in muted
+       Ghost-purple, with ghost-twin outlines drifting then snapping
+       back to the spec. Multi-element fills ~70% of the 16:9 canvas.
+       Both bento-card-thumb (homepage) and other-work-card thumbnail
+       (case study) rendered side-by-side to confirm cross-surface
+       scaling. -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Ghost Bento Thumbnail v3 Sandbox</title>
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #1a1a1a;
+      min-height: 100vh;
+      font-family: 'Satoshi', system-ui, sans-serif;
+      color: #eaeaea;
+    }
+    .sandbox-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      align-items: center;
+      padding: 40px 24px;
+    }
+    .surface {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+    }
+    .surface-label {
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #888;
+      font-weight: 500;
+    }
+    /* Mimic homepage bento footprint: 1040px x ~585px (16:9). */
+    .homepage-frame {
+      width: 1040px;
+      max-width: 95vw;
+      aspect-ratio: 16 / 9;
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.55);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .homepage-frame .bento-card-thumb {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: auto;
+    }
+    /* Mimic Other Work card footprint: ~480px x ~270px. */
+    .otherwork-frame {
+      width: 480px;
+      max-width: 95vw;
+      aspect-ratio: 16 / 9;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .otherwork-frame .project-thumbnail {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <!-- Inline copy of the ghost-thumb-v3 production CSS block.
+       This will be appended to styles.css on integration; included
+       inline here so the sandbox renders without depending on the
+       prod stylesheet edit. -->
+  <link rel="stylesheet" href="sandbox-ghost-thumb-v3.css">
+</head>
+<body>
+
+  <div class="sandbox-wrap">
+
+    <div class="surface">
+      <div class="surface-label">Homepage bento (1040px × 585px)</div>
+      <div class="homepage-frame">
+        <div class="bento-card-thumb thumb-ghost">
+          <!-- BEGIN ghost-thumb-v3 markup (will be reused on case-study Other Work cards verbatim) -->
+          <div class="gdg-stage" data-ghost-thumb aria-hidden="true">
+            <div class="gdg-board">
+              <!-- Header bar -->
+              <div class="gdg-shape gdg-shape--header" style="--gdg-dx: 8px; --gdg-dy: -3px;">
+                <span class="gdg-ghost"></span>
+                <span class="gdg-solid"></span>
+              </div>
+              <!-- Primary card upper-left -->
+              <div class="gdg-shape gdg-shape--card" style="--gdg-dx: -7px; --gdg-dy: 5px;">
+                <span class="gdg-ghost"></span>
+                <span class="gdg-solid"></span>
+              </div>
+              <!-- Sidebar nav: 3 pills stacked on left edge -->
+              <div class="gdg-shape gdg-shape--nav1" style="--gdg-dx: -5px; --gdg-dy: -2px;">
+                <span class="gdg-ghost"></span>
+                <span class="gdg-solid"></span>
+              </div>
+              <div class="gdg-shape gdg-shape--nav2" style="--gdg-dx: 6px; --gdg-dy: 4px;">
+                <span class="gdg-ghost"></span>
+                <span class="gdg-solid"></span>
+              </div>
+              <div class="gdg-shape gdg-shape--nav3" style="--gdg-dx: -4px; --gdg-dy: -3px;">
+                <span class="gdg-ghost"></span>
+                <span class="gdg-solid"></span>
+              </div>
+              <!-- Button mid-canvas (accent lighter) -->
+              <div class="gdg-shape gdg-shape--button" style="--gdg-dx: 12px; --gdg-dy: 7px;">
+                <span class="gdg-ghost"></span>
+                <span class="gdg-solid"></span>
+              </div>
+              <!-- Stat cards lower-right pair -->
+              <div class="gdg-shape gdg-shape--stat1" style="--gdg-dx: 5px; --gdg-dy: -6px;">
+                <span class="gdg-ghost"></span>
+                <span class="gdg-solid"></span>
+              </div>
+              <div class="gdg-shape gdg-shape--stat2" style="--gdg-dx: -6px; --gdg-dy: 8px;">
+                <span class="gdg-ghost"></span>
+                <span class="gdg-solid"></span>
+              </div>
+              <!-- Icon dots -->
+              <div class="gdg-shape gdg-shape--dot1" style="--gdg-dx: 4px; --gdg-dy: 4px;">
+                <span class="gdg-ghost"></span>
+                <span class="gdg-solid"></span>
+              </div>
+              <div class="gdg-shape gdg-shape--dot2" style="--gdg-dx: -3px; --gdg-dy: 5px;">
+                <span class="gdg-ghost"></span>
+                <span class="gdg-solid"></span>
+              </div>
+              <!-- Drift indicator dots — pinged on most-drifted shapes -->
+              <span class="gdg-ping gdg-ping--button" aria-hidden="true"></span>
+              <span class="gdg-ping gdg-ping--card" aria-hidden="true"></span>
+              <span class="gdg-ping gdg-ping--stat2" aria-hidden="true"></span>
+            </div>
+          </div>
+          <!-- END ghost-thumb-v3 markup -->
+        </div>
+      </div>
+    </div>
+
+    <div class="surface">
+      <div class="surface-label">Other Work card (480px × 270px)</div>
+      <div class="otherwork-frame">
+        <div class="project-thumbnail thumb-ghost">
+          <div class="gdg-stage" data-ghost-thumb aria-hidden="true">
+            <div class="gdg-board">
+              <div class="gdg-shape gdg-shape--header" style="--gdg-dx: 8px; --gdg-dy: -3px;">
+                <span class="gdg-ghost"></span>
+                <span class="gdg-solid"></span>
+              </div>
+              <div class="gdg-shape gdg-shape--card" style="--gdg-dx: -7px; --gdg-dy: 5px;">
+                <span class="gdg-ghost"></span>
+                <span class="gdg-solid"></span>
+              </div>
+              <div class="gdg-shape gdg-shape--nav1" style="--gdg-dx: -5px; --gdg-dy: -2px;">
+                <span class="gdg-ghost"></span>
+                <span class="gdg-solid"></span>
+              </div>
+              <div class="gdg-shape gdg-shape--nav2" style="--gdg-dx: 6px; --gdg-dy: 4px;">
+                <span class="gdg-ghost"></span>
+                <span class="gdg-solid"></span>
+              </div>
+              <div class="gdg-shape gdg-shape--nav3" style="--gdg-dx: -4px; --gdg-dy: -3px;">
+                <span class="gdg-ghost"></span>
+                <span class="gdg-solid"></span>
+              </div>
+              <div class="gdg-shape gdg-shape--button" style="--gdg-dx: 12px; --gdg-dy: 7px;">
+                <span class="gdg-ghost"></span>
+                <span class="gdg-solid"></span>
+              </div>
+              <div class="gdg-shape gdg-shape--stat1" style="--gdg-dx: 5px; --gdg-dy: -6px;">
+                <span class="gdg-ghost"></span>
+                <span class="gdg-solid"></span>
+              </div>
+              <div class="gdg-shape gdg-shape--stat2" style="--gdg-dx: -6px; --gdg-dy: 8px;">
+                <span class="gdg-ghost"></span>
+                <span class="gdg-solid"></span>
+              </div>
+              <div class="gdg-shape gdg-shape--dot1" style="--gdg-dx: 4px; --gdg-dy: 4px;">
+                <span class="gdg-ghost"></span>
+                <span class="gdg-solid"></span>
+              </div>
+              <div class="gdg-shape gdg-shape--dot2" style="--gdg-dx: -3px; --gdg-dy: 5px;">
+                <span class="gdg-ghost"></span>
+                <span class="gdg-solid"></span>
+              </div>
+              <span class="gdg-ping gdg-ping--button" aria-hidden="true"></span>
+              <span class="gdg-ping gdg-ping--card" aria-hidden="true"></span>
+              <span class="gdg-ping gdg-ping--stat2" aria-hidden="true"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="module" src="js/demos/ghost-thumb-v3.js"></script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- TODO 2026-05-22: throwaway validation page for the demo engine.
+       Phase 1 of the autoplay engine session. Kept through Phase 6 in
+       case any later phase needs to re-test the engine in isolation;
+       deleted in Phase 6 alongside the final session report. -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Demo Engine Sandbox</title>
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=83">
+  <style>
+    .sandbox-stage {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 64px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+    .sandbox-heading {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+    .sandbox-subheading {
+      font-size: 13px;
+      color: var(--text-faint);
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    }
+    /* Three corner markers inside the demo body so we can verify the
+       cursor actually moves between them. Pure visual anchors, no JS. */
+    .anchor {
+      position: absolute;
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: #F2F1EE;
+      border: 2px solid #9CA3AF;
+    }
+    .anchor--tl { top: 12%; left: 10%; }
+    .anchor--tr { top: 12%; right: 10%; }
+    .anchor--b  { bottom: 12%; left: 50%; transform: translateX(-50%); }
+    .sandbox-status {
+      font-size: 12px;
+      color: var(--text-faint);
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      margin-top: 8px;
+    }
+    .sandbox-spacer {
+      height: 120vh;
+      background: linear-gradient(180deg, transparent, rgba(0,0,0,0.02));
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-faint);
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <main class="sandbox-stage">
+
+    <header>
+      <div class="sandbox-heading">.demo-engine sandbox</div>
+      <div class="sandbox-subheading">2026-05-22 — cursor + choreography + observer + reduced-motion gate</div>
+    </header>
+
+    <!-- Sandbox demo: cursor cycles TL → TR → B every 4 seconds.
+         Verifies (a) cursor mounts, (b) eased motion via CSS transitions,
+         (c) Choreography runner timing, (d) LoopObserver pause when out
+         of viewport, (e) prefers-reduced-motion snap to final position. -->
+    <div>
+      <div class="demo-frame" id="sandboxFrame">
+        <div class="demo-frame-chrome">
+          <div class="demo-frame-traffic-lights">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="demo-frame-url">engine.sandbox</div>
+        </div>
+        <div class="demo-frame-body demo-frame-body--16-9" id="sandboxBody">
+          <div class="anchor anchor--tl" id="anchorTL"></div>
+          <div class="anchor anchor--tr" id="anchorTR"></div>
+          <div class="anchor anchor--b"  id="anchorB"></div>
+        </div>
+      </div>
+      <p class="demo-frame-caption">Cursor cycles top-left → top-right → bottom every 4 seconds.</p>
+      <div class="sandbox-status" id="status">status: initializing…</div>
+    </div>
+
+    <!-- Tall spacer so we can scroll the demo out of viewport and back.
+         Verifies LoopObserver pause/resume. -->
+    <div class="sandbox-spacer">scroll past — demo should pause, then resume on return</div>
+
+  </main>
+
+  <script type="module">
+    import { Cursor, Choreography, LoopObserver, getCenterOf, prefersReduced }
+      from './js/demos/_engine/index.js';
+
+    const frame = document.getElementById('sandboxFrame');
+    const body  = document.getElementById('sandboxBody');
+    const tl    = document.getElementById('anchorTL');
+    const tr    = document.getElementById('anchorTR');
+    const b     = document.getElementById('anchorB');
+    const status = document.getElementById('status');
+
+    const cursor = new Cursor(body);
+    cursor.mount();
+
+    // If reduced-motion is on, snap the cursor to the first anchor and
+    // skip the loop entirely. This proves the gate works without forcing
+    // the verifier to also test the moving choreography.
+    if (prefersReduced()) {
+      const p = getCenterOf(tl, body);
+      cursor.snapTo(p.x - 11, p.y - 11);
+      status.textContent = 'status: reduced-motion ON — cursor static at TL, no loop';
+    } else {
+      const timeline = [
+        { at:    0, do: () => moveTo(tl, 'TL') },
+        { at: 1200, do: () => moveTo(tr, 'TR') },
+        { at: 2400, do: () => moveTo(b,  'B')  }
+      ];
+
+      function moveTo(anchor, label) {
+        const p = getCenterOf(anchor, body);
+        cursor.moveTo(p.x - 11, p.y - 11);
+        status.textContent = 'status: moving to ' + label;
+      }
+
+      const choreo = new Choreography({ timeline, duration: 4000 });
+
+      let loopTimeoutId = null;
+      function loop() {
+        choreo.reset();
+        choreo.play();
+        loopTimeoutId = setTimeout(loop, 4000);
+      }
+
+      const obs = new LoopObserver({
+        element: frame,
+        onEnter: () => {
+          status.textContent = 'status: in viewport — playing';
+          loop();
+        },
+        onExit: () => {
+          status.textContent = 'status: out of viewport — paused';
+          if (loopTimeoutId) { clearTimeout(loopTimeoutId); loopTimeoutId = null; }
+          choreo.pause();
+        }
+      });
+      obs.start();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "agentation": "^3.0.2",
+    "canvas": "^3.2.3"
+  }
+}

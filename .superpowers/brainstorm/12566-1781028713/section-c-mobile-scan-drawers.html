@@ -1,0 +1,338 @@
+<h2>Section C · Mobile lite + scan fixes + drawer fixes</h2>
+<p class="subtitle">Mobile becomes a glance-and-go briefing view. Scan flow gets real. Drawers get mixed data + dynamic dates + share actions.</p>
+
+<style>
+  /* === MOBILE LITE === */
+  .mobile-row { display:grid; grid-template-columns:auto 1fr; gap:24px; align-items:flex-start; margin-bottom:24px; }
+  .phone {
+    width:300px; height:600px;
+    background:#1A1A1F; border-radius:36px; padding:8px;
+    box-shadow:0 8px 28px rgba(40,30,20,0.18), 0 2px 8px rgba(40,30,20,0.08);
+    position:relative; flex-shrink:0;
+  }
+  .phone-screen {
+    background:#F7F6F2; border-radius:28px;
+    width:100%; height:100%; overflow:hidden;
+    display:flex; flex-direction:column;
+    font-family:ui-sans-serif,system-ui,sans-serif; color:#1A1A1F;
+  }
+  .phone-notch { position:absolute; left:50%; top:14px; transform:translateX(-50%); width:80px; height:18px; background:#1A1A1F; border-radius:9px; z-index:2; }
+  .phone-status { padding:18px 18px 8px; display:flex; justify-content:space-between; font-family:ui-monospace,monospace; font-size:10px; color:#5B5B66; }
+
+  .m-header {
+    padding:6px 14px 10px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .m-logo { font-family:ui-monospace,monospace; font-size:13px; font-weight:700; letter-spacing:-0.02em; }
+  .m-menu { width:24px; height:24px; display:flex; flex-direction:column; justify-content:center; gap:3px; }
+  .m-menu i { display:block; height:1.5px; background:#1A1A1F; }
+
+  .m-content { flex:1; overflow-y:auto; padding:8px 14px 16px; display:flex; flex-direction:column; gap:12px; }
+
+  .m-priority {
+    background:linear-gradient(135deg, rgba(240,120,86,0.14) 0%, rgba(240,120,86,0.04) 100%);
+    border:1px solid rgba(240,120,86,0.25);
+    border-radius:12px; padding:12px;
+    display:flex; flex-direction:column; gap:6px;
+  }
+  .m-priority-tag { font-family:ui-monospace,monospace; font-size:9px; letter-spacing:0.08em; text-transform:uppercase; color:#B8442A; }
+  .m-priority-msg { font-size:12px; font-weight:500; line-height:1.4; color:#1A1A1F; }
+  .m-priority-msg .dot { display:inline-block; width:7px; height:7px; border-radius:50%; background:#C93E3E; margin-right:5px; vertical-align:middle; }
+  .m-priority-msg strong { font-weight:600; }
+  .m-priority-cta { font-size:11px; font-weight:600; color:#B8442A; align-self:flex-end; }
+
+  .m-health {
+    background:#FFFDF8; border:1px solid #EDEAE2; border-radius:10px;
+    padding:12px; display:flex; align-items:center; gap:12px;
+  }
+  .m-health-ring {
+    width:48px; height:48px; border-radius:50%;
+    background:conic-gradient(#6FCFBF 0deg, #6FCFBF 280deg, #EDEAE2 280deg, #EDEAE2 360deg);
+    display:grid; place-items:center; position:relative;
+  }
+  .m-health-ring::before { content:""; position:absolute; inset:5px; background:#FFFDF8; border-radius:50%; }
+  .m-health-ring span { position:relative; font-size:14px; font-weight:600; color:#1A1A1F; }
+  .m-health-info { flex:1; display:flex; flex-direction:column; gap:2px; }
+  .m-health-label { font-family:ui-monospace,monospace; font-size:9px; letter-spacing:0.06em; text-transform:uppercase; color:#8F8F9E; }
+  .m-health-title { font-size:13px; font-weight:600; color:#1A1A1F; }
+  .m-health-sub { font-family:ui-monospace,monospace; font-size:10px; color:#6FCFBF; font-weight:600; }
+  .m-health-arrow { color:#5B5B66; font-size:14px; }
+
+  .m-section-label { font-family:ui-monospace,monospace; font-size:9px; letter-spacing:0.08em; text-transform:uppercase; color:#8F8F9E; margin-top:4px; }
+
+  .m-friction-card {
+    background:#FFFDF8; border:1px solid #EDEAE2; border-radius:10px;
+    padding:10px 32px 10px 12px; position:relative;
+    display:flex; flex-direction:column; gap:4px;
+  }
+  .m-friction-card::after { content:"→"; position:absolute; right:12px; top:50%; transform:translateY(-50%); color:#5B5B66; opacity:0.5; font-size:13px; }
+  .m-friction-name { font-family:ui-monospace,monospace; font-size:10px; display:flex; align-items:center; gap:5px; color:#5B5B66; }
+  .m-friction-name .dot { width:5px; height:5px; border-radius:50%; flex-shrink:0; }
+  .m-friction-title { font-size:11px; line-height:1.4; color:#1A1A1F; font-weight:500; }
+  .m-friction-meta { font-family:ui-monospace,monospace; font-size:9px; color:#8F8F9E; display:flex; justify-content:space-between; margin-top:2px; }
+  .m-friction-trend { font-weight:600; }
+  .m-friction-trend.up { color:#C93E3E; }
+  .m-friction-trend.down { color:#6FCFBF; }
+
+  .m-changes {
+    background:#FFFDF8; border:1px solid #EDEAE2; border-radius:10px;
+    padding:12px; display:flex; flex-direction:column; gap:8px;
+  }
+  .m-changes-row { font-size:11px; line-height:1.4; color:#5B5B66; }
+  .m-changes-row .arrow { font-family:ui-monospace,monospace; font-weight:700; margin-right:5px; }
+  .m-changes-row .arrow.up { color:#C93E3E; }
+  .m-changes-row .arrow.down { color:#6FCFBF; }
+  .m-changes-row strong { color:#1A1A1F; font-weight:600; }
+
+  .mobile-callouts { display:flex; flex-direction:column; gap:14px; padding-top:10px; }
+  .callout-card { background:#FFFDF8; border:1px solid #DDD9CE; border-radius:10px; padding:14px 16px; }
+  .callout-tag { font-family:ui-monospace,monospace; font-size:10px; letter-spacing:0.06em; text-transform:uppercase; color:#B8442A; margin-bottom:4px; }
+  .callout-title { font-size:14px; font-weight:600; color:#1A1A1F; letter-spacing:-0.005em; margin-bottom:6px; }
+  .callout-body { font-size:12px; color:#5B5B66; line-height:1.55; }
+  .callout-body strong { color:#1A1A1F; }
+  .callout-body code { background:#EDEAE2; padding:1px 5px; border-radius:3px; font-family:ui-monospace,monospace; font-size:11px; color:#1A1A1F; }
+
+  /* === SCAN AND DRAWERS SECTION === */
+  .lower-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .fix-block { background:#FFFDF8; border:1px solid #EDEAE2; border-radius:12px; padding:18px 20px; }
+  .fix-block h3 { font-size:14px; font-weight:600; color:#1A1A1F; margin:0 0 10px; letter-spacing:-0.005em; }
+  .fix-block .label { font-family:ui-monospace,monospace; font-size:9px; letter-spacing:0.08em; text-transform:uppercase; color:#8F8F9E; margin:8px 0 4px; }
+  .ba-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px; }
+  .ba-pane { background:#F7F6F2; border:1px solid #EDEAE2; border-radius:8px; padding:10px; font-size:11px; color:#5B5B66; min-height:62px; display:flex; flex-direction:column; gap:5px; }
+  .ba-pane.before { border-left:3px solid #C93E3E; }
+  .ba-pane.after { border-left:3px solid #6FCFBF; }
+  .ba-label { font-family:ui-monospace,monospace; font-size:9px; letter-spacing:0.06em; text-transform:uppercase; }
+  .before .ba-label { color:#C93E3E; }
+  .after .ba-label { color:#6FCFBF; }
+  .ba-pane code { background:#EDEAE2; padding:1px 4px; border-radius:3px; font-family:ui-monospace,monospace; font-size:10px; color:#1A1A1F; }
+
+  /* COMPONENTS DRAWER MIXED MOCKUP */
+  .drawer-mock { background:#F7F6F2; border-radius:8px; padding:10px; }
+  .drawer-row { display:flex; align-items:center; gap:8px; padding:6px 0; border-bottom:1px solid #EDEAE2; font-size:11px; }
+  .drawer-row:last-child { border-bottom:0; }
+  .drawer-ring { width:18px; height:18px; border-radius:50%; flex-shrink:0; display:grid; place-items:center; font-family:ui-monospace,monospace; font-size:8px; color:#FFFDF8; font-weight:600; }
+  .drawer-name { flex:1; font-family:ui-monospace,monospace; font-size:11px; color:#1A1A1F; }
+  .drawer-count { font-family:ui-monospace,monospace; font-size:9px; color:#8F8F9E; }
+  .drawer-spark { width:36px; height:12px; }
+  .drawer-issue { font-family:ui-monospace,monospace; font-size:9px; color:#5B5B66; padding:2px 6px; background:#FFFDF8; border:1px solid #EDEAE2; border-radius:4px; }
+  .drawer-issue.zero { color:#8F8F9E; }
+
+  /* BRIEF SHARE ACTIONS */
+  .share-row { display:flex; gap:6px; flex-wrap:wrap; }
+  .share-btn { font-size:11px; padding:6px 10px; border-radius:6px; background:#FFFDF8; border:1px solid #EDEAE2; color:#1A1A1F; display:inline-flex; align-items:center; gap:5px; }
+  .share-btn:first-child { background:#1A1A1F; color:#FFFDF8; border-color:#1A1A1F; }
+
+  .annotation { color:#5B5B66; font-size:12px; line-height:1.55; margin-top:16px; }
+  .annotation strong { color:#1A1A1F; }
+  .annotation code { background:#EDEAE2; color:#1A1A1F; padding:1px 5px; border-radius:3px; font-family:ui-monospace,monospace; font-size:11px; }
+</style>
+
+<!-- === MOBILE LITE === -->
+<div class="mobile-row">
+  <div class="phone">
+    <div class="phone-notch"></div>
+    <div class="phone-screen">
+      <div class="phone-status"><span>9:41</span><span>● ● ● ●</span></div>
+      <div class="m-header">
+        <span class="m-logo">Pulse</span>
+        <span class="m-menu"><i></i><i></i><i></i></span>
+      </div>
+      <div class="m-content">
+
+        <div class="m-priority">
+          <span class="m-priority-tag">Today's priority</span>
+          <span class="m-priority-msg"><span class="dot"></span><strong>KanbanColumn drag targets fail WCAG 2.5.5 for 9.8k users.</strong> Friction up 23% w/w.</span>
+          <span class="m-priority-cta">Open issue →</span>
+        </div>
+
+        <div class="m-health">
+          <div class="m-health-ring"><span>78</span></div>
+          <div class="m-health-info">
+            <span class="m-health-label">Team health · week of May 26</span>
+            <span class="m-health-title">Up 6 points</span>
+            <span class="m-health-sub">↓ KanbanColumn · ↑ SubmitButton</span>
+          </div>
+          <span class="m-health-arrow">→</span>
+        </div>
+
+        <span class="m-section-label">Top friction · last 7 days</span>
+
+        <div class="m-friction-card">
+          <div class="m-friction-name"><span class="dot" style="background:#C93E3E"></span>KanbanColumn · Task Board</div>
+          <div class="m-friction-title">Drag targets too narrow for reliable interaction</div>
+          <div class="m-friction-meta"><span>9.8k users</span><span class="m-friction-trend up">↑ 23%</span></div>
+        </div>
+        <div class="m-friction-card">
+          <div class="m-friction-name"><span class="dot" style="background:#F07856"></span>DatePicker · Onboarding</div>
+          <div class="m-friction-title">Closes unexpectedly between month views</div>
+          <div class="m-friction-meta"><span>7.4k users</span><span class="m-friction-trend up">↑ 8%</span></div>
+        </div>
+        <div class="m-friction-card">
+          <div class="m-friction-name"><span class="dot" style="background:#F5B34A"></span>TaskCard · Task Board</div>
+          <div class="m-friction-title">Action buttons too small for touch targeting</div>
+          <div class="m-friction-meta"><span>7.1k users</span><span class="m-friction-trend down">↓ 4%</span></div>
+        </div>
+        <div class="m-friction-card">
+          <div class="m-friction-name"><span class="dot" style="background:#F07856"></span>SubmitButton · Onboarding</div>
+          <div class="m-friction-title">Disabled state visually identical to enabled</div>
+          <div class="m-friction-meta"><span>11.2k users</span><span class="m-friction-trend down">↓ 14%</span></div>
+        </div>
+        <div class="m-friction-card">
+          <div class="m-friction-name"><span class="dot" style="background:#F5B34A"></span>OnboardingForm · Onboarding</div>
+          <div class="m-friction-title">Validation errors appear only after full submit</div>
+          <div class="m-friction-meta"><span>8.9k users</span><span class="m-friction-trend up">↑ 6%</span></div>
+        </div>
+
+        <span class="m-section-label">What changed this week</span>
+        <div class="m-changes">
+          <div class="m-changes-row"><span class="arrow up">↑</span><strong>KanbanColumn</strong> friction up 23%. Correlates with May 23 gutter change.</div>
+          <div class="m-changes-row"><span class="arrow down">↓</span><strong>SubmitButton</strong> friction down 14% after toggle-label fix.</div>
+          <div class="m-changes-row"><span class="arrow down">↓</span><strong>SchemaValidation</strong> resolved. Closed automatically.</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="mobile-callouts">
+    <div class="callout-card">
+      <span class="callout-tag">Mobile lite · design philosophy</span>
+      <div class="callout-title">Glance-and-go briefing view, not an investigation tool.</div>
+      <div class="callout-body">The mobile experience answers <strong>"is anything on fire?"</strong> in 3 seconds and lets the user tap into the deep-dive for any issue. It deliberately omits everything that requires a canvas: page tabs, layer toggle, scrubber, heatmap, prompt. Those are desktop tools.</div>
+    </div>
+
+    <div class="callout-card">
+      <span class="callout-tag">What ships on mobile</span>
+      <div class="callout-body">
+        ✓ Today's priority strip (full width)<br>
+        ✓ Health score card → tap opens full-screen Brief<br>
+        ✓ Top 5 friction zones (vs 3 on desktop right rail)<br>
+        ✓ What changed this week (3 items, condensed)<br>
+        ✓ Each row → mobile-formatted deep-dive page with Push to engineering<br>
+        ✗ No prompt bar · No canvas · No layer toggle · No scrubber · No page tabs
+      </div>
+    </div>
+
+    <div class="callout-card">
+      <span class="callout-tag">Navigation</span>
+      <div class="callout-body">Hamburger menu (top-right) opens a slide-down sheet with: Components Health · Weekly Brief · Switch to desktop view (with copy-link button). All drawer-style content from desktop becomes a full-screen sheet on mobile.</div>
+    </div>
+
+    <div class="callout-card">
+      <span class="callout-tag">Why this works for the case study</span>
+      <div class="callout-body">A standout case study can claim "designed for both buyer and daily user." The director (buyer) opens Pulse on their phone Monday morning, sees the priority + health + what-changed in one scroll, taps to read more. They never touch the desktop tool. Designed for the JTBD, not for parity.</div>
+    </div>
+  </div>
+</div>
+
+<!-- === SCAN + DRAWER FIXES === -->
+<div class="lower-row">
+
+  <div class="fix-block">
+    <h3>/scan flow polish</h3>
+    <span class="label">Real input handling</span>
+    <div class="ba-row">
+      <div class="ba-pane before">
+        <span class="ba-label">Before</span>
+        <span>Input field shows rotating placeholder. Typing does nothing. Stage copy is hardcoded "Analyzing interface structure..."</span>
+      </div>
+      <div class="ba-pane after">
+        <span class="ba-label">After</span>
+        <span>Input captures real text. Whatever the user types appears in the stage copy: <code>"Analyzing yoursite.com..."</code> or <code>"Reading Acme-Design-System.fig..."</code></span>
+      </div>
+    </div>
+
+    <span class="label">"View full report" route</span>
+    <div class="ba-row">
+      <div class="ba-pane before">
+        <span class="ba-label">Before</span>
+        <span>CTA routes to <code>/</code> — the home canvas. The promise was "report," the user gets "canvas." Disconnect.</span>
+      </div>
+      <div class="ba-pane after">
+        <span class="ba-label">After</span>
+        <span>CTA routes to the deep-dive of the <strong>highest-severity issue from the scan</strong>. The promise is honored; user can navigate back to home from there.</span>
+      </div>
+    </div>
+
+    <span class="label">After-scan layout</span>
+    <div class="ba-row">
+      <div class="ba-pane before">
+        <span class="ba-label">Before</span>
+        <span>"What you got" + "How it works" marketing cards stay visible below the results. Redundant.</span>
+      </div>
+      <div class="ba-pane after">
+        <span class="ba-label">After</span>
+        <span>Marketing cards collapse on scan complete. Replaced by a single <code>"Scan another →"</code> link.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="fix-block">
+    <h3>Drawer fixes</h3>
+    <span class="label">Components health · mixed dataset (currently all-red)</span>
+    <div class="drawer-mock">
+      <div class="drawer-row">
+        <span class="drawer-ring" style="background:#C93E3E">52</span>
+        <span class="drawer-name">KanbanColumn</span>
+        <span class="drawer-count">247×</span>
+        <svg class="drawer-spark" viewBox="0 0 36 12"><polyline fill="none" stroke="#C93E3E" stroke-width="1.2" points="0,3 6,4 12,5 18,7 24,8 30,9 36,10"></polyline></svg>
+        <span class="drawer-issue">3</span>
+      </div>
+      <div class="drawer-row">
+        <span class="drawer-ring" style="background:#F07856">68</span>
+        <span class="drawer-name">DatePicker</span>
+        <span class="drawer-count">18×</span>
+        <svg class="drawer-spark" viewBox="0 0 36 12"><polyline fill="none" stroke="#F07856" stroke-width="1.2" points="0,6 6,7 12,7 18,5 24,4 30,4 36,5"></polyline></svg>
+        <span class="drawer-issue">2</span>
+      </div>
+      <div class="drawer-row">
+        <span class="drawer-ring" style="background:#F5B34A">79</span>
+        <span class="drawer-name">FilterDropdown</span>
+        <span class="drawer-count">89×</span>
+        <svg class="drawer-spark" viewBox="0 0 36 12"><polyline fill="none" stroke="#F5B34A" stroke-width="1.2" points="0,7 6,6 12,5 18,6 24,5 30,4 36,5"></polyline></svg>
+        <span class="drawer-issue">1</span>
+      </div>
+      <div class="drawer-row">
+        <span class="drawer-ring" style="background:#6FCFBF">91</span>
+        <span class="drawer-name">PrimaryButton</span>
+        <span class="drawer-count">2.4k×</span>
+        <svg class="drawer-spark" viewBox="0 0 36 12"><polyline fill="none" stroke="#6FCFBF" stroke-width="1.2" points="0,8 6,7 12,6 18,5 24,4 30,3 36,3"></polyline></svg>
+        <span class="drawer-issue zero">0</span>
+      </div>
+      <div class="drawer-row">
+        <span class="drawer-ring" style="background:#6FCFBF">94</span>
+        <span class="drawer-name">Modal</span>
+        <span class="drawer-count">312×</span>
+        <svg class="drawer-spark" viewBox="0 0 36 12"><polyline fill="none" stroke="#6FCFBF" stroke-width="1.2" points="0,6 6,5 12,4 18,4 24,3 30,3 36,2"></polyline></svg>
+        <span class="drawer-issue zero">0</span>
+      </div>
+    </div>
+    <p style="font-size:11px; color:#5B5B66; margin:8px 0 0; line-height:1.5;">Mix of red / orange / yellow / green rings. Sparklines trend correctly (red trends up, green trends flat or down). Reader sees triage-worthy health, not "everything is broken." Default sort: Health ascending (worst first). Search filters work.</p>
+
+    <span class="label" style="margin-top:14px;">Weekly Brief · dynamic date + share actions</span>
+    <p style="font-size:11px; color:#5B5B66; margin:4px 0 8px; line-height:1.5;">"Week of May 19 — 25, 2026" (computed from current date, always "most recent Monday-Sunday"). Em dashes replaced with the middle dot per <code>working-principles.md</code>. Three share actions wire up:</p>
+    <div class="share-row">
+      <span class="share-btn">📋 Copy link</span>
+      <span class="share-btn">⌘ Send to Slack</span>
+      <span class="share-btn">⬇ Export PDF</span>
+    </div>
+    <p style="font-size:11px; color:#8F8F9E; margin:6px 0 0; line-height:1.5;">Each action shows a toast confirming success. Mock endpoints; the case study captures the UX, not the backend.</p>
+  </div>
+
+</div>
+
+<p class="annotation">
+  <strong>Mobile lite philosophy.</strong> The deliberate omissions ARE the design. Mobile users (typically the Director on Monday morning, or a designer checking on the train) need <em>"is anything on fire?"</em> in 3 seconds — they don't need to scrub time or switch layers. Stripping those tools makes mobile faster than desktop for the glance JTBD. The case study can claim "two distinct experiences, both designed for their JTBD" instead of "one experience, two viewports."
+</p>
+
+<p class="annotation">
+  <strong>Tap behavior.</strong> Every friction card on mobile → opens the mobile-formatted deep-dive page (same data as desktop, but stacked vertically with the four metric tiles becoming a 2×2 grid, code diff scrolling horizontally, "Generate fix" still works). "Push to engineering" + "Open in Linear" CTAs at the bottom remain functional. From the deep-dive, "← Back" returns to home.
+</p>
+
+<p class="annotation">
+  <strong>Approval question.</strong> One open call on mobile: do we surface the Today's priority strip <em>above</em> the Pulse logo (sticky top, banner-style) or <em>below</em> the logo (as shown here)? Sticky-above wins on glanceability for repeated visits; below wins on first-visit polish. My lean is what's shown — clean header + priority strip is a natural reading flow.
+</p>
+
+<p class="annotation">
+  <strong>Coming next.</strong> Section D is foundation polish — em-dash sweep, light/dark toggle, layer toggle bug fix, chip routing fix, kill-coming-soon-toasts, keyboard shortcuts, accessibility pass. No visual needed; it's a checklist confirmation. After D, I write the design doc + run spec review + transition to writing-plans + we start building.
+</p>

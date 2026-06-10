@@ -1,0 +1,8 @@
+_archive/
+photos /
+.claude/
+.DS_Store
+*.zip
+img/lexisnexis/Screenshot*.png
+img/lexisnexis/Archive.zip
+img/lexisnexis/*-old.png

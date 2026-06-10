@@ -1,0 +1,122 @@
+<h2>Which hero leads the case study?</h2>
+<p class="subtitle">The above-the-fold video. First 3 seconds. The single strongest visual argument for "this is Pulse."</p>
+
+<style>
+  .hero-mock { position:relative; height:170px; border:1px solid var(--border); border-radius:6px; overflow:hidden; background:#FBFAF6; margin:8px 0; font-family:ui-monospace,monospace; font-size:9px; }
+  .hero-mock-bar { position:absolute; left:0; right:0; top:0; height:14px; background:rgba(0,0,0,0.04); border-bottom:1px solid rgba(0,0,0,0.08); display:flex; align-items:center; padding:0 8px; font-size:8px; color:#888; }
+  .hero-mock-canvas { position:absolute; top:14px; left:0; right:0; bottom:0; padding:8px 12px; }
+  .hero-mock-row { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:4px; height:54px; }
+  .hero-mock-col { background:rgba(0,0,0,0.04); border:1px solid rgba(0,0,0,0.06); border-radius:2px; padding:4px; font-size:7px; color:#999; }
+  .hero-mock-heat { position:absolute; width:48px; height:48px; border-radius:50%; background:radial-gradient(circle, rgba(255,138,61,0.6), rgba(255,138,61,0) 70%); pointer-events:none; }
+  .hero-mock-cursor { position:absolute; width:0; height:0; border-left:6px solid transparent; border-right:6px solid transparent; border-bottom:11px solid #1a1a1a; transform:rotate(45deg) translate(-2px, -1px); pointer-events:none; }
+  .hero-mock-prompt { position:absolute; left:8px; right:8px; top:22px; height:22px; background:#fff; border:1px solid rgba(0,0,0,0.1); border-radius:4px; padding:0 8px; display:flex; align-items:center; font-size:8px; color:#333; }
+  .hero-mock-card { position:absolute; width:120px; padding:6px 8px; background:#fff; border:1px solid rgba(0,0,0,0.1); border-radius:4px; box-shadow:0 4px 12px rgba(0,0,0,0.06); font-size:8px; }
+  .hero-mock-card .ttl { font-weight:700; color:#1a1a1a; }
+  .hero-mock-card .dot { display:inline-block; width:6px; height:6px; border-radius:50%; background:#FF4D4D; margin-right:4px; vertical-align:middle; }
+  .hero-mock-layers { position:absolute; right:8px; top:50px; display:flex; flex-direction:column; gap:2px; }
+  .hero-mock-layer { font-size:7px; padding:1px 4px; background:rgba(0,0,0,0.06); border-radius:2px; color:#666; }
+  .hero-mock-layer.active { background:#1a1a1a; color:#fff; }
+  .hero-mock-scrubber { position:absolute; left:8px; right:8px; bottom:6px; height:14px; background:rgba(0,0,0,0.04); border-radius:2px; display:flex; align-items:center; padding:0 6px; font-size:7px; color:#888; gap:4px; }
+  .hero-mock-scrubber-thumb { width:7px; height:7px; background:#1a1a1a; border-radius:50%; margin-left:auto; }
+  .hero-split { display:flex; gap:6px; height:100%; padding:0 8px; }
+  .hero-split-pane { flex:1; border:1px solid rgba(0,0,0,0.1); border-radius:3px; padding:6px; font-size:8px; color:#888; }
+  .hero-split-pane.dark { background:#1A1A2E; color:#aaa; border-color:#2a2a40; }
+  .hero-split-pane.dark .label-sm { color:#666; }
+  .label-sm { font-size:7px; text-transform:uppercase; letter-spacing:0.05em; opacity:0.6; margin-bottom:4px; display:block; }
+  .arrow-fly { position:absolute; left:30px; top:48px; height:1px; width:120px; background:linear-gradient(to right, transparent, rgba(255,138,61,0.5)); transform:rotate(20deg); transform-origin:left; }
+  .annotate-popup { position:absolute; left:60px; top:80px; padding:6px 8px; background:#fff; border:1px solid rgba(0,0,0,0.15); border-radius:4px; font-size:8px; box-shadow:0 4px 12px rgba(0,0,0,0.08); }
+  .annotate-popup::after { content:""; position:absolute; left:-1px; top:8px; width:8px; height:8px; border-left:2px solid #00C896; border-radius:1px; }
+  .key { font-weight:700; color:#1a1a1a; }
+</style>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="hero-mock">
+        <div class="hero-mock-bar">localhost:3000/ — pulse</div>
+        <div class="hero-mock-canvas">
+          <div class="hero-mock-prompt">ASK PULSE · "show me the worst issue this week"</div>
+          <div class="hero-mock-row" style="margin-top:30px">
+            <div class="hero-mock-col">Backlog</div>
+            <div class="hero-mock-col" style="position:relative">In Progress<div class="hero-mock-heat" style="left:-8px; top:-8px"></div></div>
+            <div class="hero-mock-col">Review</div>
+            <div class="hero-mock-col">Done</div>
+          </div>
+          <div class="hero-mock-cursor" style="left:90px; top:78px"></div>
+          <div class="hero-mock-card" style="left:130px; top:70px"><span class="dot"></span><span class="ttl">KanbanColumn</span><br>Drag targets too narrow.<br>WCAG 2.5.5.</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A · Cursor-fly AI diagnosis (current, sharpened)</h3>
+      <p>Designer asks Pulse a question. AI flies the cursor across the canvas to the failing component. Diagnosis card opens with WCAG citation. <span class="key">This is the current hero (ai-fly.mp4).</span> Recommendation: keep, sharpen the timing and the diagnosis card content, render against the new real-product chrome.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="hero-mock">
+        <div class="hero-mock-bar">localhost:3000/ — pulse</div>
+        <div class="hero-mock-canvas">
+          <div class="hero-mock-layers">
+            <div class="hero-mock-layer">Friction</div>
+            <div class="hero-mock-layer active">Rage</div>
+            <div class="hero-mock-layer">Attention</div>
+          </div>
+          <div class="hero-mock-row" style="margin-top:8px; margin-right:60px">
+            <div class="hero-mock-col" style="position:relative">Backlog<div class="hero-mock-heat" style="left:0; top:0; background:radial-gradient(circle, rgba(255,77,77,0.55), transparent 70%)"></div></div>
+            <div class="hero-mock-col" style="position:relative">In Progress<div class="hero-mock-heat" style="left:8px; top:6px; background:radial-gradient(circle, rgba(255,77,77,0.7), transparent 70%)"></div></div>
+            <div class="hero-mock-col">Review</div>
+            <div class="hero-mock-col" style="position:relative">Done<div class="hero-mock-heat" style="left:-4px; top:14px; background:radial-gradient(circle, rgba(255,138,61,0.4), transparent 70%); width:36px; height:36px"></div></div>
+          </div>
+          <div class="hero-mock-scrubber"><span>Mon</span><span>·</span><span>Tue</span><span>·</span><span>Wed</span><span>·</span><span>Thu</span><span>·</span><span>Fri</span><div class="hero-mock-scrubber-thumb"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B · Living Observatory in motion</h3>
+      <p>The signature surface itself: scrubber sweeps Mon→Sun, multi-layer heatmap morphs (Friction → Rage → Attention), AI prompt bar stays visible. No diagnosis card opens; the hero argues "this is what Pulse <em>is</em>." Body loops then drill into specific decisions (ai-fly diagnosis moves to body Loop 1 instead).</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="hero-mock">
+        <div class="hero-mock-bar">localhost:3000/ — pulse</div>
+        <div class="hero-split">
+          <div class="hero-split-pane dark">
+            <span class="label-sm">V1 · Calm Command Center</span>
+            <div style="margin-top:6px">○ Health 78</div>
+            <div style="margin-top:4px">▪ Issues 23</div>
+            <div style="margin-top:4px">▾ Severity</div>
+          </div>
+          <div class="hero-split-pane">
+            <span class="label-sm">V2 · Living Observatory</span>
+            <div class="hero-mock-row" style="height:30px; margin-top:6px">
+              <div class="hero-mock-col" style="font-size:6px">L1</div>
+              <div class="hero-mock-col" style="font-size:6px; position:relative">L2<div class="hero-mock-heat" style="width:24px; height:24px; left:-4px; top:-4px"></div></div>
+              <div class="hero-mock-col" style="font-size:6px">L3</div>
+              <div class="hero-mock-col" style="font-size:6px">L4</div>
+            </div>
+            <div style="font-size:7px; color:#999; margin-top:4px">scrubber · layers · AI</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C · V1→V2 multi-property morph</h3>
+      <p>Pivot story above-the-fold: dark V1 dashboard furniture (health ring, severity pills, sparkline) genuinely transforms into the V2 paper-on-cream Living Observatory. Multi-property morph: bg colors shift, sidebar recedes, columns extrude, heatmap blooms. Bold opener that immediately signals "I rebuilt this." Risk: heavy lift, and the pivot story repeats inside body Loop 2.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="section" style="margin-top:24px">
+  <span class="label">Why I recommend A</span>
+  <p>Ai-fly is already at-bar per the survey (correct cursor easing, polyrhythmic dwells, IO pause/resume, reduced-motion). Replacing a working hero risks losing what's strong; sharpening it costs less and lands harder. B is conceptually broader but loses the narrative grip of a designer-asking-and-getting-an-answer. C is the most ambitious but duplicates the Pivot loop's story. Verdict: keep ai-fly, raise its bar on diagnosis-card content + chrome accuracy, and let the body loops carry the breadth.</p>
+</div>
+
+<div class="section">
+  <span class="label">Click one. Respond in terminal if you'd swap any part.</span>
+</div>

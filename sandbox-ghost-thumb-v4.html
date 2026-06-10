@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- 2026-06-09 Ghost Bento Thumbnail v4 sandbox.
+       Composition: same RICH 10-shape design-system inventory as v3,
+       but the choreography is Emil Kowalski's duplicate-and-clip
+       differential slider. A SPEC layer + a duplicate PRODUCTION
+       layer hidden via clip-path. A divider sweeps the clip-path
+       boundary across the canvas, revealing drift. Bounding boxes
+       appear with anticipation easing; forensic monospace labels
+       fade in. Reads as Ghost's product thesis: a scanner that
+       surfaces every deviation visually.
+
+       Both bento-card-thumb (homepage) and other-work-card thumbnail
+       (case study) rendered side-by-side to confirm cross-surface
+       scaling at container query breakpoints. -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Ghost Bento Thumbnail v4 Sandbox</title>
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #1a1a1a;
+      min-height: 100vh;
+      font-family: 'Satoshi', system-ui, sans-serif;
+      color: #eaeaea;
+    }
+    .sandbox-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      align-items: center;
+      padding: 40px 24px;
+    }
+    .surface {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+    }
+    .surface-label {
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #888;
+      font-weight: 500;
+    }
+    /* Mimic homepage bento footprint: 1040px x ~585px (16:9). */
+    .homepage-frame {
+      width: 1040px;
+      max-width: 95vw;
+      aspect-ratio: 16 / 9;
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.55);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .homepage-frame .bento-card-thumb {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: auto;
+    }
+    /* Mimic Other Work card footprint: ~480px x ~270px. */
+    .otherwork-frame {
+      width: 480px;
+      max-width: 95vw;
+      aspect-ratio: 16 / 9;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .otherwork-frame .project-thumbnail {
+      width: 100%;
+      height: 100%;
+    }
+    /* Hover demo helper: hover the frame to trigger the animation
+       when canHover applies. (Production runs through JS module.) */
+  </style>
+
+  <!-- =====================================================
+       BEGIN ghost-thumb-v4 production CSS
+       (will be appended to styles.css on integration)
+       ===================================================== -->
+  <style>
+  /* =============================================================
+     Ghost Bento Thumbnail v4 (gdd-)
+     2026-06-09 — duplicate-and-clip differential slider.
+     SAME 10-shape composition as v3 (gdg-) but a different
+     animation technique. The SPEC layer holds canonical positions
+     forever. A PRODUCTION layer duplicates the same DOM with
+     per-shape drift offsets baked in as translate; it is hidden
+     at rest via clip-path: inset(0 100% 0 0). On .is-animating,
+     the clip-path sweeps from right edge to left edge over 2500ms,
+     revealing drift progressively. A vertical divider tracks the
+     clip edge. Bounding boxes appear with anticipation easing
+     (slight overshoot) over the drifted shapes; forensic
+     monospace labels fade in at low opacity at each box. After
+     a hold beat the divider sweeps back to the left edge, the
+     PRODUCTION layer re-clips, and the bounding boxes / labels
+     fade out. 8000ms loop. Mirror seam: 0% == 100% (rest).
+
+     Cross-surface: container queries scale composition for both
+     the homepage bento (~520-1040px wide) AND case-study Other
+     Work cards (~400-500px wide). All internal sizing is
+     percentage-of-board so the same composition reads at both
+     widths; forensic label font size + bounding box border
+     thickness scale via container queries.
+
+     Engine pairing: js/demos/ghost-thumb-v4.js finds instances
+     via [data-ghost-thumb], wires LoopObserver pause/resume +
+     hover vs autoplay split based on pointer capability.
+
+     Compositor-only properties: clip-path + transform + opacity.
+     No width / height / top / margin animations.
+     ============================================================= */
+  .gdd-stage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #EDE8F0;
+    container-type: inline-size;
+  }
+
+  .gdd-board {
+    position: relative;
+    width: 84%;
+    height: 80%;
+    max-width: 880px;
+    max-height: 495px;
+  }
+
+  /* Both layers sit at inset 0 of the board. SPEC is z=1 (always
+     visible). PRODUCTION is z=2 with clip-path hiding it at rest. */
+  .gdd-layer {
+    position: absolute;
+    inset: 0;
+  }
+  .gdd-layer--spec { z-index: 1; }
+  .gdd-layer--prod {
+    z-index: 2;
+    /* At rest: completely clipped out (inset right edge = 100%). */
+    clip-path: inset(0 100% 0 0);
+    will-change: clip-path;
+  }
+
+  /* Each shape is an absolutely-positioned div. The wrapper carries
+     position + size; the background fill carries the visual. */
+  .gdd-shape {
+    position: absolute;
+    background: #5d4e7a;
+  }
+
+  /* ---------- Shape geometry (percent of board) ---------- */
+
+  /* Header bar: top strip, wide pill. */
+  .gdd-shape--header {
+    top: 0%; left: 0%;
+    width: 100%; height: 7%;
+    border-radius: 999px;
+    background: #4a3e63;
+  }
+
+  /* Sidebar nav pills: 3 stacked on left edge. */
+  .gdd-shape--nav1, .gdd-shape--nav2, .gdd-shape--nav3 {
+    width: 11%; height: 9%;
+    left: 0%;
+    border-radius: 6px;
+    background: #7a6a9a;
+  }
+  .gdd-shape--nav1 { top: 14%; }
+  .gdd-shape--nav2 { top: 26%; }
+  .gdd-shape--nav3 { top: 38%; }
+
+  /* Primary card: upper area, largest shape. */
+  .gdd-shape--card {
+    top: 14%; left: 16%;
+    width: 42%; height: 50%;
+    border-radius: 10px;
+  }
+
+  /* Button: lower-left, lighter accent purple. */
+  .gdd-shape--button {
+    top: 70%; left: 16%;
+    width: 20%; height: 11%;
+    border-radius: 7px;
+    background: #7a6a9a;
+  }
+
+  /* Stat tiles: right side, two squares side-by-side. */
+  .gdd-shape--stat1, .gdd-shape--stat2 {
+    top: 14%;
+    width: 16%; height: 28%;
+    border-radius: 8px;
+  }
+  .gdd-shape--stat1 { left: 64%; }
+  .gdd-shape--stat2 { left: 83%; }
+
+  /* Notification dots: lower-right cluster. */
+  .gdd-shape--dot1, .gdd-shape--dot2 {
+    top: 70%;
+    width: 5%; aspect-ratio: 1 / 1;
+    border-radius: 50%;
+  }
+  .gdd-shape--dot1 { left: 64%; background: #4a3e63; }
+  .gdd-shape--dot2 { left: 73%; background: #7a6a9a; }
+
+  /* ---------- PRODUCTION drift offsets ----------
+     The duplicate layer applies a translate per-shape to express
+     drift. These offsets are also referenced by bounding box +
+     forensic-label positioning so the three stay coupled. */
+  .gdd-layer--prod .gdd-shape--header { transform: translate(0px, 2px); }
+  .gdd-layer--prod .gdd-shape--card   { transform: translate(4px, 3px); background: #6b5c87; }
+  .gdd-layer--prod .gdd-shape--nav1   { transform: translate(-2px, 0); }
+  .gdd-layer--prod .gdd-shape--nav2   { transform: translate(3px, 2px); }
+  .gdd-layer--prod .gdd-shape--nav3   { transform: translate(-1px, 1px); }
+  .gdd-layer--prod .gdd-shape--button { transform: translate(8px, 5px); background: #8a7aaa; }
+  .gdd-layer--prod .gdd-shape--stat1  { transform: translate(2px, -3px); }
+  .gdd-layer--prod .gdd-shape--stat2  { transform: translate(-5px, 6px); }
+  .gdd-layer--prod .gdd-shape--dot1   { transform: translate(2px, 2px); }
+  .gdd-layer--prod .gdd-shape--dot2   { transform: translate(-1px, 3px); }
+
+  /* ---------- Divider line ----------
+     Vertical line, sweeps left → right tracking the clip-path edge,
+     then back. Hidden at rest via opacity. Sits above PRODUCTION
+     layer but below bounding boxes + labels. */
+  .gdd-divider {
+    position: absolute;
+    top: -4%;
+    left: 0;
+    width: 1.5px;
+    height: 108%;
+    background: linear-gradient(to bottom,
+                  rgba(255, 61, 138, 0) 0%,
+                  rgba(255, 61, 138, 0.85) 12%,
+                  rgba(255, 61, 138, 0.85) 88%,
+                  rgba(255, 61, 138, 0) 100%);
+    box-shadow: 0 0 6px rgba(255, 61, 138, 0.35);
+    opacity: 0;
+    transform: translateX(0);
+    z-index: 3;
+    pointer-events: none;
+    will-change: transform, opacity;
+  }
+
+  /* ---------- Bounding boxes ----------
+     Drawn around the 3 most-drifted PRODUCTION shapes. Positioned
+     to bracket the shape AT its drifted location (offset baked in
+     to top/left). Anticipation easing on entry: scale overshoots
+     slightly then settles. Pulse during hold beat. */
+  .gdd-bbox {
+    position: absolute;
+    border: 1.5px solid #ff3d8a;
+    border-radius: 4px;
+    opacity: 0;
+    transform: scale(0.6);
+    transform-origin: 50% 50%;
+    z-index: 4;
+    pointer-events: none;
+    will-change: transform, opacity;
+  }
+
+  /* Card bbox brackets the card's drifted position (4px x, 3px y).
+     Box is slightly larger than the shape (2px breathing room). */
+  .gdd-bbox--card {
+    /* card: top:14% left:16% w:42% h:50% drifted +4x +3y. We
+       express both the spec geometry AND drift offset in calc
+       so the bracket grows beyond the shape on both sides. */
+    top: calc(14% - 3px);
+    left: calc(16% - 3px);
+    width: calc(42% + 6px + 4px);
+    height: calc(50% + 6px + 3px);
+  }
+
+  .gdd-bbox--button {
+    top: calc(70% - 3px);
+    left: calc(16% - 3px);
+    width: calc(20% + 6px + 8px);
+    height: calc(11% + 6px + 5px);
+  }
+
+  .gdd-bbox--stat2 {
+    top: calc(14% - 3px);
+    left: calc(83% - 8px);
+    width: calc(16% + 6px + 5px);
+    height: calc(28% + 6px + 6px);
+  }
+
+  /* ---------- Forensic labels ----------
+     Small monospace tags next to each bounding box. Backdrop blur
+     for legibility against the cream-purple background. */
+  .gdd-label {
+    position: absolute;
+    font-family: 'Geist Mono', 'JetBrains Mono', ui-monospace,
+                 'SF Mono', Menlo, Consolas, monospace;
+    font-size: 9px;
+    line-height: 1;
+    color: rgba(31, 29, 26, 0.7);
+    background: rgba(255, 255, 255, 0.72);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    padding: 2px 5px;
+    border-radius: 3px;
+    opacity: 0;
+    z-index: 5;
+    pointer-events: none;
+    white-space: nowrap;
+    letter-spacing: -0.02em;
+    will-change: opacity, transform;
+    transform: translateY(2px);
+  }
+  .gdd-label--card {
+    top: calc(14% - 16px);
+    left: calc(16% + 42% - 60px);
+  }
+  .gdd-label--button {
+    top: calc(70% + 11% + 5px + 3px);
+    left: calc(16% + 4px);
+  }
+  .gdd-label--stat2 {
+    top: calc(14% + 28% + 5px);
+    left: calc(83% - 8px);
+  }
+
+  /* ---------- Choreography ----------
+     One animation per channel. All start together on .is-animating
+     and run for the full 8000ms cycle. Master timeline below maps
+     keyframe percentages to wall-clock milliseconds.
+
+     T=0     rest — divider hidden at left, PRODUCTION fully clipped
+     T=300   divider fades in at left edge
+     T=1000  clip-path begins sweeping right edge inward
+     T=3500  clip-path fully revealed; divider parked at right edge
+     T=3500  bounding boxes pop in with anticipation overshoot
+     T=4000  forensic labels fade in
+     T=4500-5500 hold — full drift + boxes + labels visible
+     T=5500  divider sweeps back to left, clip-path re-hides
+     T=7000  PRODUCTION fully re-clipped; boxes + labels fade out
+     T=7500  divider fades out at left edge
+     T=8000  rest — matches T=0
+  */
+  .gdd-stage.is-animating .gdd-layer--prod {
+    animation: gdd-clip-sweep 8000ms cubic-bezier(0.45, 0.05, 0.55, 0.95) 1 forwards;
+  }
+  .gdd-stage.is-animating .gdd-divider {
+    animation: gdd-divider-track 8000ms cubic-bezier(0.45, 0.05, 0.55, 0.95) 1 forwards;
+  }
+  .gdd-stage.is-animating .gdd-bbox {
+    animation: gdd-bbox-spring 8000ms cubic-bezier(0.175, 0.885, 0.32, 1.275) 1 forwards;
+  }
+  .gdd-stage.is-animating .gdd-bbox--card   { animation-delay: 0ms; }
+  .gdd-stage.is-animating .gdd-bbox--stat2  { animation-delay: 80ms; }
+  .gdd-stage.is-animating .gdd-bbox--button { animation-delay: 160ms; }
+
+  .gdd-stage.is-animating .gdd-label {
+    animation: gdd-label-fade 8000ms cubic-bezier(0.16, 1, 0.3, 1) 1 forwards;
+  }
+  .gdd-stage.is-animating .gdd-label--card   { animation-delay: 60ms; }
+  .gdd-stage.is-animating .gdd-label--stat2  { animation-delay: 140ms; }
+  .gdd-stage.is-animating .gdd-label--button { animation-delay: 220ms; }
+
+  /* Clip-path sweep on the PRODUCTION layer. inset(0 RIGHT 0 LEFT).
+     At rest: right=100% (fully hidden). Mid-loop: right=0% (fully
+     revealed). At end: right=100% again (re-hidden) — loop seam. */
+  @keyframes gdd-clip-sweep {
+    0%   { clip-path: inset(0 100% 0 0); }
+    12%  { clip-path: inset(0 100% 0 0); }
+    /* 12% (T=1000): begin sweep right edge → left */
+    44%  { clip-path: inset(0 0% 0 0); }
+    /* 44-69%: hold fully revealed */
+    69%  { clip-path: inset(0 0% 0 0); }
+    /* 69-88%: re-clip from left → right */
+    88%  { clip-path: inset(0 100% 0 0); }
+    100% { clip-path: inset(0 100% 0 0); }
+  }
+
+  /* Divider tracks the clip edge. At rest opacity 0 + translateX 0.
+     Fades in at left edge then translates to right edge in sync
+     with the clip sweep. */
+  @keyframes gdd-divider-track {
+    0%   { opacity: 0; transform: translateX(0); }
+    4%   { opacity: 0; transform: translateX(0); }
+    /* T=300 → fade in at left edge */
+    12%  { opacity: 1; transform: translateX(0); }
+    /* T=1000 → T=3500 sweep right; divider rides the clip edge.
+       Translate target = 100% of the BOARD width. Container
+       relative is OK because divider sits inside .gdd-board. */
+    44%  { opacity: 1; transform: translateX(100cqi); }
+    /* Hold parked at right edge */
+    50%  { opacity: 1; transform: translateX(100cqi); }
+    69%  { opacity: 1; transform: translateX(100cqi); }
+    /* T=5500 → T=7000 sweep back to left */
+    88%  { opacity: 1; transform: translateX(0); }
+    /* T=7000 → T=7500 fade out */
+    94%  { opacity: 0; transform: translateX(0); }
+    100% { opacity: 0; transform: translateX(0); }
+  }
+
+  /* Bounding boxes pop in with anticipation overshoot then settle,
+     pulse subtly during hold, fade out before loop end. */
+  @keyframes gdd-bbox-spring {
+    0%, 39% { opacity: 0; transform: scale(0.6); }
+    /* T~3100 begin spring-in (slightly before clip fully complete) */
+    44%     { opacity: 1; transform: scale(1.05); }
+    /* anticipation overshoot then settle */
+    50%     { opacity: 1; transform: scale(1); }
+    /* hold + subtle pulse */
+    60%     { opacity: 1; transform: scale(1.03); }
+    69%     { opacity: 1; transform: scale(1); }
+    /* fade out before re-clip completes */
+    82%     { opacity: 0; transform: scale(0.9); }
+    100%    { opacity: 0; transform: scale(0.6); }
+  }
+
+  /* Forensic labels fade in after bounding boxes (T=4000), hold
+     during the drift-visible window, fade out before re-clip. */
+  @keyframes gdd-label-fade {
+    0%, 47% { opacity: 0; transform: translateY(2px); }
+    /* T=3800 begin fade in */
+    56%     { opacity: 1; transform: translateY(0); }
+    /* hold */
+    72%     { opacity: 1; transform: translateY(0); }
+    /* fade out */
+    80%     { opacity: 0; transform: translateY(2px); }
+    100%    { opacity: 0; transform: translateY(2px); }
+  }
+
+  /* Pause gate — applies to every animated element under the stage.
+     JS adds .is-paused on viewport exit / tab background; removes
+     on viewport entry. Pre-paused at init prevents one-frame tick. */
+  .gdd-stage.is-paused .gdd-layer--prod,
+  .gdd-stage.is-paused .gdd-divider,
+  .gdd-stage.is-paused .gdd-bbox,
+  .gdd-stage.is-paused .gdd-label {
+    animation-play-state: paused;
+  }
+
+  /* ---------- Container-query scaling ---------- */
+  /* At Other Work card widths (~400-500px), shrink the board breath
+     and the forensic label font so the composition reads cleanly. */
+  @container (max-width: 560px) {
+    .gdd-board {
+      width: 88%;
+      height: 84%;
+    }
+    .gdd-bbox {
+      border-width: 1px;
+      border-radius: 3px;
+    }
+    .gdd-label {
+      font-size: 7.5px;
+      padding: 1.5px 4px;
+    }
+  }
+  @container (max-width: 420px) {
+    /* Very tight surfaces: drop labels to keep composition legible.
+       Bounding boxes alone still communicate drift. */
+    .gdd-label {
+      display: none;
+    }
+  }
+
+  /* ---------- Hover trigger (no-JS fallback / progressive) ----------
+     CSS-only hover for hover-capable devices. JS module overrides
+     this with mouseenter/mouseleave handlers for clean state mgmt,
+     but the CSS path keeps animation working if JS is delayed. */
+  @media (hover: hover) and (pointer: fine) {
+    .gdd-stage:hover:not(.is-paused) .gdd-layer--prod {
+      animation: gdd-clip-sweep 8000ms cubic-bezier(0.45, 0.05, 0.55, 0.95) 1 forwards;
+    }
+    .gdd-stage:hover:not(.is-paused) .gdd-divider {
+      animation: gdd-divider-track 8000ms cubic-bezier(0.45, 0.05, 0.55, 0.95) 1 forwards;
+    }
+    .gdd-stage:hover:not(.is-paused) .gdd-bbox {
+      animation: gdd-bbox-spring 8000ms cubic-bezier(0.175, 0.885, 0.32, 1.275) 1 forwards;
+    }
+    .gdd-stage:hover:not(.is-paused) .gdd-label {
+      animation: gdd-label-fade 8000ms cubic-bezier(0.16, 1, 0.3, 1) 1 forwards;
+    }
+  }
+
+  /* ---------- No-hover (touch / coarse pointer) ----------
+     Autoplay path is driven entirely by the JS module which toggles
+     .is-animating on a setInterval. CSS contains no @media auto-loop
+     rule to avoid double-running on devices that satisfy neither
+     hover gate. */
+
+  /* ---------- Reduced motion: pinned "full drift surfaced" ----------
+     Skip the timeline entirely. Pin the PRODUCTION layer fully
+     revealed (no clip), divider visible at right edge, bounding
+     boxes + labels visible. Communicates the same thesis (Ghost
+     surfaces every deviation) without any motion. */
+  @media (prefers-reduced-motion: reduce) {
+    .gdd-layer--prod,
+    .gdd-divider,
+    .gdd-bbox,
+    .gdd-label {
+      animation: none !important;
+    }
+    .gdd-layer--prod {
+      clip-path: inset(0 0 0 0);
+    }
+    .gdd-divider {
+      opacity: 1;
+      transform: translateX(100cqi);
+    }
+    .gdd-bbox {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .gdd-label {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  </style>
+  <!-- END ghost-thumb-v4 production CSS -->
+</head>
+<body>
+
+  <div class="sandbox-wrap">
+
+    <div class="surface">
+      <div class="surface-label">Homepage bento (1040px × 585px) — hover or wait for autoplay</div>
+      <div class="homepage-frame">
+        <div class="bento-card-thumb thumb-ghost">
+          <!-- BEGIN ghost-thumb-v4 markup (verbatim reuse on Other Work cards) -->
+          <div class="gdd-stage" data-ghost-thumb aria-hidden="true">
+            <div class="gdd-board">
+
+              <!-- Layer 1: SPEC (canonical positions, always visible) -->
+              <div class="gdd-layer gdd-layer--spec">
+                <div class="gdd-shape gdd-shape--header"></div>
+                <div class="gdd-shape gdd-shape--nav1"></div>
+                <div class="gdd-shape gdd-shape--nav2"></div>
+                <div class="gdd-shape gdd-shape--nav3"></div>
+                <div class="gdd-shape gdd-shape--card"></div>
+                <div class="gdd-shape gdd-shape--button"></div>
+                <div class="gdd-shape gdd-shape--stat1"></div>
+                <div class="gdd-shape gdd-shape--stat2"></div>
+                <div class="gdd-shape gdd-shape--dot1"></div>
+                <div class="gdd-shape gdd-shape--dot2"></div>
+              </div>
+
+              <!-- Layer 2: PRODUCTION (duplicate, drift offsets baked in
+                   via CSS transform per-shape, hidden via clip-path at rest) -->
+              <div class="gdd-layer gdd-layer--prod">
+                <div class="gdd-shape gdd-shape--header"></div>
+                <div class="gdd-shape gdd-shape--nav1"></div>
+                <div class="gdd-shape gdd-shape--nav2"></div>
+                <div class="gdd-shape gdd-shape--nav3"></div>
+                <div class="gdd-shape gdd-shape--card"></div>
+                <div class="gdd-shape gdd-shape--button"></div>
+                <div class="gdd-shape gdd-shape--stat1"></div>
+                <div class="gdd-shape gdd-shape--stat2"></div>
+                <div class="gdd-shape gdd-shape--dot1"></div>
+                <div class="gdd-shape gdd-shape--dot2"></div>
+              </div>
+
+              <!-- Scanner divider line (sweeps with clip-path) -->
+              <span class="gdd-divider" aria-hidden="true"></span>
+
+              <!-- Bounding boxes (over the 3 worst-drifted PRODUCTION shapes) -->
+              <span class="gdd-bbox gdd-bbox--card" aria-hidden="true"></span>
+              <span class="gdd-bbox gdd-bbox--button" aria-hidden="true"></span>
+              <span class="gdd-bbox gdd-bbox--stat2" aria-hidden="true"></span>
+
+              <!-- Forensic monospace labels -->
+              <span class="gdd-label gdd-label--card" aria-hidden="true">color #5d4e7a &rarr; #6b5c87</span>
+              <span class="gdd-label gdd-label--button" aria-hidden="true">+8x +5y · accent shift</span>
+              <span class="gdd-label gdd-label--stat2" aria-hidden="true">-5x +6y drift</span>
+
+            </div>
+          </div>
+          <!-- END ghost-thumb-v4 markup -->
+        </div>
+      </div>
+    </div>
+
+    <div class="surface">
+      <div class="surface-label">Other Work card (480px × 270px)</div>
+      <div class="otherwork-frame">
+        <div class="project-thumbnail thumb-ghost">
+          <div class="gdd-stage" data-ghost-thumb aria-hidden="true">
+            <div class="gdd-board">
+              <div class="gdd-layer gdd-layer--spec">
+                <div class="gdd-shape gdd-shape--header"></div>
+                <div class="gdd-shape gdd-shape--nav1"></div>
+                <div class="gdd-shape gdd-shape--nav2"></div>
+                <div class="gdd-shape gdd-shape--nav3"></div>
+                <div class="gdd-shape gdd-shape--card"></div>
+                <div class="gdd-shape gdd-shape--button"></div>
+                <div class="gdd-shape gdd-shape--stat1"></div>
+                <div class="gdd-shape gdd-shape--stat2"></div>
+                <div class="gdd-shape gdd-shape--dot1"></div>
+                <div class="gdd-shape gdd-shape--dot2"></div>
+              </div>
+              <div class="gdd-layer gdd-layer--prod">
+                <div class="gdd-shape gdd-shape--header"></div>
+                <div class="gdd-shape gdd-shape--nav1"></div>
+                <div class="gdd-shape gdd-shape--nav2"></div>
+                <div class="gdd-shape gdd-shape--nav3"></div>
+                <div class="gdd-shape gdd-shape--card"></div>
+                <div class="gdd-shape gdd-shape--button"></div>
+                <div class="gdd-shape gdd-shape--stat1"></div>
+                <div class="gdd-shape gdd-shape--stat2"></div>
+                <div class="gdd-shape gdd-shape--dot1"></div>
+                <div class="gdd-shape gdd-shape--dot2"></div>
+              </div>
+              <span class="gdd-divider" aria-hidden="true"></span>
+              <span class="gdd-bbox gdd-bbox--card" aria-hidden="true"></span>
+              <span class="gdd-bbox gdd-bbox--button" aria-hidden="true"></span>
+              <span class="gdd-bbox gdd-bbox--stat2" aria-hidden="true"></span>
+              <span class="gdd-label gdd-label--card" aria-hidden="true">color #5d4e7a &rarr; #6b5c87</span>
+              <span class="gdd-label gdd-label--button" aria-hidden="true">+8x +5y · accent shift</span>
+              <span class="gdd-label gdd-label--stat2" aria-hidden="true">-5x +6y drift</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="module" src="js/demos/ghost-thumb-v4.js"></script>
+</body>
+</html>

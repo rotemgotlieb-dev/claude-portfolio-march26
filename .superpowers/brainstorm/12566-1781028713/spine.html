@@ -1,0 +1,93 @@
+<h2>Which case study spine fits the restructure?</h2>
+<p class="subtitle">Each column shows section order top-to-bottom and which slots carry a loop. All three keep the same first impression (hero) and replace the current abstract demos with the prototype's real signature interactions.</p>
+
+<style>
+  .spine-col { display:flex; flex-direction:column; gap:8px; padding:14px; border:1px solid var(--border); border-radius:8px; background:var(--bg-secondary); font-size:13px; }
+  .spine-row { display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:6px; background:var(--bg); border:1px solid var(--border); }
+  .spine-row.prose { opacity:0.7; }
+  .spine-row.loop { border-color:#00C896; box-shadow:inset 3px 0 0 #00C896; }
+  .spine-row.hero { border-color:#FF8A3D; box-shadow:inset 3px 0 0 #FF8A3D; }
+  .spine-row.iframe { border-color:#7AA9FF; box-shadow:inset 3px 0 0 #7AA9FF; }
+  .spine-tag { font-size:10px; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; opacity:0.7; min-width:48px; }
+  .spine-label { flex:1; font-weight:500; }
+  .spine-demo { font-size:11px; opacity:0.85; font-style:italic; }
+  .spine-meta { font-size:11px; opacity:0.6; margin-top:6px; padding-top:8px; border-top:1px dashed var(--border); }
+  .legend { display:flex; gap:14px; font-size:11px; margin:8px 0 16px; opacity:0.8; }
+  .legend span { display:flex; align-items:center; gap:6px; }
+  .legend i { width:10px; height:10px; border-radius:2px; display:inline-block; }
+</style>
+
+<div class="legend">
+  <span><i style="background:#FF8A3D"></i> hero (above the fold)</span>
+  <span><i style="background:#00C896"></i> cursor-as-designer loop</span>
+  <span><i style="background:#7AA9FF"></i> live embed / iframe</span>
+  <span><i style="background:var(--border)"></i> prose only</span>
+</div>
+
+<div class="cards" data-multiselect>
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-body">
+      <h3>A · Tight 3-loop (Recommended)</h3>
+      <p class="subtitle" style="margin:0 0 10px">Same 7 sections. Three loops. Each carries one decision; everything else is prose.</p>
+      <div class="spine-col">
+        <div class="spine-row hero"><span class="spine-tag">Hero</span><span class="spine-label">Cursor-fly AI diagnosis</span></div>
+        <div class="spine-row prose"><span class="spine-tag">Overview</span><span class="spine-label">Prose: positioning wedge</span></div>
+        <div class="spine-row prose"><span class="spine-tag">Problem</span><span class="spine-label">Prose: name competitors</span></div>
+        <div class="spine-row prose"><span class="spine-tag">Insight</span><span class="spine-label">Prose: heatmap as interface</span></div>
+        <div class="spine-row loop"><span class="spine-tag">Solution</span><span class="spine-label">Loop 1<br><span class="spine-demo">Scrubber + multi-layer heatmap morph</span></span></div>
+        <div class="spine-row loop"><span class="spine-tag">Pivot</span><span class="spine-label">Loop 2<br><span class="spine-demo">V1 to V2 multi-property morph</span></span></div>
+        <div class="spine-row loop"><span class="spine-tag">Process</span><span class="spine-label">Loop 3<br><span class="spine-demo">Deep-dive Generate Fix before/after</span></span></div>
+        <div class="spine-row prose"><span class="spine-tag">Outcome</span><span class="spine-label">Prose + live link CTA</span></div>
+      </div>
+      <p class="spine-meta">3 loops · 4 prose sections · live link only · ~1-2 weeks</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-body">
+      <h3>B · 4-loop with annotate-and-delegate as closer</h3>
+      <p class="subtitle" style="margin:0 0 10px">A's three product loops, plus the existing AE loop preserved as the "how I built this" closer.</p>
+      <div class="spine-col">
+        <div class="spine-row hero"><span class="spine-tag">Hero</span><span class="spine-label">Cursor-fly AI diagnosis</span></div>
+        <div class="spine-row prose"><span class="spine-tag">Overview</span><span class="spine-label">Prose</span></div>
+        <div class="spine-row prose"><span class="spine-tag">Problem</span><span class="spine-label">Prose</span></div>
+        <div class="spine-row prose"><span class="spine-tag">Insight</span><span class="spine-label">Prose</span></div>
+        <div class="spine-row loop"><span class="spine-tag">Solution</span><span class="spine-label">Loop 1 · Scrubber + heatmap</span></div>
+        <div class="spine-row loop"><span class="spine-tag">Pivot</span><span class="spine-label">Loop 2 · V1 to V2 morph</span></div>
+        <div class="spine-row loop"><span class="spine-tag">Process</span><span class="spine-label">Loop 3 · Deep-dive Generate Fix</span></div>
+        <div class="spine-row loop"><span class="spine-tag">Process</span><span class="spine-label">Loop 4 · Annotate-and-delegate<br><span class="spine-demo">(Pulse-on-Pulse: built with Claude)</span></span></div>
+        <div class="spine-row prose"><span class="spine-tag">Outcome</span><span class="spine-label">Prose + live link CTA</span></div>
+      </div>
+      <p class="spine-meta">4 loops · adds AI-method as signal · saturation risk · ~2 weeks</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-body">
+      <h3>C · 2-loop + live embed in Solution</h3>
+      <p class="subtitle" style="margin:0 0 10px">Fewer canned loops. The Solution section becomes an inline iframe of the running app: viewer drives it inside the case study.</p>
+      <div class="spine-col">
+        <div class="spine-row hero"><span class="spine-tag">Hero</span><span class="spine-label">Cursor-fly AI diagnosis</span></div>
+        <div class="spine-row prose"><span class="spine-tag">Overview</span><span class="spine-label">Prose</span></div>
+        <div class="spine-row prose"><span class="spine-tag">Problem</span><span class="spine-label">Prose</span></div>
+        <div class="spine-row prose"><span class="spine-tag">Insight</span><span class="spine-label">Prose</span></div>
+        <div class="spine-row iframe"><span class="spine-tag">Solution</span><span class="spine-label">Live iframe of running prototype<br><span class="spine-demo">"Try it: scrub the timeline, switch layers"</span></span></div>
+        <div class="spine-row loop"><span class="spine-tag">Pivot</span><span class="spine-label">Loop 1 · V1 to V2 morph</span></div>
+        <div class="spine-row loop"><span class="spine-tag">Process</span><span class="spine-label">Loop 2 · Deep-dive Generate Fix</span></div>
+        <div class="spine-row prose"><span class="spine-tag">Outcome</span><span class="spine-label">Prose + live link CTA</span></div>
+      </div>
+      <p class="spine-meta">2 loops + live embed · highest interactivity · perf risk on long pages · ~1-2 weeks</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="section" style="margin-top:24px">
+  <span class="label">Why I recommend A</span>
+  <p>Three loops match Ghost's saturation ceiling and keep the page rhythmic without forcing motion. Each loop dramatizes a real decision (Solution: "I built one canvas that fuses time+signal+component," Pivot: "I scrapped V1 because conventional has a ceiling," Process: "I shipped the Generate Fix loop you can actually click"). The AE loop drops because it argues HOW you built rather than WHAT Pulse is, and the prototype-as-the-center direction makes WHAT Pulse is the load-bearing question. Live link CTA in Outcome lets curious viewers go deeper; the case study itself stays tight.</p>
+</div>
+
+<div class="section">
+  <span class="label">Click to select one (then respond in terminal with anything else)</span>
+</div>

@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Case study: Ghost, a Design System Reality Scanner that compares Figma spec against production and surfaces every deviation visually.">
+  <meta name="theme-color" content="#FAFAF8">
+  <link rel="canonical" href="https://rotemgotlieb.com/work/ghost.html">
+  <meta name="author" content="Rotem Gotlieb">
+  <meta property="og:title" content="Ghost · Rotem Gotlieb">
+  <meta property="og:description" content="Case study: Ghost, a Design System Reality Scanner that compares Figma spec against production and surfaces every deviation visually.">
+  <meta property="og:image" content="https://rotemgotlieb.com/og-image.png">
+  <meta property="og:url" content="https://rotemgotlieb.com/work/ghost.html">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Ghost · Rotem Gotlieb">
+  <meta name="twitter:description" content="Case study: Ghost, a Design System Reality Scanner that compares Figma spec against production and surfaces every deviation visually.">
+  <meta name="twitter:image" content="https://rotemgotlieb.com/og-image.png">
+  <title>Ghost · Rotem Gotlieb</title>
+  <style>.page-transition.active{position:fixed;inset:0;background:#FAFAF8;z-index:9998;opacity:1;}</style>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1A1A'/><text x='50%25' y='52%25' dominant-baseline='central' text-anchor='middle' font-family='system-ui,-apple-system,sans-serif' font-weight='900' font-size='20' fill='%23FAFAF8'>R</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1A1A'/><text x='50%25' y='52%25' dominant-baseline='central' text-anchor='middle' font-family='system-ui,-apple-system,sans-serif' font-weight='900' font-size='20' fill='%23FAFAF8'>R</text></svg>">
+  <script>(function(){/* dark mode disabled 2026-05-13: keep theme=light. Restore: revert this <script> + .theme-toggle CSS hide */})();</script>
+  <link rel="stylesheet" href="../styles.css?v=83">
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div class="scroll-progress" id="scrollProgress" style="background:#7B61D9;"></div>
+
+  <!-- Page Transition Overlay -->
+  <div class="page-transition"></div>
+
+  <!-- Nav -->
+  <nav>
+    <a href="../index.html" class="nav-name fade-in" data-delay="0.2">ROTEM</a>
+    <ul class="nav-links fade-in" data-delay="0.4">
+      <li><a href="../index.html">Work</a></li>
+      <li><a href="../process.html">Process</a></li>
+      <li><a href="../about.html">About</a></li>
+      <li><a href="mailto:rotem.gotlieb@gmail.com">Contact</a></li>
+    </ul>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+      <svg class="theme-icon theme-icon-light" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="10" cy="10" r="4"/>
+        <path d="M10 1v2M10 17v2M1 10h2M17 10h2M3.5 3.5l1.4 1.4M15.1 15.1l1.4 1.4M3.5 16.5l1.4-1.4M15.1 4.9l1.4-1.4"/>
+      </svg>
+      <svg class="theme-icon theme-icon-dark" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M17 10.5A7 7 0 119.5 3a5.5 5.5 0 007.5 7.5z"/>
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="case-layout case-layout--airy" id="main-content">
+
+    <!-- Sidebar -->
+    <aside class="case-sidebar">
+      <a href="../index.html" class="sidebar-home">&#8592; HOME</a>
+      <div class="sidebar-nav">
+        <a href="#overview" class="sidebar-link">OVERVIEW</a>
+        <a href="#the-problem" class="sidebar-link">THE PROBLEM</a>
+        <a href="#the-insight" class="sidebar-link">THE INSIGHT</a>
+        <a href="#the-solution" class="sidebar-link">THE SOLUTION</a>
+        <a href="#design-process" class="sidebar-link">DESIGN PROCESS</a>
+        <a href="#key-decisions" class="sidebar-link">KEY DECISIONS</a>
+        <a href="#outcome" class="sidebar-link">OUTCOME</a>
+      </div>
+      <a href="#main-content" class="sidebar-top">&#8593; BACK TO TOP</a>
+    </aside>
+
+    <!-- Content -->
+    <div class="case-content">
+      <!-- ============================================
+           HERO DEMO: AI FIX FLOW (Phase 3 of V2 sprint, 2026-05-25)
+           Replaces the prior static hero image (img/ghost/hero.png).
+           Hero demo per V2 master report: 14s mobile / 16s desktop
+           loop, full app chrome, 12 beats. Choreography in
+           js/demos/ghost-ai-fix-flow-hero.js.
+           ============================================ -->
+      <div class="case-hero-demo fade-in" data-delay="0.3" id="aiFixFlowHero">
+        <div class="fix-hero-container" aria-label="AI Fix Flow demo">
+          <div class="fix-hero-browser-bar">
+            <div class="fix-hero-traffic-lights">
+              <span style="background:#ff5f57"></span>
+              <span style="background:#febc2e"></span>
+              <span style="background:#28c840"></span>
+            </div>
+            <div class="fix-hero-url">ghost.rotemgotlieb.com/scan/007/fix</div>
+          </div>
+          <div class="fix-hero-content">
+            <!-- Sidebar with icon-only nav -->
+            <aside class="fix-hero-sidebar">
+              <div class="fix-hero-sidebar-logo">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#1A1A1A" stroke-width="2"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3" fill="#1A1A1A"/></svg>
+              </div>
+              <button class="fix-hero-sidebar-icon" type="button" tabindex="-1" aria-label="Scans">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+              </button>
+              <button class="fix-hero-sidebar-icon is-active" type="button" tabindex="-1" aria-label="Deviations">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              </button>
+              <button class="fix-hero-sidebar-icon" type="button" tabindex="-1" aria-label="Components">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/></svg>
+              </button>
+              <button class="fix-hero-sidebar-icon fix-hero-sidebar-icon--bottom" type="button" tabindex="-1" aria-label="Settings">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+              </button>
+            </aside>
+
+            <!-- Main area -->
+            <div class="fix-hero-main">
+              <div class="fix-hero-header">
+                <div class="fix-hero-header-title">
+                  <span class="fix-hero-header-label">DEVIATIONS · Scan 007</span>
+                  <span class="fix-hero-header-count">21 found</span>
+                </div>
+                <div class="fix-hero-header-actions">
+                  <span class="fix-hero-header-pill">Filters</span>
+                </div>
+              </div>
+
+              <!-- Deviation list -->
+              <div class="fix-hero-body">
+                <ul class="fix-hero-deviation-list">
+                  <li class="fix-hero-row" data-row="0">
+                    <span class="fix-hero-row-dot fix-hero-row-dot--red"></span>
+                    <span class="fix-hero-row-label">Color Deviation · Table</span>
+                    <span class="fix-hero-row-meta">#text-secondary</span>
+                  </li>
+                  <li class="fix-hero-row" data-row="1">
+                    <span class="fix-hero-row-dot fix-hero-row-dot--orange"></span>
+                    <span class="fix-hero-row-label">Spacing · Card padding</span>
+                    <span class="fix-hero-row-meta">16 → 12</span>
+                  </li>
+                  <li class="fix-hero-row" data-row="2">
+                    <span class="fix-hero-row-dot fix-hero-row-dot--orange"></span>
+                    <span class="fix-hero-row-label">Radius · Button corner</span>
+                    <span class="fix-hero-row-meta">8 → 6</span>
+                  </li>
+                  <li class="fix-hero-row" data-row="3">
+                    <span class="fix-hero-row-dot fix-hero-row-dot--yellow"></span>
+                    <span class="fix-hero-row-label">Font weight · Caption</span>
+                    <span class="fix-hero-row-meta">500 → 400</span>
+                  </li>
+                </ul>
+
+                <!-- Detail panel (collapsed initially; opens on row click) -->
+                <div class="fix-hero-detail-panel" aria-hidden="true">
+                  <div class="fix-hero-detail-title">
+                    <span class="fix-hero-detail-dot fix-hero-row-dot--red"></span>
+                    <span>Color Deviation · Table</span>
+                    <span class="fix-hero-detail-close" aria-hidden="true">×</span>
+                  </div>
+                  <div class="fix-hero-detail-badges">
+                    <span class="fix-hero-badge fix-hero-badge--breaking">Breaking</span>
+                    <span class="fix-hero-badge fix-hero-badge--critical">Critical</span>
+                    <span class="fix-hero-badge fix-hero-badge--fixed" aria-hidden="true">Fixed</span>
+                  </div>
+                  <div class="fix-hero-compare-grid">
+                    <div class="fix-hero-compare-cell">
+                      <span class="fix-hero-compare-label">Expected</span>
+                      <span class="fix-hero-compare-swatch" style="background:#9CA3AF"></span>
+                      <span class="fix-hero-compare-hex">#9CA3AF</span>
+                    </div>
+                    <div class="fix-hero-compare-cell">
+                      <span class="fix-hero-compare-label">Found</span>
+                      <span class="fix-hero-compare-swatch fix-hero-compare-swatch--found" style="background:#6B7280"></span>
+                      <span class="fix-hero-compare-hex fix-hero-compare-hex--found">#6B7280</span>
+                    </div>
+                  </div>
+                  <div class="fix-hero-delta">
+                    <span class="fix-hero-delta-text">Delta: −1.4:1 contrast</span>
+                  </div>
+                  <div class="fix-hero-rec">
+                    <span class="fix-hero-rec-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21h6"/><path d="M12 17v4"/><path d="M12 3a6 6 0 0 0-3 11l1 2h4l1-2a6 6 0 0 0-3-11z"/></svg>
+                    </span>
+                    <span class="fix-hero-rec-text">Restore token <strong>$text-secondary</strong> to expected value.</span>
+                    <button class="fix-hero-apply-btn" type="button" tabindex="-1">
+                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px"><path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5L12 2z"/></svg>
+                      Apply fix
+                    </button>
+                  </div>
+                  <div class="fix-hero-flow">
+                    <!-- Idle state (default-visible without is-active — see styles.css
+                         `.fix-hero-flow-card--idle` rule. JS toggles is-active on
+                         siblings during the applying/done transitions; this card
+                         restores via blur-crossfade back to default at loop reset.) -->
+                    <div class="fix-hero-flow-card fix-hero-flow-card--idle">
+                      <span class="fix-hero-flow-summary">3 steps · ~2s</span>
+                      <span class="fix-hero-flow-status">Ready</span>
+                    </div>
+                    <!-- Applying state -->
+                    <div class="fix-hero-flow-card fix-hero-flow-card--applying">
+                      <div class="fix-hero-flow-step" data-step="1">
+                        <span class="fix-hero-flow-step-icon" data-state="spinner" aria-hidden="true"></span>
+                        <span class="fix-hero-flow-step-label">Patch token in Figma</span>
+                      </div>
+                      <div class="fix-hero-flow-step" data-step="2">
+                        <span class="fix-hero-flow-step-icon" data-state="spinner" aria-hidden="true"></span>
+                        <span class="fix-hero-flow-step-label">Update var in production</span>
+                      </div>
+                      <div class="fix-hero-flow-step" data-step="3">
+                        <span class="fix-hero-flow-step-icon" data-state="spinner" aria-hidden="true"></span>
+                        <span class="fix-hero-flow-step-label">Re-scan instances</span>
+                      </div>
+                      <div class="fix-hero-flow-progress">
+                        <div class="fix-hero-flow-progress-fill"></div>
+                      </div>
+                    </div>
+                    <!-- Done state -->
+                    <div class="fix-hero-flow-card fix-hero-flow-card--done">
+                      <span class="fix-hero-flow-check" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                      </span>
+                      <span class="fix-hero-flow-done-label">Fix Applied</span>
+                      <span class="fix-hero-flow-done-meta">21 instances updated · contrast restored</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-content-inner">
+        <h1 class="case-title fade-in" data-delay="0.5">Ghost · Design System Reality Scanner</h1>
+
+        <div class="metadata-grid fade-in" data-delay="0.7">
+          <div class="metadata-item">
+            <span class="metadata-label">Context</span>
+            <span class="metadata-value">Concept Project</span>
+          </div>
+          <div class="metadata-item">
+            <span class="metadata-label">Role</span>
+            <span class="metadata-value">Product Designer</span>
+          </div>
+          <div class="metadata-item">
+            <span class="metadata-label">Timeline</span>
+            <span class="metadata-value">2026</span>
+          </div>
+          <div class="metadata-item">
+            <span class="metadata-label">Tools</span>
+            <span class="metadata-value">Figma, Next.js, Tailwind, Framer Motion, Claude</span>
+          </div>
+        </div>
+
+        <article class="case-body">
+
+          <section id="overview" class="case-section reveal">
+            <span class="section-label">Overview</span>
+            <h2>Design systems break silently. Ghost makes the drift visible.</h2>
+            <p>Ghost is a Design System Reality Scanner. It compares Figma source of truth against production. The signature interaction is a comparison slider: design on one side, production on the other, gap visible in one motion.</p>
+          </section>
+
+          <section id="the-problem" class="case-section reveal">
+            <span class="section-label">The Problem</span>
+            <h2>Nobody checks if production matches the spec.</h2>
+            <p>A developer hardcodes padding instead of using the token. A color shifts by one hex digit during a refactor. A border radius rounds down from 8 to 6 because someone eyeballed a Figma inspect. None of these are bugs. All of them pass code review. After six months, your product looks like three products wearing the same logo.</p>
+            <p>Chromatic, Percy, Applitools catch regressions against <em>previous code</em>. They answer "did this component change since last week?" They don't answer the question designers actually care about: does our product match our design system?</p>
+          </section>
+
+          <section id="the-insight" class="case-section reveal">
+            <span class="section-label">The Insight</span>
+            <h2>Designers check work by holding the spec next to the output.</h2>
+            <p>The comparison slider mirrors how designers check work: spec next to output, gap visible in one motion. No report required.</p>
+          </section>
+
+          <div class="demo-frame reveal">
+            <div class="demo-frame-chrome">
+              <div class="demo-frame-traffic-lights">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="demo-frame-url">ghost.rotemgotlieb.com</div>
+            </div>
+            <div class="demo-frame-body demo-frame-body--16-9">
+              <div class="ghost-slider" data-slider>
+
+                <!-- Design panel: full layer, always visible -->
+                <div class="ghost-slider-panel ghost-slider-panel--design" aria-label="Design system specification">
+                  <div class="mock-nav">
+                    <div class="mock-nav-logo"></div>
+                    <div class="mock-nav-wordmark"></div>
+                    <div class="mock-nav-label"></div>
+                    <div class="mock-nav-label"></div>
+                    <div class="mock-nav-label"></div>
+                    <div class="mock-nav-avatar"></div>
+                  </div>
+                  <div class="mock-stats-row">
+                    <div class="mock-stat-card">
+                      <div class="mock-stat-label">Total Balance</div>
+                      <div class="mock-stat-value">$24,500</div>
+                      <div class="mock-stat-progress mock-stat-progress--indigo"></div>
+                    </div>
+                    <div class="mock-stat-card">
+                      <div class="mock-stat-label">Monthly Spend</div>
+                      <div class="mock-stat-value">$12,800</div>
+                      <div class="mock-stat-progress mock-stat-progress--green"></div>
+                    </div>
+                    <div class="mock-stat-card">
+                      <div class="mock-stat-label">Investments</div>
+                      <div class="mock-stat-value">$8,200</div>
+                      <div class="mock-stat-progress mock-stat-progress--red"></div>
+                    </div>
+                  </div>
+                  <div class="mock-divider"></div>
+                  <div class="mock-tx-card">
+                    <div class="mock-tx-header">
+                      <div class="mock-tx-title">Recent Transactions</div>
+                      <div class="mock-tx-link">View All &rarr;</div>
+                    </div>
+                    <div class="mock-tx-list">
+                      <div class="mock-tx-row">
+                        <div class="mock-tx-icon mock-tx-icon--positive">&uarr;</div>
+                        <div class="mock-tx-meta"><div class="mock-tx-name">Stripe Inc.</div><div class="mock-tx-date">Mar 8, 2026</div></div>
+                        <div class="mock-tx-amount mock-tx-amount--positive">+$1,240.00</div>
+                      </div>
+                      <div class="mock-tx-row">
+                        <div class="mock-tx-icon mock-tx-icon--negative">&darr;</div>
+                        <div class="mock-tx-meta"><div class="mock-tx-name">AWS</div><div class="mock-tx-date">Mar 7, 2026</div></div>
+                        <div class="mock-tx-amount mock-tx-amount--negative">-$340.50</div>
+                      </div>
+                      <div class="mock-tx-row">
+                        <div class="mock-tx-icon mock-tx-icon--positive">&uarr;</div>
+                        <div class="mock-tx-meta"><div class="mock-tx-name">Acme Corp</div><div class="mock-tx-date">Mar 6, 2026</div></div>
+                        <div class="mock-tx-amount mock-tx-amount--positive">+$2,850.00</div>
+                      </div>
+                      <div class="mock-tx-row">
+                        <div class="mock-tx-icon mock-tx-icon--negative">&darr;</div>
+                        <div class="mock-tx-meta"><div class="mock-tx-name">Spotify</div><div class="mock-tx-date">Mar 5, 2026</div></div>
+                        <div class="mock-tx-amount mock-tx-amount--negative">-$11.99</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mock-button-row">
+                    <button class="mock-button mock-button--primary" tabindex="-1">New Transaction</button>
+                    <button class="mock-button mock-button--secondary" tabindex="-1">Export CSV</button>
+                  </div>
+                </div>
+
+                <!-- Production panel: clipped from left, 5 BREAKING modifiers + 19 minor via .ghost-slider-panel--production scope -->
+                <div class="ghost-slider-panel ghost-slider-panel--production" aria-label="Production reality" data-prod-panel>
+                  <div class="mock-nav">
+                    <div class="mock-nav-logo"></div>
+                    <div class="mock-nav-wordmark"></div>
+                    <div class="mock-nav-label"></div>
+                    <div class="mock-nav-label"></div>
+                    <div class="mock-nav-label"></div>
+                    <div class="mock-nav-avatar"></div>
+                  </div>
+                  <div class="mock-stats-row">
+                    <div class="mock-stat-card mock-stat-card--tinted">
+                      <div class="mock-stat-label">Total Balance</div>
+                      <div class="mock-stat-value">$24,500</div>
+                      <div class="mock-stat-progress mock-stat-progress--indigo"></div>
+                    </div>
+                    <div class="mock-stat-card">
+                      <div class="mock-stat-label">Monthly Spend</div>
+                      <div class="mock-stat-value">$12,800</div>
+                      <div class="mock-stat-progress mock-stat-progress--green"></div>
+                    </div>
+                    <div class="mock-stat-card">
+                      <div class="mock-stat-label">Investments</div>
+                      <div class="mock-stat-value">$8,200</div>
+                      <div class="mock-stat-progress mock-stat-progress--red"></div>
+                    </div>
+                  </div>
+                  <div class="mock-divider mock-divider--omitted"></div>
+                  <div class="mock-tx-card mock-tx-card--undersized">
+                    <div class="mock-tx-header">
+                      <div class="mock-tx-title">Recent Transactions</div>
+                      <div class="mock-tx-link">View All &rarr;</div>
+                    </div>
+                    <div class="mock-tx-list">
+                      <div class="mock-tx-row">
+                        <div class="mock-tx-icon mock-tx-icon--positive mock-tx-icon--circle">&uarr;</div>
+                        <div class="mock-tx-meta"><div class="mock-tx-name">Stripe Inc.</div><div class="mock-tx-date">Mar 8, 2026</div></div>
+                        <div class="mock-tx-amount mock-tx-amount--positive">+$1,240.00</div>
+                      </div>
+                      <div class="mock-tx-row">
+                        <div class="mock-tx-icon mock-tx-icon--negative">&darr;</div>
+                        <div class="mock-tx-meta"><div class="mock-tx-name">AWS</div><div class="mock-tx-date">Mar 7, 2026</div></div>
+                        <div class="mock-tx-amount mock-tx-amount--negative">-$340.50</div>
+                      </div>
+                      <div class="mock-tx-row">
+                        <div class="mock-tx-icon mock-tx-icon--positive">&uarr;</div>
+                        <div class="mock-tx-meta"><div class="mock-tx-name">Acme Corp</div><div class="mock-tx-date">Mar 6, 2026</div></div>
+                        <div class="mock-tx-amount mock-tx-amount--positive">+$2,850.00</div>
+                      </div>
+                      <div class="mock-tx-row">
+                        <div class="mock-tx-icon mock-tx-icon--negative">&darr;</div>
+                        <div class="mock-tx-meta"><div class="mock-tx-name">Spotify</div><div class="mock-tx-date">Mar 5, 2026</div></div>
+                        <div class="mock-tx-amount mock-tx-amount--negative">-$11.99</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mock-button-row">
+                    <button class="mock-button mock-button--primary mock-button--purple" tabindex="-1">New Transaction</button>
+                    <button class="mock-button mock-button--secondary" tabindex="-1">Export CSV</button>
+                  </div>
+
+                  <!-- Annotation layer — diagnostic callouts for the 5 BREAKING drifts.
+                       Each annotation is decorative for the demo, aria-hidden from AT.
+                       Positions revealed naturally via the panel's clip-path on drag. -->
+                  <div class="ghost-annotation ghost-annotation--card-bg" aria-hidden="true">
+                    <span class="ghost-annotation-label">Card bg</span>
+                    <span class="ghost-annotation-values"><code>#FFFFFF</code> &rarr; <code>#EEEEFF</code></span>
+                  </div>
+                  <div class="ghost-annotation ghost-annotation--divider" aria-hidden="true">
+                    <span class="ghost-annotation-label">Divider</span>
+                    <span class="ghost-annotation-values">1px &rarr; omitted</span>
+                  </div>
+                  <div class="ghost-annotation ghost-annotation--padding" aria-hidden="true">
+                    <span class="ghost-annotation-label">Padding</span>
+                    <span class="ghost-annotation-values">16px &rarr; 12px</span>
+                  </div>
+                  <div class="ghost-annotation ghost-annotation--icon-radius" aria-hidden="true">
+                    <span class="ghost-annotation-label">Icon radius</span>
+                    <span class="ghost-annotation-values">8px &rarr; 50%</span>
+                  </div>
+                  <div class="ghost-annotation ghost-annotation--button-color" aria-hidden="true">
+                    <span class="ghost-annotation-label">Color</span>
+                    <span class="ghost-annotation-values"><code>#4F46E5</code> &rarr; <code>#7C3AED</code></span>
+                  </div>
+                </div>
+
+                <!-- Corner labels -->
+                <span class="ghost-slider-label ghost-slider-label--left">Design System</span>
+                <span class="ghost-slider-label ghost-slider-label--right">Production</span>
+
+                <!-- Slider handle -->
+                <div class="ghost-slider-handle" data-handle
+                     role="slider" tabindex="0"
+                     aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"
+                     aria-label="Comparison slider: drag right to reveal production drift with diagnostic annotations">
+                  <div class="ghost-slider-handle-line"></div>
+                  <div class="ghost-slider-handle-grip">
+                    <svg class="ghost-slider-chevron" width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+                    <svg class="ghost-slider-chevron" width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <p class="demo-frame-caption">Drag right to reveal production drift. Annotations name what changed.</p>
+
+          <section id="the-solution" class="case-section reveal">
+            <span class="section-label">The Solution</span>
+            <h2>Drag to reveal. Detect, diagnose, remediate.</h2>
+            <p><strong>Deviation markers carry the diagnosis.</strong> Red for breaking, amber for drift, blue for undocumented variants. Each marker shows the exact delta. 'Expected: padding 16px. Found: padding 12px. Off by 4.'</p>
+            <p><strong>The AI Fix Flow closes the loop.</strong> Detection, diagnosis, and remediation in a single workflow. No competitor offers this.</p>
+          </section>
+
+          <section id="design-process" class="case-section reveal">
+            <span class="section-label">Design Process</span>
+            <h2>Three pivots made Ghost what it is.</h2>
+            <p><strong>The slider moved from buried feature to hero.</strong> The first version was a standard monitoring console: fidelity score donut, stat cards, trend chart. The slider existed but was three clicks deep. I rebuilt the dashboard with the slider as the entry point, pre-loaded with the heaviest scan.</p>
+            <p><strong>The interface shifted from dashboard to investigation workspace.</strong> Once the slider led, the rest needed to match. Dashboards are for monitoring; Ghost is for investigating. I restructured scan detail as a workspace with spec, production, and deviation list visible simultaneously.</p>
+            <p><strong>Detection became detection-to-remediation.</strong> The biggest shift. Ghost originally stopped at 'here's the problem.' I added the AI Fix Flow. This turned Ghost from an audit tool into a remediation tool.</p>
+          </section>
+
+          <!-- ============================================
+               DEMO: GHOST SEVERITY VOCABULARY BUILD (Process Loops Sprint, 2026-05-27)
+               DP-B — designer-process body demo. The cursor (representing
+               Rotem) populates an empty severity legend (Breaking / Critical
+               / Minor / Resolved) via a small picker popup. As each legend
+               row gets a color, the matching unclassified deviation rows
+               below snap to their just-defined severity dot. Resolved stays
+               empty (future state). Three picks per 7000ms loop with
+               polyrhythmic cognition dwells. Argues HOW Rotem defined
+               Ghost's severity language as a design decision.
+               JS module: js/demos/ghost-severity-build.js
+               Design doc: .claude/sprint-reports/2026-05-27-process-loops-design.md §2.1
+               ============================================ -->
+          <div class="sb-widget reveal" id="ghostSeverityBuild" aria-label="Ghost severity vocabulary build demo">
+            <div class="sb-widget-browser-bar">
+              <div class="sb-widget-traffic-lights"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+              <div class="sb-widget-url">ghost.rotemgotlieb.com/scan/007/severity</div>
+            </div>
+            <div class="sb-widget-canvas" aria-hidden="true">
+
+              <!-- Top region: severity legend (empty at T=0) -->
+              <div class="sb-widget-legend">
+                <div class="sb-widget-section-label">Severity legend</div>
+                <ul class="sb-widget-legend-list">
+                  <li class="sb-widget-legend-row" data-severity-key="breaking">
+                    <span class="sb-widget-legend-name">Breaking</span>
+                    <span class="sb-widget-legend-swatch" data-swatch="empty"></span>
+                  </li>
+                  <li class="sb-widget-legend-row" data-severity-key="critical">
+                    <span class="sb-widget-legend-name">Critical</span>
+                    <span class="sb-widget-legend-swatch" data-swatch="empty"></span>
+                  </li>
+                  <li class="sb-widget-legend-row" data-severity-key="minor">
+                    <span class="sb-widget-legend-name">Minor</span>
+                    <span class="sb-widget-legend-swatch" data-swatch="empty"></span>
+                  </li>
+                  <li class="sb-widget-legend-row" data-severity-key="resolved">
+                    <span class="sb-widget-legend-name">Resolved</span>
+                    <span class="sb-widget-legend-swatch" data-swatch="empty"></span>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="sb-widget-divider"></div>
+
+              <!-- Bottom region: unclassified deviations (dots empty at T=0) -->
+              <div class="sb-widget-deviations">
+                <div class="sb-widget-section-label">Unclassified · Scan 007</div>
+                <ul class="sb-widget-deviation-list">
+                  <li class="sb-widget-deviation-row" data-deviation-severity="breaking">
+                    <span class="sb-widget-deviation-dot" data-dot="empty"></span>
+                    <span class="sb-widget-deviation-label">Color Deviation · Table</span>
+                    <span class="sb-widget-deviation-meta">#text-secondary</span>
+                  </li>
+                  <li class="sb-widget-deviation-row" data-deviation-severity="critical">
+                    <span class="sb-widget-deviation-dot" data-dot="empty"></span>
+                    <span class="sb-widget-deviation-label">Spacing · Card padding</span>
+                    <span class="sb-widget-deviation-meta">16 &rarr; 12</span>
+                  </li>
+                  <li class="sb-widget-deviation-row" data-deviation-severity="critical">
+                    <span class="sb-widget-deviation-dot" data-dot="empty"></span>
+                    <span class="sb-widget-deviation-label">Radius · Button corner</span>
+                    <span class="sb-widget-deviation-meta">8 &rarr; 6</span>
+                  </li>
+                  <li class="sb-widget-deviation-row" data-deviation-severity="minor">
+                    <span class="sb-widget-deviation-dot" data-dot="empty"></span>
+                    <span class="sb-widget-deviation-label">Font weight · Caption</span>
+                    <span class="sb-widget-deviation-meta">500 &rarr; 400</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Picker popup — JS positions + reveals on demand -->
+              <div class="sb-widget-picker" data-picker-state="hidden" aria-hidden="true">
+                <div class="sb-widget-picker-header">Severity color?</div>
+                <div class="sb-widget-picker-swatches">
+                  <button class="sb-widget-picker-swatch sb-widget-picker-swatch--red" data-color="red" tabindex="-1" aria-label="Red"></button>
+                  <button class="sb-widget-picker-swatch sb-widget-picker-swatch--orange" data-color="orange" tabindex="-1" aria-label="Orange"></button>
+                  <button class="sb-widget-picker-swatch sb-widget-picker-swatch--yellow" data-color="yellow" tabindex="-1" aria-label="Yellow"></button>
+                  <button class="sb-widget-picker-swatch sb-widget-picker-swatch--green" data-color="green" tabindex="-1" aria-label="Green"></button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <p class="demo-frame-caption">Defining Ghost's severity language: breaking, critical, minor.</p>
+
+          <section class="case-section reveal">
+            <h2>Detection runs at the token level.</h2>
+            <p>Drift starts at the token, where designers don't look. Ghost scans every component on every push, surfacing the deviation before it ever ships.</p>
+          </section>
+
+          <!-- ============================================
+               DEMO: GHOST DRIFT DETECTION (V2 sprint Phase 5, 2026-05-25)
+               Replaces prior static Beat 3 image (img/ghost/process-02.png),
+               which depicted the AI Fix Flow now promoted to the hero
+               (Phase 3). Body-demo pattern per CLAUDE.md "Body-demo
+               discipline": 330px tall, no app chrome, wireframe fidelity.
+               6s autoplay loop showing token-row scroll + drift flagged
+               + marker pin + popup. JS: js/demos/ghost-drift-detection.js
+               ============================================ -->
+          <div class="dd-widget reveal" id="ghostDriftDetection" aria-label="Ghost token drift detection demo">
+            <div class="dd-widget-browser-bar">
+              <div class="dd-widget-traffic-lights"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+              <div class="dd-widget-url">ghost.rotemgotlieb.com/scan/007/tokens</div>
+            </div>
+            <div class="dd-widget-canvas">
+              <span class="dd-widget-label">Scanning tokens · 21 components</span>
+              <div class="dd-widget-strip" aria-hidden="true">
+                <div class="dd-widget-row">
+                  <span class="dd-widget-token" data-token-index="0">$button-primary</span>
+                  <span class="dd-widget-token" data-token-index="1">$text-body</span>
+                  <span class="dd-widget-token" data-token-index="2">$surface-card</span>
+                  <span class="dd-widget-token" data-token-index="3">$text-secondary</span>
+                  <span class="dd-widget-token" data-token-index="4">$border-subtle</span>
+                  <span class="dd-widget-token" data-token-index="5">$shadow-sm</span>
+                  <span class="dd-widget-token" data-token-index="6">$radius-md</span>
+                  <span class="dd-widget-token" data-token-index="7">$spacing-2</span>
+                  <!-- Duplicate set keeps the left-scroll loop continuous -->
+                  <span class="dd-widget-token" data-token-clone="0">$button-primary</span>
+                  <span class="dd-widget-token" data-token-clone="1">$text-body</span>
+                  <span class="dd-widget-token" data-token-clone="2">$surface-card</span>
+                  <span class="dd-widget-token" data-token-clone="3">$text-secondary</span>
+                  <span class="dd-widget-token" data-token-clone="4">$border-subtle</span>
+                  <span class="dd-widget-token" data-token-clone="5">$shadow-sm</span>
+                  <span class="dd-widget-token" data-token-clone="6">$radius-md</span>
+                  <span class="dd-widget-token" data-token-clone="7">$spacing-2</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="demo-frame-caption">Token-level drift surfaces what visual review misses.</p>
+
+          <section class="case-section reveal">
+            <h2>Four view modes, plus accessibility as a first-class signal.</h2>
+            <p>Slider for the dramatic reveal. Side-by-Side for detailed comparison. Overlay for precise alignment. Timeline shows the same page at four points in time, revealing how drift accumulated, a view no competitor offers. Component health tracking sits behind all of it: each of 21 components has a health ring, sparkline trend, and instance gallery. WCAG compliance is integrated directly into the drift narrative. "This color deviation is also a contrast failure: found 2.8:1, required 4.5:1."</p>
+          </section>
+
+          <!-- ============================================
+               DEMO: GHOST VIEW MODES INTERACTIVE WIDGET (V2 sprint Phase 4, 2026-05-25)
+               Replaces the prior autoplay choreographed demo per Decision 2
+               of V2 master report (control surfaces are interactive, not
+               autoplay-looped). Click any chip to switch modes; blurCrossfade
+               handles the transition. Body-demo pattern per CLAUDE.md
+               "Body-demo discipline" standing rule — 330px tall, no app chrome.
+               JS module: js/demos/ghost-view-modes-widget.js
+               Archived autoplay v1: _archive/_view-modes-autoplay-v1-2026-05-25/
+               ============================================ -->
+          <div class="vm-widget reveal" id="ghostViewModesWidget" aria-label="Ghost view modes interactive widget">
+            <div class="vm-widget-browser-bar">
+              <div class="vm-widget-traffic-lights"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+              <div class="vm-widget-url">ghost.rotemgotlieb.com/scan/007/view-modes</div>
+            </div>
+            <div class="vm-widget-chips" role="tablist" aria-label="View mode">
+              <button class="vm-widget-chip" data-vm-mode="slider"   type="button" role="tab" aria-selected="true"  tabindex="0">Slider</button>
+              <button class="vm-widget-chip" data-vm-mode="sbs"      type="button" role="tab" aria-selected="false" tabindex="-1">Side-by-Side</button>
+              <button class="vm-widget-chip" data-vm-mode="overlay"  type="button" role="tab" aria-selected="false" tabindex="-1">Overlay</button>
+              <button class="vm-widget-chip" data-vm-mode="timeline" type="button" role="tab" aria-selected="false" tabindex="-1">Timeline</button>
+            </div>
+            <div class="vm-widget-canvas">
+              <!-- Slider mode (default visible) -->
+              <div class="vm-widget-mode vm-widget-mode--slider" data-vm-canvas="slider" role="tabpanel" aria-label="Slider comparison">
+                <div class="vm-widget-panel vm-widget-panel--design">
+                  <span class="vm-widget-corner vm-widget-corner--left">DESIGN</span>
+                  <div class="vm-widget-faux-button" aria-hidden="true"></div>
+                </div>
+                <div class="vm-widget-panel vm-widget-panel--prod">
+                  <span class="vm-widget-corner vm-widget-corner--right">PRODUCTION</span>
+                  <div class="vm-widget-faux-button vm-widget-faux-button--drift" aria-hidden="true"></div>
+                </div>
+                <div class="vm-widget-slider-handle" aria-hidden="true">
+                  <span class="vm-widget-slider-line"></span>
+                  <span class="vm-widget-slider-grip"></span>
+                </div>
+              </div>
+              <!-- Side-by-Side mode -->
+              <div class="vm-widget-mode vm-widget-mode--sbs" data-vm-canvas="sbs" role="tabpanel" aria-label="Side-by-side comparison" hidden>
+                <div class="vm-widget-panel vm-widget-panel--design">
+                  <span class="vm-widget-corner vm-widget-corner--left">DESIGN</span>
+                  <div class="vm-widget-faux-button" aria-hidden="true"></div>
+                </div>
+                <div class="vm-widget-sbs-gap" aria-hidden="true"></div>
+                <div class="vm-widget-panel vm-widget-panel--prod">
+                  <span class="vm-widget-corner vm-widget-corner--right">PRODUCTION</span>
+                  <div class="vm-widget-faux-button vm-widget-faux-button--drift" aria-hidden="true"></div>
+                </div>
+              </div>
+              <!-- Overlay mode -->
+              <div class="vm-widget-mode vm-widget-mode--overlay" data-vm-canvas="overlay" role="tabpanel" aria-label="Overlay comparison" hidden>
+                <div class="vm-widget-panel vm-widget-panel--overlay">
+                  <span class="vm-widget-corner vm-widget-corner--overlay">OVERLAY &middot; 50%</span>
+                  <div class="vm-widget-overlay-stack">
+                    <div class="vm-widget-faux-button vm-widget-faux-button--overlay-back" aria-hidden="true"></div>
+                    <div class="vm-widget-faux-button vm-widget-faux-button--overlay-front vm-widget-faux-button--drift" aria-hidden="true"></div>
+                  </div>
+                </div>
+              </div>
+              <!-- Timeline mode -->
+              <div class="vm-widget-mode vm-widget-mode--timeline" data-vm-canvas="timeline" role="tabpanel" aria-label="Timeline drift progression" hidden>
+                <div class="vm-widget-timeline-strip">
+                  <div class="vm-widget-timeline-frame">
+                    <span class="vm-widget-timeline-date">Mar 1</span>
+                    <div class="vm-widget-faux-button" aria-hidden="true"></div>
+                  </div>
+                  <div class="vm-widget-timeline-frame">
+                    <span class="vm-widget-timeline-date">Mar 8</span>
+                    <div class="vm-widget-faux-button vm-widget-faux-button--drift-1" aria-hidden="true"></div>
+                  </div>
+                  <div class="vm-widget-timeline-frame">
+                    <span class="vm-widget-timeline-date">Mar 15</span>
+                    <div class="vm-widget-faux-button vm-widget-faux-button--drift-2" aria-hidden="true"></div>
+                  </div>
+                  <div class="vm-widget-timeline-frame">
+                    <span class="vm-widget-timeline-date">Mar 22</span>
+                    <div class="vm-widget-faux-button vm-widget-faux-button--drift" aria-hidden="true"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <span class="vm-widget-live" role="status" aria-live="polite"></span>
+          </div>
+          <p class="demo-frame-caption">Click any chip to compare design against production.</p>
+
+          <section id="key-decisions" class="case-section reveal">
+            <span class="section-label">Key Decisions</span>
+            <h2>Clinical precision as the visual identity.</h2>
+            <p>Ghost uses Clash Display for headings, DM Sans for body, JetBrains Mono for data values. Color is restrained: deep indigo accent, severity dots only where they carry meaning. The tone is surgical. "Deviation detected" not "violation found." "Recommendation available" not "fix required." Drift isn't anyone's fault, and the tool shouldn't assign blame.</p>
+          </section>
+
+          <section class="case-section reveal">
+            <h2>Color where it carries meaning.</h2>
+            <p>I keep color on what carries meaning. Severity dots hold the drift signal; text labels don't, so they go neutral.</p>
+          </section>
+
+          <!-- ============================================
+               DEMO: GHOST RESTRAINT STRIP (Key Decisions Loop Sprint, 2026-05-28)
+               K-A — designer-process body demo. Cursor as agent imposes
+               editorial restraint: visits 4 deviation row text labels in
+               sequence, strips each label's severity-tint to black. The
+               severity DOT beside each row STAYS in its canonical color.
+               Argues the Key Decisions prose's claim "severity colors only
+               where they carry meaning." Replaces the dark static Overlay
+               screenshot (img/ghost/process-05.png) that previously held
+               this slot — page now coherent light-system; dark asset
+               preserved in img/ghost/ for potential future surfaces.
+               Same 4 deviations as DP-B + hero (narrative continuity).
+               JS module: js/demos/ghost-restraint-strip.js
+               Design doc: .claude/sprint-reports/2026-05-28-key-decisions-loop-design.md
+               ============================================ -->
+          <div class="kd-widget reveal" id="ghostRestraintStrip" aria-label="Ghost restraint strip demo: editorial color removal">
+            <div class="kd-widget-browser-bar">
+              <div class="kd-widget-traffic-lights"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+              <div class="kd-widget-url">ghost.rotemgotlieb.com/scan/007/restraint</div>
+            </div>
+            <div class="kd-widget-header">
+              <span class="kd-widget-header-dot" aria-hidden="true"></span>
+              <span class="kd-widget-title">Color · what earns its place</span>
+            </div>
+            <div class="kd-widget-canvas" aria-hidden="true">
+              <ul class="kd-widget-deviation-list">
+                <li class="kd-widget-deviation-row">
+                  <span class="kd-widget-deviation-dot" data-dot="red"></span>
+                  <span class="kd-widget-deviation-label" data-text-colored="red">Color Deviation · Table</span>
+                  <span class="kd-widget-deviation-meta">#text-secondary</span>
+                </li>
+                <li class="kd-widget-deviation-row">
+                  <span class="kd-widget-deviation-dot" data-dot="orange"></span>
+                  <span class="kd-widget-deviation-label" data-text-colored="orange">Spacing · Card padding</span>
+                  <span class="kd-widget-deviation-meta">16 &rarr; 12</span>
+                </li>
+                <li class="kd-widget-deviation-row">
+                  <span class="kd-widget-deviation-dot" data-dot="orange"></span>
+                  <span class="kd-widget-deviation-label" data-text-colored="orange">Radius · Button corner</span>
+                  <span class="kd-widget-deviation-meta">8 &rarr; 6</span>
+                </li>
+                <li class="kd-widget-deviation-row">
+                  <span class="kd-widget-deviation-dot" data-dot="yellow"></span>
+                  <span class="kd-widget-deviation-label" data-text-colored="yellow">Font weight · Caption</span>
+                  <span class="kd-widget-deviation-meta">500 &rarr; 400</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <p class="demo-frame-caption">Restraint.</p>
+
+          <section id="outcome" class="outcome-section reveal">
+            <span class="section-label">Outcome</span>
+            <h2>A concept that earned its place.</h2>
+            <p>Ghost started from a gap I hit at LexisNexis. The token pipeline we shipped there solved how tokens get <em>defined</em>; it didn't solve how to verify production uses them. Ghost is my answer to the half I couldn't solve the first time.</p>
+            <p>Ghost is a prototype with mock data. The workflow is real, informed by a market scan of funded tools (Chromatic, Knapsack, Applitools, Zeroheight). Three hard pivots reshaped the first version.</p>
+            <p><strong>What I'd do differently.</strong> Start with the comparison slider on day one instead of building a monitoring dashboard first. Three pivots taught me the signature interaction should have been the first thing I designed, not the third. Conventional is invisible.</p>
+            <p><strong>Built with:</strong> Figma, Next.js 14, Tailwind, Recharts, Framer Motion, Lucide React. The AI Fix flow is the next build target: wiring it to the Figma API so deviations become one-click pull requests.</p>
+
+            <!-- ============================================
+                 DEMO: GHOST CRITICAL THREE (Process Loops Sprint, 2026-05-27)
+                 OC-E — designer-process body demo inside Outcome section.
+                 Cursor as agent triages 21 real Ghost component cards:
+                 visits Modal, Select, Banner (the three lowest-scored /
+                 highest-visibility deviations), marks each critical with a
+                 red border + red marker + counter tick. After the 3rd click
+                 the non-critical 18 cards fade to 30% opacity — "Ghost
+                 narrows 21 components to the 3 that matter."
+                 3 triage judgments per 7000ms loop; polyrhythmic dwells.
+                 JS module: js/demos/ghost-critical-three.js
+                 Design doc: .claude/sprint-reports/2026-05-27-process-loops-design.md §1D.2
+                 ============================================ -->
+            <div class="ct-widget reveal" id="ghostCriticalThree" aria-label="Ghost critical three triage demo">
+              <div class="ct-widget-browser-bar">
+                <div class="ct-widget-traffic-lights"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                <div class="ct-widget-url">ghost.rotemgotlieb.com/scan/007/triage</div>
+              </div>
+              <div class="ct-widget-header">
+                <div class="ct-widget-header-left">
+                  <span class="ct-widget-status-dot" aria-hidden="true"></span>
+                  <span class="ct-widget-title">Component triage · Scan 007</span>
+                </div>
+                <span class="ct-widget-counter" data-counter-state="initial">0 / 21 critical</span>
+              </div>
+              <!-- 21 component cards. Same names + drift scores as the Concept X
+                   inventory (same real Ghost component list). data-critical-target
+                   marks Modal / Select / Banner — the 3 cards the cursor flags. -->
+              <div class="ct-widget-grid" aria-hidden="true">
+                <div class="ct-widget-card" data-component="Button"   data-score="96" data-severity="green"><span class="ct-widget-card-name">Button</span><span class="ct-widget-card-score">96</span><span class="ct-widget-card-dot"></span></div>
+                <div class="ct-widget-card" data-component="Input"    data-score="94" data-severity="green"><span class="ct-widget-card-name">Input</span><span class="ct-widget-card-score">94</span><span class="ct-widget-card-dot"></span></div>
+                <div class="ct-widget-card" data-component="Card"     data-score="92" data-severity="green"><span class="ct-widget-card-name">Card</span><span class="ct-widget-card-score">92</span><span class="ct-widget-card-dot"></span></div>
+                <div class="ct-widget-card" data-component="Toggle"   data-score="89" data-severity="yellow"><span class="ct-widget-card-name">Toggle</span><span class="ct-widget-card-score">89</span><span class="ct-widget-card-dot"></span></div>
+                <div class="ct-widget-card" data-component="Badge"    data-score="95" data-severity="green"><span class="ct-widget-card-name">Badge</span><span class="ct-widget-card-score">95</span><span class="ct-widget-card-dot"></span></div>
+                <div class="ct-widget-card" data-component="Modal"    data-score="78" data-severity="yellow" data-critical-target="true"><span class="ct-widget-card-name">Modal</span><span class="ct-widget-card-score">78</span><span class="ct-widget-card-dot"></span></div>
+                <div class="ct-widget-card" data-component="NavBar"   data-score="91" data-severity="green"><span class="ct-widget-card-name">NavBar</span><span class="ct-widget-card-score">91</span><span class="ct-widget-card-dot"></span></div>
+                <div class="ct-widget-card" data-component="Tooltip"  data-score="87" data-severity="yellow"><span class="ct-widget-card-name">Tooltip</span><span class="ct-widget-card-score">87</span><span class="ct-widget-card-dot"></span></div>
+                <div class="ct-widget-card" data-component="Dropdown" data-score="84" data-severity="yellow"><span class="ct-widget-card-name">Dropdown</span><span class="ct-widget-card-score">84</span><span class="ct-widget-card-dot"></span></div>
+                <div class="ct-widget-card" data-component="Avatar"   data-score="93" data-severity="green"><span class="ct-widget-card-name">Avatar</span><span class="ct-widget-card-score">93</span><span class="ct-widget-card-dot"></span></div>
+                <div class="ct-widget-card" data-component="Tab"      data-score="88" data-severity="yellow"><span class="ct-widget-card-name">Tab</span><span class="ct-widget-card-score">88</span><span class="ct-widget-card-dot"></span></div>
+                <div class="ct-widget-card" data-component="Progress" data-score="96" data-severity="green"><span class="ct-widget-card-name">Progress</span><span class="ct-widget-card-score">96</span><span class="ct-widget-card-dot"></span></div>
+                <div class="ct-widget-card" data-component="Switch"   data-score="81" data-severity="yellow"><span class="ct-widget-card-name">Switch</span><span class="ct-widget-card-score">81</span><span class="ct-widget-card-dot"></span></div>
+                <div class="ct-widget-card" data-component="Slider"   data-score="85" data-severity="yellow"><span class="ct-widget-card-name">Slider</span><span class="ct-widget-card-score">85</span><span class="ct-widget-card-dot"></span></div>
+                <div class="ct-widget-card" data-component="Checkbox" data-score="92" data-severity="green"><span class="ct-widget-card-name">Checkbox</span><span class="ct-widget-card-score">92</span><span class="ct-widget-card-dot"></span></div>
+                <div class="ct-widget-card" data-component="Radio"    data-score="90" data-severity="green"><span class="ct-widget-card-name">Radio</span><span class="ct-widget-card-score">90</span><span class="ct-widget-card-dot"></span></div>
+                <div class="ct-widget-card" data-component="Select"   data-score="77" data-severity="yellow" data-critical-target="true"><span class="ct-widget-card-name">Select</span><span class="ct-widget-card-score">77</span><span class="ct-widget-card-dot"></span></div>
+                <div class="ct-widget-card" data-component="Tag"      data-score="94" data-severity="green"><span class="ct-widget-card-name">Tag</span><span class="ct-widget-card-score">94</span><span class="ct-widget-card-dot"></span></div>
+                <div class="ct-widget-card" data-component="Banner"   data-score="83" data-severity="yellow" data-critical-target="true"><span class="ct-widget-card-name">Banner</span><span class="ct-widget-card-score">83</span><span class="ct-widget-card-dot"></span></div>
+                <div class="ct-widget-card" data-component="Spinner"  data-score="97" data-severity="green"><span class="ct-widget-card-name">Spinner</span><span class="ct-widget-card-score">97</span><span class="ct-widget-card-dot"></span></div>
+                <div class="ct-widget-card" data-component="Divider"  data-score="99" data-severity="green"><span class="ct-widget-card-name">Divider</span><span class="ct-widget-card-score">99</span><span class="ct-widget-card-dot"></span></div>
+              </div>
+            </div>
+            <p class="demo-frame-caption">Triage. Three of twenty-one need attention.</p>
+
+          </section>
+
+          <section class="other-work reveal">
+            <h2 class="other-work-heading">Other Work</h2>
+            <div class="other-work-grid">
+              <a href="lexisnexis.html" class="other-work-card">
+                <div class="project-thumbnail thumb-lexisnexis">
+                  <img src="../img/lexisnexis/thumbnail.png" alt="LexisNexis design system pipeline" loading="lazy">
+                </div>
+                <p class="project-label">lexisnexis risk solutions, 2024-2025</p>
+                <h3 class="project-title">Bridging Design and Engineering</h3>
+              </a>
+              <a href="pulse.html" class="other-work-card">
+                <div class="project-thumbnail thumb-pulse"></div>
+                <p class="project-label">concept project, 2026</p>
+                <h3 class="project-title">Pulse · AI UX Intelligence Dashboard</h3>
+              </a>
+            </div>
+          </section>
+
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-game container">
+      <canvas id="bikeGame" class="bike-game-canvas" role="img" aria-label="Decorative pixel-art mountain biking game. Press space or click to play."></canvas>
+      <p class="game-prompt" id="gamePrompt">press space or click to ride</p>
+      <p class="game-score" id="gameScore"></p>
+    </div>
+    <div class="footer-content container reveal">
+      <p class="footer-status-line"><span id="footerStatusTime">&hellip;</span> in San Jose, California <span class="footer-status-glyph">&there4;</span></p>
+      <div class="footer-social">
+        <a href="https://www.linkedin.com/in/rotemgotlieb/" target="_blank" rel="noopener">LINKEDIN</a>
+        <a href="mailto:rotem.gotlieb@gmail.com">EMAIL</a>
+      </div>
+      <div class="footer-nav">
+        <a href="../index.html">Home</a>
+        <a href="../about.html">About</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Image Modal -->
+  <div class="image-modal" id="imageModal" role="dialog" aria-label="Image preview" aria-hidden="true">
+    <div class="image-modal-backdrop" data-image-close></div>
+    <div class="image-modal-content">
+      <button type="button" class="image-modal-close" aria-label="Close" data-image-close>&times;</button>
+      <img class="image-modal-img" src="" alt="">
+    </div>
+  </div>
+
+  <script src="../main.js?v=21"></script>
+  <script src="../game.js?v=3"></script>
+  <script src="../js/demos/ghost-slider.js?v=1" defer></script>
+  <script type="module" src="../js/demos/ghost-view-modes-widget.js?v=1" defer></script>
+  <script type="module" src="../js/demos/ghost-ai-fix-flow-hero.js?v=10" defer></script>
+  <script type="module" src="../js/demos/ghost-drift-detection.js?v=7" defer></script>
+  <script type="module" src="../js/demos/ghost-severity-build.js?v=3" defer></script>
+  <script type="module" src="../js/demos/ghost-critical-three.js?v=3" defer></script>
+  <script type="module" src="../js/demos/ghost-restraint-strip.js?v=3" defer></script>
+  <script type="module" src="../js/demos/pulse-thumb-v4.js?v=83"></script>
+  <script type="module" src="../js/demos/ghost-thumb-v4.js?v=83"></script>
+  <script type="module" src="../js/demos/origin-aware-thumb-expansion.js?v=83"></script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rotem Gotlieb — Resume</title>
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: letter;
+      margin: 0.25in 0.55in 0.22in;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      font-family: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      font-size: 9.5pt;
+      line-height: 1.18;
+      color: #1A1A1A;
+      background: #FFFFFF;
+      -webkit-font-smoothing: antialiased;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+
+    .header { margin-bottom: 3px; }
+    h1 {
+      font-size: 24pt;
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+    .subtitle {
+      font-size: 8.5pt;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 3px;
+    }
+    .contact { font-size: 9pt; color: #333; }
+    .contact .sep { margin: 0 6px; color: #999; }
+
+    h2 {
+      font-size: 8.5pt;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #1A1A1A;
+      border-bottom: 0.6pt solid #1A1A1A;
+      padding-bottom: 1px;
+      margin-top: 3px;
+      margin-bottom: 1px;
+    }
+
+    .summary { font-size: 9.5pt; line-height: 1.2; color: #333; }
+
+    .job { margin-top: 3px; }
+    .job:first-of-type { margin-top: 1px; }
+    .job-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .job-company { font-size: 10.5pt; font-weight: 700; color: #1A1A1A; }
+    .job-date { font-size: 9pt; color: #555; }
+    .job-role { font-size: 9.5pt; font-style: italic; color: #555; margin-bottom: 1px; }
+    ul { list-style: disc; padding-left: 14px; margin-top: 0; }
+    ul li { font-size: 9.5pt; line-height: 1.2; color: #333; margin-bottom: 0; }
+
+    .project { margin-top: 2px; }
+    .project:first-of-type { margin-top: 1px; }
+    .project-name { font-size: 10pt; color: #1A1A1A; }
+    .project-name strong { font-weight: 700; }
+    .project-desc { font-size: 9.5pt; line-height: 1.2; color: #333; margin-top: 0; }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 78pt 1fr;
+      gap: 2px 14px;
+      margin-top: 2px;
+    }
+    .skills-grid dt {
+      font-size: 9.5pt;
+      font-weight: 700;
+      color: #1A1A1A;
+      line-height: 1.4;
+    }
+    .skills-grid dd {
+      font-size: 9.5pt;
+      color: #333;
+      line-height: 1.4;
+    }
+
+    .education {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-top: 1px;
+    }
+    .education-text { font-size: 9.5pt; color: #333; }
+    .education-text strong { font-weight: 700; color: #1A1A1A; }
+    .education-date { font-size: 9pt; color: #555; }
+
+    .additional { margin-top: 1px; }
+    .additional p { font-size: 9pt; line-height: 1.22; color: #333; margin-bottom: 0; }
+    .additional p strong { font-weight: 700; color: #1A1A1A; }
+
+    .skills-tight .skills-grid dt,
+    .skills-tight .skills-grid dd { font-size: 8.5pt; line-height: 1.35; }
+  </style>
+</head>
+<body class="skills-tight">
+
+  <header class="header">
+    <h1>ROTEM GOTLIEB</h1>
+    <div class="subtitle">PRODUCT DESIGNER</div>
+    <div class="contact">
+      San Jose, CA<span class="sep">·</span>408-887-3289<span class="sep">·</span><a href="https://rotemgotlieb.com">rotemgotlieb.com</a><span class="sep">·</span><a href="mailto:rotem.gotlieb@gmail.com">rotem.gotlieb@gmail.com</a>
+    </div>
+  </header>
+
+  <h2>Summary</h2>
+  <p class="summary">Product designer building like a founding team. Most recently built the design-to-code token pipeline at LexisNexis Risk Solutions that took palette updates from a full day of three-person work down to thirty seconds. Building products in Claude Code with the strategist/executor workflow I documented at /process. Looking for founding designer / designer #1&ndash;3 roles at seed and Series A startups.</p>
+
+  <h2>Professional Experience</h2>
+
+  <div class="job">
+    <div class="job-header">
+      <div class="job-company">LexisNexis Risk Solutions (ThreatMetrix)</div>
+      <div class="job-date">Dec 2024 &mdash; Jul 2025</div>
+    </div>
+    <div class="job-role">Product Design &amp; Research</div>
+    <ul>
+      <li>Built a Figma-to-Storybook token pipeline that reduced palette updates from a full day with 3 people to 30 seconds with 1 designer; now used across two enterprise design systems.</li>
+      <li>Created 180+ WCAG-tested color tokens with semantic aliases mapped to production React components, eliminating naming drift between Figma, Storybook, and code.</li>
+      <li>Ran 8 user interviews with fraud analysts; tagged insights in Dovetail and produced the report that shaped the Custom Layouts product roadmap.</li>
+      <li>Designed and tested 3 prototype iterations in 2 weeks for a customizable dashboard, validated with moderated user testing before any production code was written.</li>
+      <li>Presented research and design updates to PMs, senior designers, and engineering leads across multiple product teams.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-header">
+      <div class="job-company">Redis</div>
+      <div class="job-date">Jul 2022 &mdash; Sept 2022</div>
+    </div>
+    <div class="job-role">Product Design Intern (Contract)</div>
+    <ul>
+      <li>Audited and streamlined the e-book download flow; reduced steps and clarified CTAs.</li>
+      <li>Designed a refreshed icon set used on the main landing page.</li>
+      <li>Partnered with developers and marketing on handoff specs and usage documentation.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-header">
+      <div class="job-company">WellSpoken</div>
+      <div class="job-date">Nov 2021 &mdash; Feb 2022</div>
+    </div>
+    <div class="job-role">UX Designer (Contract)</div>
+    <ul>
+      <li>Tested and improved virtual-assistant response flows.</li>
+      <li>Contributed to a website refresh focused on inclusive design and clear hierarchy.</li>
+      <li>Ran user and competitor research to tailor site content to audience needs.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-header">
+      <div class="job-company">GoteFigure (Personal E-commerce)</div>
+      <div class="job-date">Mar 2020 &mdash; Present</div>
+    </div>
+    <div class="job-role">Founder &amp; Product Designer</div>
+    <ul>
+      <li>Built the brand from scratch &mdash; branding, logos, color system, illustration, storefront UX.</li>
+      <li>200+ pieces sold in Q1; storefront rebuilt around mobile-first social-traffic conversion.</li>
+      <li>Built a lightweight design system that takes ideas from sketch to listed product in under three hours.</li>
+    </ul>
+  </div>
+
+  <h2>Selected Projects</h2>
+  <div class="project">
+    <div class="project-name"><strong>Pulse &mdash; AI UX Intelligence Dashboard</strong> (Concept, 2026)</div>
+    <p class="project-desc">Self-initiated AI-native dashboard that X-rays live pages, pins detected UX issues onto the UI, and translates behavioral data into designer vocabulary. Built with Next.js, Tailwind, Framer Motion, Claude Code. <em>Live demo: pulse.rotemgotlieb.com [coming soon]</em></p>
+  </div>
+  <div class="project">
+    <div class="project-name"><strong>Ghost &mdash; Design System Reality Scanner</strong> (Concept, 2026)</div>
+    <p class="project-desc">Self-initiated tool that compares Figma source-of-truth against production and surfaces every deviation visually. Drag-to-reveal comparison slider + AI Fix Flow connecting to Figma API. Built with Next.js, Tailwind, Framer Motion, Claude Code. <em>Live demo: ghost.rotemgotlieb.com [coming soon]</em></p>
+  </div>
+
+  <h2>Skills</h2>
+  <dl class="skills-grid">
+    <dt>Design</dt>
+    <dd>Product Design, UX Design, UI Design, Visual Design, Interaction Design, Information Architecture, Design Systems, Design Tokens, Component Libraries, Responsive Design, Mobile Design, Accessibility (WCAG), Motion Design</dd>
+
+    <dt>Research</dt>
+    <dd>User Research, User Interviews, Usability Testing, Heuristic Evaluation, A/B Testing</dd>
+
+    <dt>Process</dt>
+    <dd>Wireframing, Prototyping, User Flows, Design Thinking, Iteration, Cross-Functional Collaboration, Stakeholder Management</dd>
+
+    <dt>Tools</dt>
+    <dd>Figma, Framer Motion, Storybook, Claude Code, FigJam</dd>
+
+    <dt>Code</dt>
+    <dd>HTML, CSS, JavaScript, React, Next.js, Tailwind CSS, TypeScript</dd>
+
+    <dt>AI Workflow</dt>
+    <dd>AI-Augmented Design, Claude Code, Strategist/Executor Pattern, Prompt Engineering for Design</dd>
+  </dl>
+
+  <h2>Education</h2>
+  <div class="education">
+    <div class="education-text"><strong>University of California, San Diego</strong> &mdash; B.A., Interdisciplinary Computing &amp; the Arts</div>
+    <div class="education-date">Dec 2024</div>
+  </div>
+
+  <h2>Additional</h2>
+  <div class="additional">
+    <p><strong>Languages:</strong> English, Hebrew</p>
+    <p><strong>Side projects:</strong> Gote Golf VR (Unity/OpenXR), Rotems Adventures YouTube channel (3.8K subs), GoteFigure daily art channel</p>
+    <p><strong>Portfolio:</strong> <a href="https://rotemgotlieb.com">rotemgotlieb.com</a> (vanilla HTML/CSS/JS, AI-augmented build, full process documented at /process)</p>
+  </div>
+
+</body>
+</html>

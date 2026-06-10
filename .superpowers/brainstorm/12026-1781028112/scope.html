@@ -1,0 +1,79 @@
+<h2>Where should the next-level effort land?</h2>
+<p class="subtitle">Pulse spans two surfaces: the case study page that tells the story, and the product itself that the story is about. Pick where to focus — or take both.</p>
+
+<div class="cards">
+  <div class="card" data-choice="case-study" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#FAFAF8;padding:18px;display:flex;flex-direction:column;gap:8px;color:#1a1a1a;font-family:system-ui;">
+      <div style="display:flex;align-items:center;gap:6px;font-size:9px;color:#888;">
+        <span style="width:8px;height:8px;border-radius:50%;background:#ff5f57;"></span>
+        <span style="width:8px;height:8px;border-radius:50%;background:#febc2e;"></span>
+        <span style="width:8px;height:8px;border-radius:50%;background:#28c840;"></span>
+        <span style="margin-left:8px;">rotemgotlieb.com/work/pulse</span>
+      </div>
+      <div style="font-size:8px;letter-spacing:0.2em;color:#888;margin-top:4px;">OVERVIEW</div>
+      <div style="font-size:13px;font-weight:700;line-height:1.2;">A UX intelligence tool built for designers, not analysts.</div>
+      <div style="font-size:8px;color:#888;line-height:1.4;">Hero video · prose · 3 body loops · sidebar nav · outcome footer</div>
+      <div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap;">
+        <span style="font-size:7px;background:#1a1a1a;color:#fafaf8;padding:2px 5px;border-radius:3px;">HERO VIDEO</span>
+        <span style="font-size:7px;background:#eee;color:#1a1a1a;padding:2px 5px;border-radius:3px;">D1 Wireframe</span>
+        <span style="font-size:7px;background:#eee;color:#1a1a1a;padding:2px 5px;border-radius:3px;">Pivot Collapse</span>
+        <span style="font-size:7px;background:#eee;color:#1a1a1a;padding:2px 5px;border-radius:3px;">Annotate-Execute</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A · The Case Study Page</h3>
+      <p><strong>What it is:</strong> work/pulse.html — 403 lines, 7 sections, hero video + 3 body loops, locked editorial voice. Active sprint: 2026-05-30 spec replaces D1 + Pivot with cursor-as-designer loops.</p>
+      <p><strong>"Next level" means:</strong> the page reads, scrolls, and feels like a top-tier 2026 portfolio piece. Animation choreography, prose pacing, section rhythm, loop density and seams.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="product" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#1a1d24;padding:18px;display:flex;flex-direction:column;gap:8px;color:#fafaf8;font-family:system-ui;position:relative;">
+      <div style="font-size:8px;letter-spacing:0.2em;color:#7a8090;">LIVING OBSERVATORY</div>
+      <div style="font-size:11px;font-weight:600;line-height:1.2;color:#fafaf8;">Ask Pulse a question</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:4px;margin-top:6px;">
+        <div style="height:38px;background:#252830;border-radius:3px;position:relative;overflow:hidden;">
+          <span style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(255,122,44,0.4),transparent 70%);"></span>
+        </div>
+        <div style="height:38px;background:#252830;border-radius:3px;position:relative;overflow:hidden;">
+          <span style="position:absolute;inset:0;background:radial-gradient(ellipse at 60% 40%,rgba(255,122,44,0.5),transparent 60%);"></span>
+        </div>
+        <div style="height:38px;background:#252830;border-radius:3px;"></div>
+        <div style="height:38px;background:#252830;border-radius:3px;"></div>
+      </div>
+      <div style="display:flex;gap:3px;margin-top:4px;">
+        <span style="font-size:7px;background:#2a2e3a;padding:2px 5px;border-radius:3px;color:#a0a8b8;">Friction</span>
+        <span style="font-size:7px;background:#2a2e3a;padding:2px 5px;border-radius:3px;color:#a0a8b8;">Rage</span>
+        <span style="font-size:7px;background:#2a2e3a;padding:2px 5px;border-radius:3px;color:#a0a8b8;">Dead</span>
+        <span style="font-size:7px;background:#2a2e3a;padding:2px 5px;border-radius:3px;color:#a0a8b8;">Attention</span>
+      </div>
+      <div style="font-size:8px;color:#7a8090;margin-top:4px;">7-day scrubber · diagnosis cards · component anchoring</div>
+    </div>
+    <div class="card-body">
+      <h3>B · The Product (Pulse app)</h3>
+      <p><strong>What it is:</strong> the Living Observatory at /Desktop/Pulse/pulse/ — Next.js app, ~6 surfaces (canvas, issues, scan, components, sessions, brief). Heatmap + scrubber + AI prompt + component-anchored diagnoses.</p>
+      <p><strong>"Next level" means:</strong> the actual interaction model becomes worthy of the case study claims. UX research on flow, friction, anchoring; the dashboard moves from concept-grade to feels-like-the-future.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="both" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:linear-gradient(135deg,#FAFAF8 50%,#1a1d24 50%);padding:18px;display:flex;flex-direction:column;justify-content:space-between;font-family:system-ui;position:relative;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div style="color:#1a1a1a;font-size:9px;font-weight:600;max-width:48%;">Case Study<br><span style="font-size:7px;color:#888;font-weight:400;">tells the story</span></div>
+        <div style="color:#fafaf8;font-size:9px;font-weight:600;max-width:48%;text-align:right;">Product<br><span style="font-size:7px;color:#7a8090;font-weight:400;">is the story</span></div>
+      </div>
+      <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#1a1a1a;color:#fafaf8;font-size:9px;padding:6px 10px;border-radius:20px;font-weight:600;letter-spacing:0.05em;">SYSTEMIC</div>
+      <div style="display:flex;justify-content:space-between;font-size:7px;">
+        <span style="color:#888;">prose · loops · flow</span>
+        <span style="color:#7a8090;">canvas · anchors · brief</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C · Both, holistically</h3>
+      <p><strong>What it is:</strong> Treat case study and product as one system. The page demos real features; the product makes the case the page is claiming. Changes to one inform the other.</p>
+      <p><strong>"Next level" means:</strong> the project becomes a portfolio piece <em>and</em> a real prototype that holds up under scrutiny. Higher ambition, longer arc, bigger payoff. Plan in phases.</p>
+    </div>
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:24px;">Click a card to mark your pick — or tell me in the terminal if you want a hybrid scope.</p>

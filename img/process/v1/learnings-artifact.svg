@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <style>
+      .bg { fill: #FAFAF8; }
+      .window-body { fill: #FFFFFF; stroke: #D0D0D0; stroke-width: 1.2; }
+      .window-titlebar { fill: #F5F5F5; stroke: none; }
+      .window-rule { stroke: #E8E8E6; stroke-width: 1; }
+      .window-dot { fill: #C8C8C8; }
+      .titlebar-text { font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace; font-weight: 500; font-size: 14px; fill: #555555; letter-spacing: 0.02em; }
+      .titlebar-meta { font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace; font-weight: 400; font-size: 13px; fill: #888888; letter-spacing: 0.04em; }
+
+      .md { font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace; font-size: 16px; fill: #1A1A1A; letter-spacing: 0; }
+      .md-h1 { font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace; font-size: 25px; font-weight: 700; fill: #1A1A1A; letter-spacing: -0.005em; }
+      .md-h2 { font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace; font-size: 19px; font-weight: 700; fill: #1A1A1A; letter-spacing: -0.005em; }
+      .md-bold { font-weight: 700; fill: #1A1A1A; }
+      .md-muted { fill: #888888; }
+      .md-syntax { fill: #999999; }
+      .md-code { fill: #333333; font-weight: 500; }
+      .md-italic { font-style: italic; fill: #555555; }
+      .md-bullet { fill: #555555; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect class="bg" width="1600" height="900"/>
+
+  <!-- WINDOW: 1440 × 780, centered on 1600×900 canvas (x=80 to 1520, y=60 to 840) -->
+  <!-- Body -->
+  <rect class="window-body" x="80" y="60" width="1440" height="780" rx="7"/>
+  <!-- Title bar (height 48) -->
+  <path class="window-titlebar" d="M 87 60 L 1513 60 Q 1520 60 1520 67 L 1520 108 L 80 108 L 80 67 Q 80 60 87 60 Z"/>
+  <!-- Title bar bottom rule -->
+  <line class="window-rule" x1="80" y1="108" x2="1520" y2="108"/>
+
+  <!-- Window control dots (r=7) -->
+  <circle class="window-dot" cx="106" cy="84" r="7"/>
+  <circle class="window-dot" cx="128" cy="84" r="7"/>
+  <circle class="window-dot" cx="150" cy="84" r="7"/>
+
+  <!-- Title bar center: filename -->
+  <text class="titlebar-text" x="800" y="89" text-anchor="middle">/.claude/learnings.md</text>
+
+  <!-- Title bar right: meta -->
+  <text class="titlebar-meta" x="1500" y="89" text-anchor="end">12 entries · 1,702 lines</text>
+
+  <!-- BODY CONTENT — padding 45px from window edges; content x=125 to x=1475 -->
+
+  <!-- # Session: Pulse V2 Integration -->
+  <text class="md-h1" x="125" y="177">
+    <tspan class="md-syntax">#</tspan>
+    <tspan> Session: Pulse V2 Integration</tspan>
+  </text>
+
+  <!-- **Date:** 2026-04-27 -->
+  <text class="md" x="125" y="232">
+    <tspan class="md-syntax">**</tspan><tspan class="md-bold">Date:</tspan><tspan class="md-syntax">**</tspan><tspan> 2026-04-27</tspan>
+  </text>
+
+  <!-- **Duration:** ~3 hours -->
+  <text class="md" x="125" y="261">
+    <tspan class="md-syntax">**</tspan><tspan class="md-bold">Duration:</tspan><tspan class="md-syntax">**</tspan><tspan> ~3 hours</tspan>
+  </text>
+
+  <!-- ## What worked -->
+  <text class="md-h2" x="125" y="315">
+    <tspan class="md-syntax">##</tspan>
+    <tspan> What worked</tspan>
+  </text>
+
+  <!-- - Diptych pattern (.case-image-diptych) introduced for V1/V2 visual -->
+  <text class="md" x="125" y="351">
+    <tspan class="md-bullet">-</tspan>
+    <tspan> Diptych pattern (</tspan><tspan class="md-code">.case-image-diptych</tspan><tspan>) introduced for V1/V2 visual</tspan>
+  </text>
+  <text class="md" x="125" y="377">
+    <tspan>  identity pivot. </tspan><tspan class="md-code">1fr/2fr</tspan><tspan> columns with </tspan><tspan class="md-code">align-items: start</tspan><tspan> (was </tspan><tspan class="md-code">stretch</tspan><tspan> —</tspan>
+  </text>
+  <text class="md" x="125" y="404">
+    <tspan>  caused V1 crop, fixed in followup session)</tspan>
+  </text>
+
+  <!-- - Bento card swapped from <img> to <video> ... -->
+  <text class="md" x="125" y="437">
+    <tspan class="md-bullet">-</tspan>
+    <tspan> Bento card swapped from </tspan><tspan class="md-code">&lt;img&gt;</tspan><tspan> to </tspan><tspan class="md-code">&lt;video&gt;</tspan><tspan> using </tspan><tspan class="md-code">ffmpeg</tspan><tspan>-clipped</tspan>
+  </text>
+  <text class="md" x="125" y="464">
+    <tspan>  </tspan><tspan class="md-code">morph.mov</tspan><tspan> segment</tspan>
+  </text>
+
+  <!-- ## What broke -->
+  <text class="md-h2" x="125" y="515">
+    <tspan class="md-syntax">##</tspan>
+    <tspan> What broke</tspan>
+  </text>
+
+  <text class="md" x="125" y="551">
+    <tspan class="md-bullet">-</tspan>
+    <tspan> </tspan><tspan class="md-code">align-items: stretch</tspan><tspan> beat </tspan><tspan class="md-code">aspect-ratio</tspan><tspan> in CSS Grid. V1 image cropped</tspan>
+  </text>
+  <text class="md" x="125" y="577">
+    <tspan>  to portrait inside </tspan><tspan class="md-code">1fr</tspan><tspan> column. Fix: </tspan><tspan class="md-code">align-items: start</tspan><tspan> on parent.</tspan>
+  </text>
+
+  <!-- ## Standing rule added -->
+  <text class="md-h2" x="125" y="635">
+    <tspan class="md-syntax">##</tspan>
+    <tspan> Standing rule added</tspan>
+  </text>
+
+  <text class="md" x="125" y="671">
+    <tspan class="md-bullet">-</tspan>
+    <tspan> When grid children declare </tspan><tspan class="md-code">aspect-ratio</tspan><tspan>, parent must use</tspan>
+  </text>
+  <text class="md" x="125" y="697">
+    <tspan>  </tspan><tspan class="md-code">align-items: start</tspan><tspan> (or </tspan><tspan class="md-code">center</tspan><tspan>) — </tspan><tspan class="md-code">stretch</tspan><tspan> overrides </tspan><tspan class="md-code">aspect-ratio</tspan>
+  </text>
+  <text class="md" x="125" y="724">
+    <tspan>  silently.</tspan>
+  </text>
+
+  <!-- Trailing fade indicator -->
+  <text class="md md-muted" x="125" y="788">↓ 1,694 lines above · top of file at line 1</text>
+</svg>

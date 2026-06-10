@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- TODO 2026-05-25: throwaway validation page for the V2 engine
+       extensions. Phase 2 of the V2 sprint. Tests Popup, Marker, and
+       blurCrossfade primitives in isolation before Phase 3 wires them
+       into the AI Fix Flow hero. Delete in Phase 6 alongside the
+       final sprint report. -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Demo Engine Sandbox V2</title>
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=83">
+  <style>
+    body { background: #FAFAF8; color: #1A1A1A; font-family: 'Satoshi', system-ui, sans-serif; margin: 0; }
+    .sandbox-stage {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 64px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+    .sandbox-heading {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+    .sandbox-stage-frame {
+      position: relative;
+      width: 100%;
+      height: 330px;
+      background: #F6F5F4;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.08);
+    }
+    .sandbox-controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .sandbox-controls button {
+      padding: 8px 14px;
+      background: #1A1A1A;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .sandbox-controls button:hover { background: #333333; }
+    .crossfade-card {
+      position: absolute;
+      inset: 20px;
+      padding: 24px;
+      background: #FFFFFF;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      opacity: 0;
+      filter: blur(2px);
+      transition: opacity 200ms ease, filter 200ms ease;
+    }
+    .crossfade-card.is-active { opacity: 1; filter: blur(0); }
+    .crossfade-card.heavy { transition: opacity 250ms ease, filter 250ms ease; }
+    .sandbox-anchor {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background: rgba(0,0,0,0.05);
+      border: 1px dashed rgba(0,0,0,0.3);
+      border-radius: 8px;
+    }
+    .console {
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 11px;
+      padding: 12px 14px;
+      background: #1A1A1A;
+      color: #6BCB77;
+      border-radius: 6px;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="sandbox-stage">
+    <h1 style="font-size: 24px; font-weight: 900; margin: 0;">Engine V2 Sandbox</h1>
+    <p style="font-size: 13px; color: #555; margin: 0;">Validates Popup, Marker, and blurCrossfade primitives added in Phase 2 of the V2 sprint. Open the console panel below each demo for resolution timestamps.</p>
+
+    <!-- ============================================
+         Popup primitive
+         ============================================ -->
+    <section>
+      <h2 class="sandbox-heading">Popup primitive</h2>
+      <div class="sandbox-controls">
+        <button id="popup-show">show()</button>
+        <button id="popup-type">typeInto("Bottom edge is misaligned")</button>
+        <button id="popup-hide">hide()</button>
+        <button id="popup-variant-green">variant: green</button>
+        <button id="popup-variant-red">variant: red</button>
+      </div>
+      <div class="sandbox-stage-frame" id="popup-frame">
+        <div class="sandbox-anchor" style="left: 220px; top: 80px;"></div>
+      </div>
+      <div class="console" id="popup-console"></div>
+    </section>
+
+    <!-- ============================================
+         Marker primitive
+         ============================================ -->
+    <section>
+      <h2 class="sandbox-heading">Marker primitive</h2>
+      <div class="sandbox-controls">
+        <button id="marker-default">default · appear at (120, 80)</button>
+        <button id="marker-green">green · appear at (260, 140)</button>
+        <button id="marker-orange">orange · appear at (400, 200)</button>
+        <button id="marker-red">red · appear at (540, 260)</button>
+        <button id="marker-hide-all">disappear all</button>
+      </div>
+      <div class="sandbox-stage-frame" id="marker-frame"></div>
+      <div class="console" id="marker-console"></div>
+    </section>
+
+    <!-- ============================================
+         Blur crossfade
+         ============================================ -->
+    <section>
+      <h2 class="sandbox-heading">Blur crossfade (light + heavy)</h2>
+      <div class="sandbox-controls">
+        <button id="xfade-light-a">light → card A</button>
+        <button id="xfade-light-b">light → card B</button>
+        <button id="xfade-heavy-a">heavy → card A</button>
+        <button id="xfade-heavy-b">heavy → card B</button>
+      </div>
+      <div class="sandbox-stage-frame" id="xfade-frame">
+        <div class="crossfade-card is-active" id="xfade-a" style="opacity: 1; filter: blur(0);">CARD A</div>
+        <div class="crossfade-card" id="xfade-b">CARD B</div>
+      </div>
+      <div class="console" id="xfade-console"></div>
+    </section>
+  </div>
+
+  <script type="module">
+    import {
+      Popup,
+      Marker,
+      blurCrossfade,
+      BLUR_LIGHT,
+      BLUR_HEAVY,
+      prefersReduced
+    } from './js/demos/_engine/index.js';
+
+    function log(consoleId, msg) {
+      const el = document.getElementById(consoleId);
+      const t = new Date().toLocaleTimeString();
+      el.innerHTML = `[${t}] ${msg}\n` + el.innerHTML;
+    }
+
+    // ============================================
+    //   POPUP TESTS
+    // ============================================
+    const popupFrame = document.getElementById('popup-frame');
+    const popup = new Popup(popupFrame);
+    popup.mount();
+    let popupVariant = 'default';
+    log('popup-console', 'mounted Popup');
+
+    document.getElementById('popup-show').addEventListener('click', async () => {
+      if (prefersReduced()) {
+        log('popup-console', 'reduced-motion: snap to visible');
+      }
+      await popup.show({
+        x: 220, y: 160,
+        header: 'Add comment',
+        submitLabel: 'Add',
+        submitVariant: popupVariant
+      });
+      log('popup-console', `show() resolved (variant: ${popupVariant})`);
+    });
+
+    document.getElementById('popup-type').addEventListener('click', async () => {
+      await popup.typeInto('Bottom edge is misaligned');
+      log('popup-console', 'typeInto() resolved');
+    });
+
+    document.getElementById('popup-hide').addEventListener('click', async () => {
+      await popup.hide();
+      log('popup-console', 'hide() resolved');
+    });
+
+    document.getElementById('popup-variant-green').addEventListener('click', () => {
+      popupVariant = 'green';
+      log('popup-console', 'next show() will be green');
+    });
+
+    document.getElementById('popup-variant-red').addEventListener('click', () => {
+      popupVariant = 'red';
+      log('popup-console', 'next show() will be red');
+    });
+
+    // ============================================
+    //   MARKER TESTS
+    // ============================================
+    const markerFrame = document.getElementById('marker-frame');
+    const markers = [];
+    log('marker-console', 'ready');
+
+    async function spawnMarker(variant, x, y) {
+      const number = markers.length + 1;
+      const m = new Marker(markerFrame, { number, variant });
+      m.mount();
+      await m.appear({ x, y });
+      markers.push(m);
+      log('marker-console', `appeared #${number} (${variant}) at (${x}, ${y})`);
+    }
+
+    document.getElementById('marker-default').addEventListener('click', () => spawnMarker('default', 120, 80));
+    document.getElementById('marker-green').addEventListener('click', () => spawnMarker('green', 260, 140));
+    document.getElementById('marker-orange').addEventListener('click', () => spawnMarker('orange', 400, 200));
+    document.getElementById('marker-red').addEventListener('click', () => spawnMarker('red', 540, 260));
+    document.getElementById('marker-hide-all').addEventListener('click', async () => {
+      await Promise.all(markers.map(m => m.disappear()));
+      markers.forEach(m => m.destroy());
+      markers.length = 0;
+      log('marker-console', 'all markers disappeared + destroyed');
+    });
+
+    // ============================================
+    //   BLUR CROSSFADE TESTS
+    // ============================================
+    const cardA = document.getElementById('xfade-a');
+    const cardB = document.getElementById('xfade-b');
+    let activeCard = cardA;
+    log('xfade-console', 'initial: card A active');
+
+    document.getElementById('xfade-light-a').addEventListener('click', async () => {
+      cardA.classList.remove('heavy'); cardB.classList.remove('heavy');
+      const start = performance.now();
+      await blurCrossfade(activeCard, cardA, { blur: BLUR_LIGHT, duration: 200 });
+      activeCard = cardA;
+      log('xfade-console', `light → A: ${Math.round(performance.now() - start)}ms`);
+    });
+    document.getElementById('xfade-light-b').addEventListener('click', async () => {
+      cardA.classList.remove('heavy'); cardB.classList.remove('heavy');
+      const start = performance.now();
+      await blurCrossfade(activeCard, cardB, { blur: BLUR_LIGHT, duration: 200 });
+      activeCard = cardB;
+      log('xfade-console', `light → B: ${Math.round(performance.now() - start)}ms`);
+    });
+    document.getElementById('xfade-heavy-a').addEventListener('click', async () => {
+      cardA.classList.add('heavy'); cardB.classList.add('heavy');
+      const start = performance.now();
+      await blurCrossfade(activeCard, cardA, { blur: BLUR_HEAVY, duration: 250 });
+      activeCard = cardA;
+      log('xfade-console', `heavy → A: ${Math.round(performance.now() - start)}ms`);
+    });
+    document.getElementById('xfade-heavy-b').addEventListener('click', async () => {
+      cardA.classList.add('heavy'); cardB.classList.add('heavy');
+      const start = performance.now();
+      await blurCrossfade(activeCard, cardB, { blur: BLUR_HEAVY, duration: 250 });
+      activeCard = cardB;
+      log('xfade-console', `heavy → B: ${Math.round(performance.now() - start)}ms`);
+    });
+  </script>
+</body>
+</html>

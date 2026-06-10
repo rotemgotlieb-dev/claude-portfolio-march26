@@ -1,0 +1,132 @@
+<h2>How real should Ghost actually be?</h2>
+<p class="subtitle">"Real product" can mean four different things. Each one is shippable. Each one has a different ceiling. Pick the ambition you actually want — then we plan against it.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="demo-site" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#FAFAF8;padding:20px;font-family:system-ui;color:#1a1a1a;">
+      <div style="display:flex;align-items:center;gap:6px;font-size:9px;color:#888;margin-bottom:12px;">
+        <span style="width:6px;height:6px;border-radius:50%;background:#28c840;"></span>
+        <span>ghost.rotemgotlieb.com</span>
+      </div>
+      <div style="font-size:18px;font-weight:800;letter-spacing:-0.01em;line-height:1.05;margin-bottom:4px;">Ghost</div>
+      <div style="font-size:10px;color:#555;line-height:1.4;margin-bottom:8px;">Watch your design system drift, live.</div>
+      <div style="background:#1a1a1a;color:#fafaf8;font-size:9px;font-weight:600;padding:5px 10px;border-radius:4px;display:inline-block;">See the Meridian UI scan →</div>
+      <div style="margin-top:10px;font-size:8px;color:#888;">One prepared scan. Polished. Hiring-manager-ready.</div>
+    </div>
+    <div class="card-body">
+      <h3>A · The Demo Site</h3>
+      <p><strong>Linear-grade marketing + working demo on one prepared example.</strong> The Meridian UI scan (the one in the current case study) becomes a live, playable demo at ghost.rotemgotlieb.com. Slider, deviation markers, AI fix flow, all real, all polished. No accounts, no integrations. Hiring manager opens URL, plays, walks away impressed.</p>
+      <p style="font-size:13px;color:#888;margin-top:6px;"><strong>Wow:</strong> "This is the actual product."<br><strong>Effort:</strong> 4-6 weeks. Vanilla port of Next.js app + marketing chrome.<br><strong>Defensibility:</strong> high. Everything is real, just on one example.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="byo-figma" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#FAFAF8;padding:20px;font-family:system-ui;color:#1a1a1a;">
+      <div style="display:flex;align-items:center;gap:6px;font-size:9px;color:#888;margin-bottom:12px;">
+        <span style="width:6px;height:6px;border-radius:50%;background:#28c840;"></span>
+        <span>ghost.rotemgotlieb.com</span>
+      </div>
+      <div style="font-size:11px;font-weight:600;margin-bottom:6px;">Try Ghost on your design system</div>
+      <input style="width:100%;padding:6px 8px;border:1px solid #ccc;border-radius:4px;font-size:9px;color:#999;background:#fff;box-sizing:border-box;" value="paste a Figma file URL..." disabled>
+      <div style="margin-top:6px;display:flex;gap:4px;">
+        <span style="font-size:8px;background:#4F46E5;color:#fafaf8;padding:3px 8px;border-radius:3px;font-weight:600;">Scan tokens →</span>
+        <span style="font-size:8px;color:#888;padding:3px 0;">or use Meridian UI example</span>
+      </div>
+      <div style="margin-top:10px;font-size:8px;color:#888;">Real Figma API. Your tokens. Realistic drift report.</div>
+    </div>
+    <div class="card-body">
+      <h3>B · The "BYO Figma" Product</h3>
+      <p><strong>Demo site + real Figma API integration.</strong> Hiring manager pastes their own Figma file URL. Ghost reads their actual design tokens (colors, type, spacing) via Figma's public REST API and compares against a hardcoded production sample. They see their own design system on the canvas. The "scan" output is curated but uses real data. This is when Ghost feels like a real product.</p>
+      <p style="font-size:13px;color:#888;margin-top:6px;"><strong>Wow:</strong> "Wait, it actually read my Figma file."<br><strong>Effort:</strong> 6-8 weeks. A + Figma API plumbing + token visualization.<br><strong>Defensibility:</strong> high. Real integration with a real platform.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="extension" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#2a2e3a;padding:0;font-family:system-ui;color:#fafaf8;overflow:hidden;">
+      <div style="background:#1f2329;padding:6px 10px;display:flex;align-items:center;gap:6px;border-bottom:1px solid #333;">
+        <div style="display:flex;gap:4px;"><span style="width:6px;height:6px;border-radius:50%;background:#ff5f57;"></span><span style="width:6px;height:6px;border-radius:50%;background:#febc2e;"></span><span style="width:6px;height:6px;border-radius:50%;background:#28c840;"></span></div>
+        <div style="font-size:8px;color:#888;flex:1;text-align:center;padding-right:30px;">stripe.com/payments</div>
+        <div style="background:#4F46E5;color:#fafaf8;font-size:8px;font-weight:700;padding:2px 6px;border-radius:3px;">👻 Ghost</div>
+      </div>
+      <div style="padding:14px;background:#fafaf8;color:#1a1a1a;font-family:system-ui;">
+        <div style="font-size:9px;color:#888;margin-bottom:4px;">Scan complete · 5 deviations found</div>
+        <div style="font-size:10px;font-weight:600;line-height:1.2;">Button color: #7C3AED → expected #4F46E5</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C · The Browser Extension</h3>
+      <p><strong>Chrome extension. Scan ANY production page.</strong> Install Ghost. On any URL, click the extension. Ghost reads the rendered page's computed styles, compares against a configured Figma design system, surfaces drift inline. Hiring managers can install it and try it on their own product. Highest virality. Hardest to demo cold (requires install).</p>
+      <p style="font-size:13px;color:#888;margin-top:6px;"><strong>Wow:</strong> "I just scanned my company's homepage."<br><strong>Effort:</strong> 8-10 weeks. Extension surface + page scraping + token diff engine.<br><strong>Defensibility:</strong> highest — actually usable on real pages.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="suite" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#FAFAF8;padding:18px;font-family:system-ui;color:#1a1a1a;">
+      <div style="font-size:9px;letter-spacing:0.2em;color:#888;margin-bottom:8px;">THE GHOST SUITE</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;">
+        <div style="background:#fff;border:1px solid #ddd;border-radius:4px;padding:6px;font-size:8px;">
+          <div style="font-weight:700;font-size:9px;">Web</div>
+          <div style="color:#888;margin-top:2px;">marketing + demo</div>
+        </div>
+        <div style="background:#fff;border:1px solid #ddd;border-radius:4px;padding:6px;font-size:8px;">
+          <div style="font-weight:700;font-size:9px;">Extension</div>
+          <div style="color:#888;margin-top:2px;">scan any page</div>
+        </div>
+        <div style="background:#fff;border:1px solid #ddd;border-radius:4px;padding:6px;font-size:8px;">
+          <div style="font-weight:700;font-size:9px;">Figma plugin</div>
+          <div style="color:#888;margin-top:2px;">inside Figma</div>
+        </div>
+        <div style="background:#fff;border:1px solid #ddd;border-radius:4px;padding:6px;font-size:8px;">
+          <div style="font-weight:700;font-size:9px;">Storybook</div>
+          <div style="color:#888;margin-top:2px;">CI integration</div>
+        </div>
+      </div>
+      <div style="font-size:8px;color:#888;">Multi-surface ecosystem. Founder-grade.</div>
+    </div>
+    <div class="card-body">
+      <h3>D · The Suite</h3>
+      <p><strong>Marketing site + web demo + browser extension + Figma plugin + Storybook addon.</strong> Ghost is a real ecosystem product. Multiple surfaces, all shipped, all polished. This is the "I started a company" play. The portfolio piece becomes "here's the company I built."</p>
+      <p style="font-size:13px;color:#888;margin-top:6px;"><strong>Wow:</strong> "Wait, you shipped four things?"<br><strong>Effort:</strong> 16-20 weeks minimum. Multi-quarter commitment.<br><strong>Defensibility:</strong> highest possible, but risk of "jack of all trades" if any surface ships weak.</p>
+    </div>
+  </div>
+
+</div>
+
+<h3 style="margin-top:28px;">My recommendation: B · The BYO Figma Product</h3>
+<p>This is the sweet spot. <strong>A</strong> is polished but stays in "demo" territory — every hiring manager has seen impressive demos. <strong>C</strong> is the real-product move but requires a working scan engine that operates on arbitrary HTML, which is months of engine work that might never reach "this just works" quality on a portfolio timeline. <strong>D</strong> is the founder play but spreads polish across four surfaces; weak link breaks the whole story.</p>
+<p><strong>B</strong> threads the needle: real Figma API integration means hiring managers see <em>their own</em> tokens on Ghost's canvas, which is the precise moment "demo" becomes "product." The comparison side stays curated (hardcoded production samples per case), so we control quality. The scan output is realistic-looking, derived from real data on the design side, defensible end-to-end. 6-8 weeks of focused work, shippable, surprising. The portfolio reflection (Phase 2) then has a real product to point at, with a real Figma integration, hosted publicly.</p>
+<p>If you have appetite for D, we can phase it: B becomes Phase 1, the browser extension comes in Phase 3 once B is shipped and tested in the wild. But starting with D is asking to ship nothing polished by month four.</p>
+
+<p class="subtitle" style="margin-top:24px;">Pick your ambition tier. "Bigger" and "smaller" are both valid.</p>
+
+<div class="options">
+  <div class="option" data-choice="go-b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Go BYO Figma — B.</h3>
+      <p>Real product feel, real Figma integration, controllable quality. 6-8 weeks.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="go-a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Demo site only — A.</h3>
+      <p>One prepared scan, polished to perfection. 4-6 weeks. Faster to ship.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="go-c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Browser extension — C.</h3>
+      <p>Real install, real pages. 8-10 weeks. Hardest engineering, highest virality.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="go-d" onclick="toggleSelect(this)">
+    <div class="letter">D</div>
+    <div class="content">
+      <h3>The Suite — D.</h3>
+      <p>All surfaces. Founder energy. 16-20 weeks. The "I started a company" play.</p>
+    </div>
+  </div>
+</div>

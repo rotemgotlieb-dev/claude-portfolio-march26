@@ -1,0 +1,136 @@
+<h2>Hero B collides with Loop 1. Resolve which way?</h2>
+<p class="subtitle">Hero B (Living Observatory in motion) overlaps with Loop 1 (Scrubber + heatmap morph) in the spine. Pick which one widens and which one narrows.</p>
+
+<style>
+  .mock { position:relative; height:130px; border:1px solid var(--border); border-radius:6px; overflow:hidden; background:#FBFAF6; font-family:ui-monospace,monospace; font-size:9px; }
+  .mock-bar { position:absolute; left:0; right:0; top:0; height:12px; background:rgba(0,0,0,0.04); display:flex; align-items:center; padding:0 6px; font-size:7px; color:#888; }
+  .mock-body { position:absolute; top:12px; left:0; right:0; bottom:0; padding:6px 8px; }
+  .mock-row { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:3px; height:40px; }
+  .mock-col { background:rgba(0,0,0,0.04); border:1px solid rgba(0,0,0,0.06); border-radius:2px; padding:3px; font-size:7px; color:#999; position:relative; }
+  .heat { position:absolute; border-radius:50%; pointer-events:none; }
+  .heat.r { background:radial-gradient(circle, rgba(255,77,77,0.55), transparent 70%); }
+  .heat.o { background:radial-gradient(circle, rgba(255,138,61,0.55), transparent 70%); }
+  .heat.y { background:radial-gradient(circle, rgba(255,200,77,0.4), transparent 70%); }
+  .layers { position:absolute; right:6px; top:32px; display:flex; flex-direction:column; gap:2px; }
+  .layer { font-size:7px; padding:1px 4px; background:rgba(0,0,0,0.06); border-radius:2px; color:#666; }
+  .layer.active { background:#1a1a1a; color:#fff; }
+  .prompt { position:absolute; left:6px; right:6px; top:18px; height:16px; background:#fff; border:1px solid rgba(0,0,0,0.1); border-radius:3px; padding:0 6px; display:flex; align-items:center; font-size:7px; color:#333; }
+  .scrubber { position:absolute; left:6px; right:6px; bottom:4px; height:10px; background:rgba(0,0,0,0.04); border-radius:2px; display:flex; align-items:center; padding:0 4px; font-size:6px; color:#888; gap:3px; }
+  .thumb { width:5px; height:5px; background:#1a1a1a; border-radius:50%; }
+  .cursor { position:absolute; width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-bottom:9px solid #1a1a1a; transform:rotate(45deg); pointer-events:none; }
+  .card-pop { position:absolute; width:100px; padding:4px 6px; background:#fff; border:1px solid rgba(0,0,0,0.1); border-radius:3px; box-shadow:0 3px 10px rgba(0,0,0,0.06); font-size:7px; }
+  .card-pop .dot { display:inline-block; width:5px; height:5px; border-radius:50%; background:#FF4D4D; margin-right:3px; vertical-align:middle; }
+  .pair-label { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-muted); margin:14px 0 6px; }
+  .swatch { display:inline-block; width:14px; height:8px; border-radius:1px; vertical-align:middle; margin:0 2px; }
+</style>
+
+<div class="cards">
+
+  <div class="card" data-choice="x" onclick="toggleSelect(this)">
+    <div class="card-body">
+      <h3>X · Hero widens, Loop 1 drills into one decision (Recommended)</h3>
+      <p>Hero shows Pulse's surface comprehensively. Loop 1 becomes a cursor-as-designer flow that the hero <em>cannot</em> show.</p>
+
+      <p class="pair-label">Hero · Living Observatory in motion</p>
+      <div class="mock">
+        <div class="mock-bar">localhost:3000/ — pulse</div>
+        <div class="mock-body">
+          <div class="prompt">ASK PULSE · "show me the worst issue this week"</div>
+          <div class="layers">
+            <div class="layer">Friction</div>
+            <div class="layer active">Rage</div>
+            <div class="layer">Attention</div>
+          </div>
+          <div class="mock-row" style="margin-top:24px; margin-right:50px">
+            <div class="mock-col">B<div class="heat r" style="left:-4px; top:-4px; width:24px; height:24px"></div></div>
+            <div class="mock-col">IP<div class="heat r" style="left:8px; top:4px; width:32px; height:32px"></div></div>
+            <div class="mock-col">R</div>
+            <div class="mock-col">D<div class="heat o" style="left:-2px; top:10px; width:24px; height:24px"></div></div>
+          </div>
+          <div class="scrubber"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span><div class="thumb" style="margin-left:auto"></div></div>
+        </div>
+      </div>
+      <p style="font-size:11px; opacity:0.7; margin:4px 0 0">Scrubber sweeps · layers morph (Friction → Rage → Attention) · ai prompt visible. Argues <strong>what Pulse is</strong>.</p>
+
+      <p class="pair-label">Loop 1 · Solution · "Drill from signal to component"</p>
+      <div class="mock">
+        <div class="mock-bar">localhost:3000/ — pulse</div>
+        <div class="mock-body">
+          <div class="mock-row" style="margin-top:2px; margin-right:30px">
+            <div class="mock-col">B</div>
+            <div class="mock-col" style="border-color:#1a1a1a">IP<div class="heat r" style="left:8px; top:4px; width:32px; height:32px"></div></div>
+            <div class="mock-col">R</div>
+            <div class="mock-col">D</div>
+          </div>
+          <div class="cursor" style="left:64px; top:54px"></div>
+          <div class="card-pop" style="left:100px; top:48px"><span class="dot"></span><strong>KanbanColumn</strong><br>247 instances · WCAG 2.5.5<br>→ Apply fix here</div>
+        </div>
+      </div>
+      <p style="font-size:11px; opacity:0.7; margin:4px 0 0">Designer clicks the hot zone. Diagnosis card opens, anchored to a named component with a real WCAG citation. Argues <strong>page-to-component drilldown is the wedge</strong>. Signature: <em>additive build</em> (signal → component identity → fix). Distinct from hero.</p>
+
+      <div class="section" style="margin-top:10px; padding-top:10px; border-top:1px dashed var(--border); font-size:11px">
+        <strong>The 4-loop spine becomes:</strong><br>
+        L1 Solution: Drill signal→component (additive #2) ·
+        L2 Pivot: V1→V2 morph (transformation #6?) ·
+        L3 Process: Generate Fix before/after (action #1 or new) ·
+        L4 Process/Outcome: Annotate-and-delegate (annotate-and-delegate #5).
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="y" onclick="toggleSelect(this)">
+    <div class="card-body">
+      <h3>Y · Hero shows layer-morph only; Loop 1 owns time</h3>
+      <p>Hero narrows to layer switching. Loop 1 owns the scrubber + heatmap-over-time argument.</p>
+
+      <p class="pair-label">Hero · Layers morph (no scrubber)</p>
+      <div class="mock">
+        <div class="mock-bar">localhost:3000/ — pulse</div>
+        <div class="mock-body">
+          <div class="prompt">ASK PULSE · "show me the worst issue this week"</div>
+          <div class="layers">
+            <div class="layer">Friction</div>
+            <div class="layer active">Rage</div>
+            <div class="layer">Attention</div>
+          </div>
+          <div class="mock-row" style="margin-top:24px; margin-right:50px">
+            <div class="mock-col">B<div class="heat r" style="left:-4px; top:-4px; width:24px; height:24px"></div></div>
+            <div class="mock-col">IP<div class="heat r" style="left:8px; top:4px; width:32px; height:32px"></div></div>
+            <div class="mock-col">R</div>
+            <div class="mock-col">D<div class="heat o" style="left:-2px; top:10px; width:24px; height:24px"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="pair-label">Loop 1 · Solution · Scrubber + heatmap over time</p>
+      <div class="mock">
+        <div class="mock-bar">localhost:3000/ — pulse</div>
+        <div class="mock-body">
+          <div class="mock-row" style="margin-top:2px">
+            <div class="mock-col">B</div>
+            <div class="mock-col"><div class="heat y" style="left:0; top:0; width:18px; height:18px"></div></div>
+            <div class="mock-col"><div class="heat o" style="left:4px; top:4px; width:24px; height:24px"></div></div>
+            <div class="mock-col"><div class="heat r" style="left:6px; top:6px; width:28px; height:28px"></div></div>
+          </div>
+          <div class="scrubber"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span><div class="thumb"></div></div>
+          <div class="cursor" style="left:140px; top:78px"></div>
+        </div>
+      </div>
+      <p style="font-size:11px; opacity:0.7; margin:4px 0 0">Designer drags the scrubber Mon→Sun. Heatmap blooms across the week as friction accumulates on a component. Argues <strong>time-aware signal is the differentiator</strong>. Signature: <em>additive build</em> via scrubber as input.</p>
+
+      <div class="section" style="margin-top:10px; padding-top:10px; border-top:1px dashed var(--border); font-size:11px">
+        Risk: hero feels thinner (no time dimension above the fold). Reward: clean separation of "the surface" (hero) vs "time + accumulation" (Loop 1).
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="section" style="margin-top:24px">
+  <span class="label">Why X</span>
+  <p>X keeps the hero <em>comprehensive</em> (which is what "Living Observatory in motion" should mean) and makes Loop 1 argue the wedge that separates Pulse from every competitor: page-to-component drilldown with a real WCAG citation. That single sentence is the founding-designer signal the case study needs. Y is defensible but the hero loses depth above the fold.</p>
+</div>
+
+<div class="section">
+  <span class="label">Click X or Y. Add any qualifier in the terminal.</span>
+</div>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <style>
+      .bg { fill: #FAFAF8; }
+      .box { fill: #FFFFFF; stroke: #D0D0D0; stroke-width: 1.2; }
+      .box-label { font-family: 'Inter', system-ui, sans-serif; font-weight: 700; font-size: 28px; fill: #1A1A1A; letter-spacing: -0.01em; }
+      .box-role { font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace; font-weight: 400; font-size: 17px; fill: #555555; letter-spacing: 0.02em; }
+      .box-tag { font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace; font-weight: 500; font-size: 13px; fill: #888888; letter-spacing: 0.12em; text-transform: uppercase; }
+      .user-circle { fill: #FFFFFF; stroke: #1A1A1A; stroke-width: 2; }
+      .user-label { font-family: 'Inter', system-ui, sans-serif; font-weight: 600; font-size: 17px; fill: #1A1A1A; letter-spacing: 0.02em; text-transform: uppercase; }
+      .arrow { stroke: #1A1A1A; stroke-width: 2; fill: none; }
+      .arrow-label { font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace; font-weight: 400; font-size: 16px; fill: #555555; letter-spacing: 0.04em; }
+      .title { font-family: 'Inter', system-ui, sans-serif; font-weight: 700; font-size: 44px; fill: #1A1A1A; letter-spacing: -0.02em; }
+      .subtitle { font-family: 'Inter', system-ui, sans-serif; font-weight: 400; font-size: 21px; fill: #555555; letter-spacing: 0; }
+    </style>
+    <marker id="arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10" fill="none" stroke="#1A1A1A" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect class="bg" width="1600" height="900"/>
+
+  <!-- Title block (left-aligned with Strategist box left edge x=120) -->
+  <text class="title" x="120" y="180">Two Claudes, one designer.</text>
+  <text class="subtitle" x="120" y="222">A strategist for thinking, an executor for shipping.</text>
+
+  <!-- LEFT BOX — Strategist (416 × 250 at x=120) -->
+  <g>
+    <rect class="box" x="120" y="320" width="416" height="250" rx="3"/>
+    <text class="box-tag" x="146" y="368">CLAUDE — INSTANCE A</text>
+    <text class="box-label" x="146" y="430">Strategist</text>
+    <line x1="146" y1="455" x2="510" y2="455" stroke="#E8E8E6" stroke-width="1"/>
+    <text class="box-role" x="146" y="495">planning</text>
+    <text class="box-role" x="146" y="521">prompts</text>
+    <text class="box-role" x="146" y="547">voice</text>
+  </g>
+
+  <!-- CENTER — User marker (r=56 at cx=800) -->
+  <g>
+    <circle class="user-circle" cx="800" cy="445" r="56"/>
+    <text class="user-label" x="800" y="452" text-anchor="middle">YOU</text>
+  </g>
+
+  <!-- RIGHT BOX — Executor (416 × 250 at x=1064) -->
+  <g>
+    <rect class="box" x="1064" y="320" width="416" height="250" rx="3"/>
+    <text class="box-tag" x="1090" y="368">CLAUDE — INSTANCE B</text>
+    <text class="box-label" x="1090" y="430">Executor</text>
+    <line x1="1090" y1="455" x2="1454" y2="455" stroke="#E8E8E6" stroke-width="1"/>
+    <text class="box-role" x="1090" y="495">diagnose</text>
+    <text class="box-role" x="1090" y="521">propose</text>
+    <text class="box-role" x="1090" y="547">execute · verify</text>
+  </g>
+
+  <!-- LEFT ARROW PAIR (Strategist <-> User) -->
+  <line class="arrow" x1="540" y1="425" x2="740" y2="425" marker-end="url(#arrowhead)"/>
+  <line class="arrow" x1="740" y1="465" x2="540" y2="465" marker-end="url(#arrowhead)"/>
+  <text class="arrow-label" x="640" y="410" text-anchor="middle">prompts</text>
+  <text class="arrow-label" x="640" y="492" text-anchor="middle">findings</text>
+
+  <!-- RIGHT ARROW PAIR (User <-> Executor) -->
+  <line class="arrow" x1="860" y1="425" x2="1060" y2="425" marker-end="url(#arrowhead)"/>
+  <line class="arrow" x1="1060" y1="465" x2="860" y2="465" marker-end="url(#arrowhead)"/>
+  <text class="arrow-label" x="960" y="410" text-anchor="middle">briefs</text>
+  <text class="arrow-label" x="960" y="492" text-anchor="middle">reports</text>
+</svg>

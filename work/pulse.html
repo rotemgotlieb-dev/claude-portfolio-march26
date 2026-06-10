@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Case study: Pulse, an AI UX Intelligence Dashboard that X-rays live pages and diagnoses UX issues in the vocabulary designers actually use.">
+  <meta name="theme-color" content="#FAFAF8">
+  <link rel="canonical" href="https://rotemgotlieb.com/work/pulse.html">
+  <meta name="author" content="Rotem Gotlieb">
+  <meta property="og:title" content="Pulse · Rotem Gotlieb">
+  <meta property="og:description" content="Case study: Pulse, an AI UX Intelligence Dashboard that X-rays live pages and diagnoses UX issues in the vocabulary designers actually use.">
+  <meta property="og:image" content="https://rotemgotlieb.com/og-image.png">
+  <meta property="og:url" content="https://rotemgotlieb.com/work/pulse.html">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Pulse · Rotem Gotlieb">
+  <meta name="twitter:description" content="Case study: Pulse, an AI UX Intelligence Dashboard that X-rays live pages and diagnoses UX issues in the vocabulary designers actually use.">
+  <meta name="twitter:image" content="https://rotemgotlieb.com/og-image.png">
+  <title>Pulse · Rotem Gotlieb</title>
+  <style>.page-transition.active{position:fixed;inset:0;background:#FAFAF8;z-index:9998;opacity:1;}</style>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1A1A'/><text x='50%25' y='52%25' dominant-baseline='central' text-anchor='middle' font-family='system-ui,-apple-system,sans-serif' font-weight='900' font-size='20' fill='%23FAFAF8'>R</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1A1A'/><text x='50%25' y='52%25' dominant-baseline='central' text-anchor='middle' font-family='system-ui,-apple-system,sans-serif' font-weight='900' font-size='20' fill='%23FAFAF8'>R</text></svg>">
+  <script>(function(){/* dark mode disabled 2026-05-13: keep theme=light. Restore: revert this <script> + .theme-toggle CSS hide */})();</script>
+  <link rel="stylesheet" href="../styles.css?v=83">
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div class="scroll-progress" id="scrollProgress" style="background:#4A90D9;"></div>
+
+  <!-- Page Transition Overlay -->
+  <div class="page-transition"></div>
+
+  <!-- Nav -->
+  <nav>
+    <a href="../index.html" class="nav-name fade-in" data-delay="0.2">ROTEM</a>
+    <ul class="nav-links fade-in" data-delay="0.4">
+      <li><a href="../index.html">Work</a></li>
+      <li><a href="../process.html">Process</a></li>
+      <li><a href="../about.html">About</a></li>
+      <li><a href="mailto:rotem.gotlieb@gmail.com">Contact</a></li>
+    </ul>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+      <svg class="theme-icon theme-icon-light" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="10" cy="10" r="4"/>
+        <path d="M10 1v2M10 17v2M1 10h2M17 10h2M3.5 3.5l1.4 1.4M15.1 15.1l1.4 1.4M3.5 16.5l1.4-1.4M15.1 4.9l1.4-1.4"/>
+      </svg>
+      <svg class="theme-icon theme-icon-dark" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M17 10.5A7 7 0 119.5 3a5.5 5.5 0 007.5 7.5z"/>
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="case-layout case-layout--airy" id="main-content">
+
+    <!-- Sidebar -->
+    <aside class="case-sidebar">
+      <a href="../index.html" class="sidebar-home">&#8592; HOME</a>
+      <div class="sidebar-nav">
+        <a href="#overview" class="sidebar-link">OVERVIEW</a>
+        <a href="#the-problem" class="sidebar-link">THE PROBLEM</a>
+        <a href="#the-insight" class="sidebar-link">THE INSIGHT</a>
+        <a href="#the-solution" class="sidebar-link">THE SOLUTION</a>
+        <a href="#the-pivot" class="sidebar-link">THE PIVOT</a>
+        <a href="#design-process" class="sidebar-link">DESIGN PROCESS</a>
+        <a href="#outcome" class="sidebar-link">OUTCOME</a>
+      </div>
+      <a href="#main-content" class="sidebar-top">&#8593; BACK TO TOP</a>
+    </aside>
+
+    <!-- Content -->
+    <div class="case-content">
+      <!-- Pulse Observatory Hero · Ask-Fly-Cool autoplay demo (2026-06-09).
+           Built with engine primitives Cursor + Choreography in
+           js/demos/pulse-observatory-hero.js. Replaces the prior
+           ai-fly.mp4 video with a live HTML/CSS animation that
+           performs the product thesis ("the heatmap is an interface,
+           not a visualization") in ~8.5s. -->
+      <div class="case-hero-demo fade-in" data-delay="0.3" id="pulseObservatoryHero">
+        <div class="plh-container" aria-label="Pulse Observatory: AI prompt diagnoses a UX issue, applies a fix, heat cools">
+          <!-- Browser bar -->
+          <div class="plh-browser-bar">
+            <div class="plh-traffic-lights">
+              <span style="background:#ff5f57"></span>
+              <span style="background:#febc2e"></span>
+              <span style="background:#28c840"></span>
+            </div>
+            <div class="plh-url">pulse.rotemgotlieb.com/observatory</div>
+          </div>
+          <!-- AI Prompt bar -->
+          <div class="plh-prompt-bar">
+            <span class="plh-prompt-eyebrow">ASK PULSE</span>
+            <div class="plh-prompt-input">
+              <span class="plh-prompt-text"></span>
+            </div>
+            <button class="plh-send-btn" type="button" tabindex="-1" aria-label="Send">
+              <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="8" x2="13" y2="8"/>
+                <polyline points="9 4 13 8 9 12"/>
+              </svg>
+            </button>
+          </div>
+          <!-- Living Observatory canvas -->
+          <div class="plh-canvas">
+            <!-- Wireframe kanban (4 columns) -->
+            <div class="plh-grid">
+              <div class="plh-col">
+                <div class="plh-col-header">
+                  <span class="plh-col-name">Backlog</span>
+                  <span class="plh-col-count">· 7</span>
+                </div>
+                <div class="plh-task"><span class="plh-task-bar" style="width:78%"></span></div>
+                <div class="plh-task"><span class="plh-task-bar" style="width:62%"></span></div>
+                <div class="plh-task"><span class="plh-task-bar" style="width:54%"></span></div>
+              </div>
+              <div class="plh-col">
+                <div class="plh-col-header">
+                  <span class="plh-col-name">In Progress</span>
+                  <span class="plh-col-count">· 4</span>
+                </div>
+                <div class="plh-task plh-task--hot"><span class="plh-task-bar" style="width:84%"></span></div>
+                <div class="plh-task"><span class="plh-task-bar" style="width:70%"></span></div>
+                <div class="plh-task"><span class="plh-task-bar" style="width:55%"></span></div>
+              </div>
+              <div class="plh-col">
+                <div class="plh-col-header">
+                  <span class="plh-col-name">Review</span>
+                  <span class="plh-col-count">· 3</span>
+                </div>
+                <div class="plh-task"><span class="plh-task-bar" style="width:72%"></span></div>
+                <div class="plh-task"><span class="plh-task-bar" style="width:60%"></span></div>
+              </div>
+              <div class="plh-col">
+                <div class="plh-col-header">
+                  <span class="plh-col-name">Done</span>
+                  <span class="plh-col-count">· 12</span>
+                </div>
+                <div class="plh-task"><span class="plh-task-bar" style="width:65%"></span></div>
+                <div class="plh-task"><span class="plh-task-bar" style="width:80%"></span></div>
+                <div class="plh-task"><span class="plh-task-bar" style="width:50%"></span></div>
+              </div>
+            </div>
+            <!-- Heat layers (friction baseline + rage hotspots) -->
+            <div class="plh-heat plh-heat--friction" aria-hidden="true">
+              <div class="plh-heat-blob plh-heat-blob--friction-a"></div>
+              <div class="plh-heat-blob plh-heat-blob--friction-b"></div>
+              <div class="plh-heat-blob plh-heat-blob--friction-c"></div>
+            </div>
+            <div class="plh-heat plh-heat--rage" aria-hidden="true">
+              <div class="plh-heat-blob plh-heat-blob--rage-center"></div>
+              <div class="plh-heat-blob plh-heat-blob--rage-left"></div>
+            </div>
+            <!-- AI fly dot + trail -->
+            <div class="plh-fly-dot" aria-hidden="true"></div>
+            <svg class="plh-fly-path" viewBox="0 0 1040 240" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M 980 30 Q 700 90 460 140" fill="none" stroke="#F07856" stroke-width="1.5" stroke-dasharray="3 4" opacity="0.8"/>
+            </svg>
+            <!-- Marker (drops on diagnosed component) -->
+            <div class="plh-marker" aria-hidden="true">1</div>
+            <!-- Diagnosis card -->
+            <div class="plh-diag-card" role="region" aria-label="Diagnosis card">
+              <div class="plh-diag-eyebrow">
+                <span class="plh-diag-eyebrow-dot"></span>
+                Component · Submit Button
+              </div>
+              <div class="plh-diag-title">Disabled state same as enabled</div>
+              <div class="plh-diag-body">WCAG 1.4.3 contrast violation. Users click 3.2× per attempt.</div>
+              <div class="plh-diag-stats">
+                <span><span class="plh-diag-stat-num">142</span> users</span>
+                <span><span class="plh-diag-stat-num">11</span> instances</span>
+              </div>
+              <button class="plh-diag-apply" type="button" tabindex="-1">Apply fix</button>
+              <div class="plh-diag-fixed" aria-hidden="true">✓</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="case-hero-caption fade-in" data-delay="0.4">The Living Observatory: one canvas that fuses a wireframe, heatmap, time scrubber, and AI prompt bar.</p>
+
+      <div class="case-content-inner">
+        <h1 class="case-title fade-in" data-delay="0.5">Pulse · AI UX Intelligence Dashboard</h1>
+
+        <div class="metadata-grid fade-in" data-delay="0.7">
+          <div class="metadata-item">
+            <span class="metadata-label">Context</span>
+            <span class="metadata-value">Concept Project</span>
+          </div>
+          <div class="metadata-item">
+            <span class="metadata-label">Role</span>
+            <span class="metadata-value">Product Designer</span>
+          </div>
+          <div class="metadata-item">
+            <span class="metadata-label">Timeline</span>
+            <span class="metadata-value">2026</span>
+          </div>
+          <div class="metadata-item">
+            <span class="metadata-label">Tools</span>
+            <span class="metadata-value">Figma, Next.js, Tailwind, Framer Motion, Claude</span>
+          </div>
+        </div>
+
+        <article class="case-body">
+
+          <section id="overview" class="case-section reveal">
+            <span class="section-label">Overview</span>
+            <h2>A UX intelligence tool built for designers, not analysts.</h2>
+            <p>Pulse diagnoses friction in production interfaces, anchored to your design system at the component level. The signature surface is the Living Observatory: one canvas that fuses a procedural wireframe of the analyzed page, a multi-layer thermal heatmap, a time scrubber, and an AI prompt bar that flies a cursor across the canvas to land on the issue you asked about.</p>
+            <p>I built Pulse because every UX analytics tool I've used was built for the wrong audience. Hotjar speaks in bounce rates. FullStory buries insights behind enterprise search. Contentsquare ties friction to revenue, not to the component that's broken. Designers ship UI components; the tools they're given report on pages.</p>
+          </section>
+
+          <section id="the-problem" class="case-section reveal">
+            <span class="section-label">The Problem</span>
+            <h2>Designers ship components. Their tools report on pages.</h2>
+            <p>A designer doesn't need "bounce rate increased 12% on /onboarding." She needs to know users are clicking the submit button 3.2 times because the disabled state looks identical to the enabled state. That's a WCAG 1.4.3 violation. Existing tools flatten that into a chart and call it a heatmap.</p>
+            <p>The gap isn't data. The gap is translation. Pages are too coarse. Sessions are too granular. Components are the unit designers think in, and almost no analytics tool sees them that way.</p>
+          </section>
+
+          <section id="the-insight" class="case-section reveal">
+            <span class="section-label">The Insight</span>
+            <h2>Make the heatmap an interface, not a visualization.</h2>
+            <p>You can look at a Hotjar heatmap. You can't ask it a question.</p>
+            <p>Pulse's heatmap is interactive, layered, time-aware, and component-anchored. Hover a hot zone, get a diagnosis card with the component name, evidence, sparkline trend, and proposed fix. Click "Apply fix here," and the heatmap visibly cools as the morph plays. The blob became a tool.</p>
+          </section>
+
+          <section id="the-solution" class="case-section reveal">
+            <span class="section-label">The Solution</span>
+            <h2>The Living Observatory.</h2>
+            <p>The home canvas is everything in one frame. A procedural wireframe renders in the center, drawn in code, not screenshotted. Four heatmap layers (Friction, Rage Clicks, Dead Clicks, Attention) overlay it, each with its own OKLab-interpolated thermal palette. A seven-day scrubber runs along the bottom. An AI prompt bar runs along the top.</p>
+            <p>Every observation anchors to a component, not a page. A diagnosis names the component, its instance count, the users affected, and the fix as a token-level code change. Anchoring to the component you shipped, not the page it lives on, is the whole reason Pulse exists.</p>
+            <p>Adding a heatmap layer is a sentence to Pulse. I point at the canvas, name the layer I want, the canvas paints it in.</p>
+
+            <!-- LOOP: Compose (Pulse Animation Revamp 2026-05-30 spec §4) -->
+            <div class="cm-widget reveal" id="pulseCompose">
+              <div class="cm-widget-browser-bar">
+                <div class="cm-widget-traffic-lights"><span></span><span></span><span></span></div>
+                <div class="cm-widget-url">localhost:3000/observatory</div>
+              </div>
+              <div class="cm-widget-stage" data-cm-stage>
+                <div class="cm-widget-canvas" data-cm-canvas>
+                  <div class="cm-chip-strip" aria-hidden="true">
+                    <span class="cm-chip cm-chip--active">Friction</span>
+                    <span class="cm-chip">Rage</span>
+                    <span class="cm-chip">Dead</span>
+                    <span class="cm-chip">Attention</span>
+                  </div>
+
+                  <div class="cm-grid">
+                    <div class="cm-column">
+                      <span class="cm-col-header-bar"></span>
+                      <div class="cm-task"><span class="cm-task-title-bar"></span><span class="cm-task-title-bar" style="width:60%"></span></div>
+                      <div class="cm-task"><span class="cm-task-title-bar" style="width:70%"></span><span class="cm-task-title-bar" style="width:50%"></span></div>
+                      <div class="cm-task"><span class="cm-task-title-bar" style="width:55%"></span></div>
+                    </div>
+                    <div class="cm-column">
+                      <span class="cm-col-header-bar"></span>
+                      <div class="cm-task cm-task--hot"><span class="cm-task-title-bar"></span><span class="cm-task-title-bar" style="width:65%"></span></div>
+                      <div class="cm-task"><span class="cm-task-title-bar" style="width:78%"></span></div>
+                      <div class="cm-task"><span class="cm-task-title-bar" style="width:62%"></span><span class="cm-task-title-bar" style="width:45%"></span></div>
+                    </div>
+                    <div class="cm-column">
+                      <span class="cm-col-header-bar"></span>
+                      <div class="cm-task"><span class="cm-task-title-bar" style="width:72%"></span></div>
+                      <div class="cm-task"><span class="cm-task-title-bar" style="width:88%"></span><span class="cm-task-title-bar" style="width:55%"></span></div>
+                    </div>
+                    <div class="cm-column">
+                      <span class="cm-col-header-bar"></span>
+                      <div class="cm-task"><span class="cm-task-title-bar" style="width:65%"></span></div>
+                      <div class="cm-task"><span class="cm-task-title-bar" style="width:50%"></span></div>
+                      <div class="cm-task"><span class="cm-task-title-bar" style="width:70%"></span></div>
+                    </div>
+                  </div>
+
+                  <svg class="cm-friction-layer" viewBox="0 0 400 240" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                    <defs>
+                      <radialGradient id="cmFrictionGrad" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="#ff7a2c" stop-opacity="0.78"/>
+                        <stop offset="55%" stop-color="#ff9a4c" stop-opacity="0.38"/>
+                        <stop offset="100%" stop-color="#ff9a4c" stop-opacity="0"/>
+                      </radialGradient>
+                    </defs>
+                    <ellipse cx="155" cy="118" rx="78" ry="60" fill="url(#cmFrictionGrad)"/>
+                    <ellipse cx="138" cy="138" rx="62" ry="48" fill="url(#cmFrictionGrad)"/>
+                    <ellipse cx="170" cy="100" rx="50" ry="40" fill="url(#cmFrictionGrad)"/>
+                  </svg>
+
+                  <svg class="cm-rage-layer" viewBox="0 0 400 240" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                    <defs>
+                      <radialGradient id="cmRageGrad" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="#e03d2a" stop-opacity="0.70"/>
+                        <stop offset="60%" stop-color="#e85540" stop-opacity="0.30"/>
+                        <stop offset="100%" stop-color="#e85540" stop-opacity="0"/>
+                      </radialGradient>
+                    </defs>
+                    <circle data-rage data-rage-center class="cm-rage-center" cx="152" cy="120" r="28" fill="url(#cmRageGrad)" style="--rage-stagger:0"/>
+                    <circle data-rage cx="132" cy="138" r="22" fill="url(#cmRageGrad)" style="--rage-stagger:120"/>
+                    <circle data-rage cx="172" cy="104" r="19" fill="url(#cmRageGrad)" style="--rage-stagger:240"/>
+                    <circle data-rage cx="166" cy="142" r="23" fill="url(#cmRageGrad)" style="--rage-stagger:360"/>
+                    <circle data-rage cx="126" cy="110" r="18" fill="url(#cmRageGrad)" style="--rage-stagger:480"/>
+                  </svg>
+
+                  <div class="cm-hot-target" data-cm-target aria-hidden="true"></div>
+
+                  <!-- Rage-hover tooltip: appears when cursor hovers central rage blob.
+                       Real component data surfaced — designer's hand makes the insight,
+                       not just the visualization. Toggled by .is-tooltip-visible on root. -->
+                  <div class="cm-rage-tooltip" data-cm-tooltip aria-hidden="true">
+                    <span class="cm-rage-tooltip-eyebrow">Drag target</span>
+                    <span class="cm-rage-tooltip-main">247 clicks &middot; 38 users</span>
+                    <span class="cm-rage-tooltip-sub">Last 7d &middot; WCAG 2.5.5</span>
+                  </div>
+
+                  <!-- Heatmap legend: Friction row visible at T=0, Rage row materializes with .is-composed -->
+                  <div class="cm-legend" aria-hidden="true">
+                    <span class="cm-legend-row">
+                      <span class="cm-legend-dot cm-legend-dot--friction"></span>
+                      <span class="cm-legend-label">Friction</span>
+                    </span>
+                    <span class="cm-legend-row cm-legend-row--rage" data-cm-legend-rage>
+                      <span class="cm-legend-dot cm-legend-dot--rage"></span>
+                      <span class="cm-legend-label">Rage clicks</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="demo-frame-caption"><em>I add the rage-click layer. The hot zone sharpens.</em></p>
+          </section>
+
+          <section id="the-pivot" class="case-section reveal">
+            <span class="section-label">The Pivot</span>
+            <h2>The first version was competent and forgettable.</h2>
+            <p>I told the dark dashboard to become one canvas.</p>
+
+            <!-- LOOP: Rebuild (Pulse Animation Revamp 2026-05-30 spec §5) -->
+            <div class="rb-widget reveal" id="pulseRebuild">
+              <div class="rb-widget-browser-bar">
+                <div class="rb-widget-traffic-lights"><span></span><span></span><span></span></div>
+                <div class="rb-widget-url">localhost:3000</div>
+              </div>
+              <div class="rb-widget-stage" data-rb-stage>
+
+                <!-- V2 layer (pre-rendered beneath; scaleY(0) at T=0, extrudes up on .is-rebuilt) -->
+                <div class="rb-widget-v2-columns" aria-hidden="true">
+                  <div class="rb-widget-v2-col"></div>
+                  <div class="rb-widget-v2-col"></div>
+                  <div class="rb-widget-v2-col"></div>
+                  <div class="rb-widget-v2-col"></div>
+                </div>
+                <svg class="rb-widget-v2-heat" viewBox="0 0 100 60" preserveAspectRatio="none" aria-hidden="true">
+                  <defs>
+                    <radialGradient id="rb-friction-grad" cx="50%" cy="50%" r="50%">
+                      <stop offset="0%" stop-color="#ff7a2c" stop-opacity="0.55"/>
+                      <stop offset="60%" stop-color="#ff7a2c" stop-opacity="0.15"/>
+                      <stop offset="100%" stop-color="#ff7a2c" stop-opacity="0"/>
+                    </radialGradient>
+                  </defs>
+                  <circle cx="40" cy="32" r="26" fill="url(#rb-friction-grad)"/>
+                  <circle cx="70" cy="28" r="20" fill="url(#rb-friction-grad)"/>
+                </svg>
+
+                <!-- V1 layer (visible at T=0; morphs out on .is-rebuilt via transform + color) -->
+                <div class="rb-widget-v1-canvas-bg" aria-hidden="true"></div>
+
+                <div class="rb-widget-v1-sidebar" aria-hidden="true">
+                  <span class="rb-widget-v1-sidebar-icon"></span>
+                  <span class="rb-widget-v1-sidebar-icon"></span>
+                  <span class="rb-widget-v1-sidebar-icon"></span>
+                  <span class="rb-widget-v1-sidebar-icon"></span>
+                </div>
+
+                <div class="rb-widget-v1-navbar" aria-hidden="true">
+                  <span class="rb-widget-v1-nav-pill"></span>
+                  <span class="rb-widget-v1-nav-pill"></span>
+                  <!-- V2 prompt-bar placeholder: hidden at T=0 (V1 navbar is just a
+                       dark accent strip with 2 pills). Fades in on .is-rebuilt after
+                       the navbar morphs into the V2 prompt bar (height + bg + border
+                       change). Tells viewer what the new surface is for. -->
+                  <span class="rb-v2-prompt-placeholder">Ask Pulse what to investigate next&hellip;</span>
+                </div>
+
+                <!-- Furniture target 1: health-ring donut (cursor target) -->
+                <div class="rb-widget-furniture" data-rb-furniture="health-ring" data-rb-v1-target>
+                  <svg viewBox="0 0 60 60" aria-hidden="true">
+                    <circle cx="30" cy="30" r="22" fill="none" stroke="#2a2e3a" stroke-width="6"/>
+                    <circle cx="30" cy="30" r="22" fill="none" stroke="#4a90d9" stroke-width="6" stroke-dasharray="100 138" stroke-linecap="round" transform="rotate(-90 30 30)"/>
+                  </svg>
+                </div>
+
+                <!-- Furniture target 2: severity pills row -->
+                <div class="rb-widget-furniture" data-rb-furniture="severity-pills">
+                  <span class="rb-widget-v1-pill rb-widget-v1-pill--critical"></span>
+                  <span class="rb-widget-v1-pill rb-widget-v1-pill--high"></span>
+                  <span class="rb-widget-v1-pill rb-widget-v1-pill--medium"></span>
+                  <span class="rb-widget-v1-pill rb-widget-v1-pill--low"></span>
+                </div>
+
+                <!-- Furniture target 3: sparkline along bottom -->
+                <div class="rb-widget-furniture" data-rb-furniture="sparkline">
+                  <svg viewBox="0 0 120 30" preserveAspectRatio="none" aria-hidden="true">
+                    <polyline points="0,20 15,18 30,22 45,12 60,16 75,10 90,14 105,7 120,9" fill="none" stroke="#4a90d9" stroke-width="1.5"/>
+                  </svg>
+                </div>
+
+                <!-- Outcome label: appears on V2 to name the strategic shift -->
+                <div class="rb-outcome-label" aria-hidden="true">
+                  <span class="rb-outcome-label-eyebrow">Rebuilt as</span>
+                  <span class="rb-outcome-label-title">Investigation surface</span>
+                  <span class="rb-outcome-label-sub">One canvas. Heatmap on top. No furniture in the way.</span>
+                </div>
+
+              </div>
+            </div>
+            <p class="demo-frame-caption"><em>Version one was Linear meets Datadog. The rebuild is one canvas.</em></p>
+
+            <p>Version one was Linear meets Datadog meets Statsig: dark mode, sidebar nav, health ring, severity pills, sparkline. Polished, professional, forgettable. The rebuild moved to a paper-on-cream identity, Geist Mono headlines, one canvas with two drawers instead of five separate dashboard views. Page X-Ray became Living Observatory. X-Ray is medical and passive; Observatory is exploratory and active. The naming change signaled the conceptual shift.</p>
+            <p>The lesson wasn't "redesign harder." It was that competent SaaS dashboard work has a ceiling, and the ceiling is far below "memorable."</p>
+          </section>
+
+          <section id="design-process" class="case-section reveal">
+            <span class="section-label">Design Process</span>
+            <h2>Every change started as an annotation.</h2>
+            <p><strong>This is my two-Claude method.</strong> I annotate a component, Claude Code executes the change, and I review what comes back. The same loop built every part of Pulse. Below, one real instance: anchoring a diagnosis to the component it belongs to.</p>
+
+            <!-- LOOP: Annotate-execute (Pulse Animation Reconception spec §6) -->
+            <div class="ae-widget reveal" id="pulseAnnotateExecute">
+              <div class="ae-widget-browser-bar">
+                <div class="ae-widget-traffic-lights"><span></span><span></span><span></span></div>
+                <div class="ae-widget-url">localhost:3000/diagnosis</div>
+              </div>
+              <div class="ae-widget-stage">
+                <!-- Pulse diagnosis card (lean wireframe; only the diagnosis line carries real text) -->
+                <div class="ae-widget-diagnosis" data-ae-target>
+                  <span class="ae-widget-static-annotation" aria-hidden="true">name the component</span>
+                  <div class="ae-widget-diagnosis-meta">
+                    <span class="ae-widget-diagnosis-dot"></span>
+                    <span class="ae-widget-diagnosis-meta-bar"></span>
+                  </div>
+                  <div class="ae-widget-diagnosis-headline">
+                    <span class="ae-widget-diagnosis-anonymous">Drag target too narrow &middot; 24px</span>
+                    <span class="ae-widget-diagnosis-bound">KanbanColumn &middot; Drag target too narrow</span>
+                  </div>
+                  <!-- Metadata strip: appears on .is-applied after the component binds.
+                       Each pill carries one piece of real component-level intelligence,
+                       staggered to read as a cascading "the bind unlocked all of this." -->
+                  <div class="ae-widget-diagnosis-meta-strip" aria-hidden="true">
+                    <span class="ae-widget-diagnosis-pill ae-widget-diagnosis-pill--instances">
+                      <span class="ae-widget-diagnosis-pill-glyph">&#9679;</span>
+                      247 instances
+                    </span>
+                    <span class="ae-widget-diagnosis-pill ae-widget-diagnosis-pill--wcag">WCAG 2.5.5</span>
+                    <span class="ae-widget-diagnosis-pill ae-widget-diagnosis-pill--severity">Medium</span>
+                  </div>
+                  <div class="ae-widget-diagnosis-body">
+                    <span class="ae-widget-diagnosis-body-bar"></span>
+                    <span class="ae-widget-diagnosis-body-bar"></span>
+                    <span class="ae-widget-diagnosis-body-bar"></span>
+                  </div>
+                  <div class="ae-widget-diagnosis-ctas">
+                    <span class="ae-widget-diagnosis-cta-bar"></span>
+                    <span class="ae-widget-diagnosis-cta-bar"></span>
+                  </div>
+                </div>
+                <!-- Claude Code terminal: Mac-styled, visually distinct from Pulse UI per spec §6 -->
+                <div class="ae-widget-cc" data-ae-cc-panel>
+                  <div class="ae-widget-cc-header">
+                    <div class="ae-widget-cc-traffic-lights"><span></span><span></span><span></span></div>
+                    <span class="ae-widget-cc-label">Claude Code</span>
+                  </div>
+                  <div class="ae-widget-cc-body">
+                    <div class="ae-widget-cc-diff" data-ae-diff>
+                      <code class="ae-widget-cc-diff-line">+ component: "KanbanColumn"</code>
+                      <code class="ae-widget-cc-diff-line ae-widget-cc-diff-line--late ae-widget-cc-diff-line--instances">+ instances_tracked: 247</code>
+                      <code class="ae-widget-cc-diff-line ae-widget-cc-diff-line--late ae-widget-cc-diff-line--wcag">+ wcag_ref: "2.5.5"</code>
+                    </div>
+                    <div class="ae-widget-cc-step" data-ae-cc-step>
+                      <span class="ae-widget-cc-spinner"></span>
+                      <span class="ae-widget-cc-check"></span>
+                      <span class="ae-widget-cc-applied">Applied</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="demo-frame-caption"><em>I built Pulse by annotating components and letting Claude Code execute.</em></p>
+          </section>
+
+          <section id="outcome" class="outcome-section reveal">
+            <span class="section-label">Outcome</span>
+            <h2>A concept that earns its place.</h2>
+            <p><strong>17 issues authored across five pages. 32 components tracked. Six procedural wireframes rendered in code. Four heatmap layers. Twelve build phases on a single branch in a focused day, on top of six weeks of part-time work.</strong></p>
+            <p>The most valuable thing Pulse demonstrates isn't the canvas. It's the strategic argument around it. Pulse names its competitors. It makes deliberate decisions about what <em>not</em> to build (predictive heatmaps, mobile responsive, real Figma integration). It maps to a real buyer (Director / VP of Design) and a real user (the designer on their team).</p>
+            <p><strong>What I'd do differently.</strong> I spent too long polishing the monitoring dashboard before realizing it wasn't the interesting part. If I were running it again, I'd mock the most ambitious interaction first, not the most conventional one.</p>
+            <p><strong>Built with:</strong> Figma, Next.js 14, TypeScript, Tailwind v4, Framer Motion. Procedural SVG wireframes, custom canvas-based heatmap renderer at 60fps. The next build target is a static code analyzer that produces the same diagnosis-card output by scanning your codebase and Figma file directly.</p>
+            <p style="margin-top: 32px;"><a href="https://pulse.rotemgotlieb.com" class="cta-link">Live prototype &rarr;</a> <span class="cta-aside" style="margin-left: 8px; color: var(--text-secondary); font-size: 14px;">(coming soon)</span></p>
+          </section>
+
+          <section class="other-work reveal">
+            <h2 class="other-work-heading">Other Work</h2>
+            <div class="other-work-grid">
+              <a href="lexisnexis.html" class="other-work-card">
+                <div class="project-thumbnail thumb-lexisnexis">
+                  <img src="../img/lexisnexis/thumbnail.png" alt="LexisNexis design system pipeline" loading="lazy">
+                </div>
+                <p class="project-label">lexisnexis risk solutions, 2024-2025</p>
+                <h3 class="project-title">Bridging Design and Engineering</h3>
+              </a>
+              <a href="ghost.html" class="other-work-card">
+                <div class="project-thumbnail thumb-ghost"></div>
+                <p class="project-label">concept project, 2026</p>
+                <h3 class="project-title">Ghost · Design System Reality Scanner</h3>
+              </a>
+            </div>
+          </section>
+
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-game container">
+      <canvas id="bikeGame" class="bike-game-canvas" role="img" aria-label="Decorative pixel-art mountain biking game. Press space or click to play."></canvas>
+      <p class="game-prompt" id="gamePrompt">press space or click to ride</p>
+      <p class="game-score" id="gameScore"></p>
+    </div>
+    <div class="footer-content container reveal">
+      <p class="footer-status-line"><span id="footerStatusTime">&hellip;</span> in San Jose, California <span class="footer-status-glyph">&there4;</span></p>
+      <div class="footer-social">
+        <a href="https://www.linkedin.com/in/rotemgotlieb/" target="_blank" rel="noopener">LINKEDIN</a>
+        <a href="mailto:rotem.gotlieb@gmail.com">EMAIL</a>
+      </div>
+      <div class="footer-nav">
+        <a href="../index.html">Home</a>
+        <a href="../about.html">About</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Image Modal -->
+  <div class="image-modal" id="imageModal" role="dialog" aria-label="Image preview" aria-hidden="true">
+    <div class="image-modal-backdrop" data-image-close></div>
+    <div class="image-modal-content">
+      <button type="button" class="image-modal-close" aria-label="Close" data-image-close>&times;</button>
+      <img class="image-modal-img" src="" alt="">
+    </div>
+  </div>
+
+  <script src="../main.js?v=21"></script>
+  <script src="../game.js?v=3"></script>
+  <script type="module" src="../js/demos/pulse-compose.js?v=71"></script>
+  <script type="module" src="../js/demos/pulse-rebuild.js?v=70"></script>
+  <script type="module" src="../js/demos/pulse-annotate-execute.js?v=68"></script>
+  <script type="module" src="../js/demos/pulse-observatory-hero.js?v=83"></script>
+  <script type="module" src="../js/demos/pulse-thumb-v4.js?v=83"></script>
+  <script type="module" src="../js/demos/ghost-thumb-v4.js?v=83"></script>
+  <script type="module" src="../js/demos/origin-aware-thumb-expansion.js?v=83"></script>
+</body>
+</html>

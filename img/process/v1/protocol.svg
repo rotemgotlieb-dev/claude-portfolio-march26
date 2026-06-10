@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <style>
+      .bg { fill: #FAFAF8; }
+      .card { fill: #FFFFFF; stroke: #D0D0D0; stroke-width: 1.2; }
+      .step-num { font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace; font-weight: 500; font-size: 16px; fill: #999999; letter-spacing: 0.14em; }
+      .step-name { font-family: 'Inter', system-ui, sans-serif; font-weight: 700; font-size: 28px; fill: #1A1A1A; letter-spacing: -0.01em; }
+      .step-desc { font-family: 'Inter', system-ui, sans-serif; font-weight: 400; font-size: 17px; fill: #555555; letter-spacing: 0; }
+      .connector { stroke: #1A1A1A; stroke-width: 2; fill: none; }
+      .feedback-path { stroke: #1A1A1A; stroke-width: 2; fill: none; stroke-dasharray: none; }
+      .log-box { fill: #FFFFFF; stroke: #1A1A1A; stroke-width: 1.6; }
+      .log-label { font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace; font-weight: 500; font-size: 18px; fill: #1A1A1A; letter-spacing: 0.02em; }
+      .log-caption { font-family: 'Inter', system-ui, sans-serif; font-weight: 400; font-size: 16px; fill: #555555; font-style: italic; }
+      .title { font-family: 'Inter', system-ui, sans-serif; font-weight: 700; font-size: 44px; fill: #1A1A1A; letter-spacing: -0.02em; }
+      .subtitle { font-family: 'Inter', system-ui, sans-serif; font-weight: 400; font-size: 21px; fill: #555555; }
+    </style>
+    <marker id="arrowhead-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10" fill="none" stroke="#1A1A1A" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect class="bg" width="1600" height="900"/>
+
+  <!-- Title block (left-aligned with first card left edge x=85) -->
+  <text class="title" x="85" y="170">The protocol.</text>
+  <text class="subtitle" x="85" y="212">Every session, every prompt — diagnose first, execute last.</text>
+
+  <!-- CARD GEOMETRY: width=330, height=260, gap=36, margin=85, x={85, 451, 817, 1183} -->
+
+  <!-- STEP 01 — DIAGNOSE -->
+  <g>
+    <rect class="card" x="85" y="310" width="330" height="260" rx="3"/>
+    <text class="step-num" x="115" y="357">01</text>
+    <text class="step-name" x="115" y="414">Diagnose</text>
+    <line x1="115" y1="435" x2="385" y2="435" stroke="#E8E8E6" stroke-width="1"/>
+    <text class="step-desc" x="115" y="476">Read the files.</text>
+    <text class="step-desc" x="115" y="500">Report findings.</text>
+    <text class="step-desc" x="115" y="524" fill="#888888">No edits yet.</text>
+  </g>
+
+  <!-- Connector 1->2 -->
+  <line class="connector" x1="419" y1="440" x2="447" y2="440" marker-end="url(#arrowhead-b)"/>
+
+  <!-- STEP 02 — PROPOSE -->
+  <g>
+    <rect class="card" x="451" y="310" width="330" height="260" rx="3"/>
+    <text class="step-num" x="481" y="357">02</text>
+    <text class="step-name" x="481" y="414">Propose</text>
+    <line x1="481" y1="435" x2="751" y2="435" stroke="#E8E8E6" stroke-width="1"/>
+    <text class="step-desc" x="481" y="476">Show the diff.</text>
+    <text class="step-desc" x="481" y="500">Wait for approval.</text>
+    <text class="step-desc" x="481" y="524" fill="#888888">No surprises.</text>
+  </g>
+
+  <!-- Connector 2->3 -->
+  <line class="connector" x1="785" y1="440" x2="813" y2="440" marker-end="url(#arrowhead-b)"/>
+
+  <!-- STEP 03 — EXECUTE -->
+  <g>
+    <rect class="card" x="817" y="310" width="330" height="260" rx="3"/>
+    <text class="step-num" x="847" y="357">03</text>
+    <text class="step-name" x="847" y="414">Execute</text>
+    <line x1="847" y1="435" x2="1117" y2="435" stroke="#E8E8E6" stroke-width="1"/>
+    <text class="step-desc" x="847" y="476">Apply approved changes.</text>
+    <text class="step-desc" x="847" y="500">Backup first.</text>
+    <text class="step-desc" x="847" y="524" fill="#888888">Reversible by default.</text>
+  </g>
+
+  <!-- Connector 3->4 -->
+  <line class="connector" x1="1151" y1="440" x2="1179" y2="440" marker-end="url(#arrowhead-b)"/>
+
+  <!-- STEP 04 — VERIFY -->
+  <g>
+    <rect class="card" x="1183" y="310" width="330" height="260" rx="3"/>
+    <text class="step-num" x="1213" y="357">04</text>
+    <text class="step-name" x="1213" y="414">Verify</text>
+    <line x1="1213" y1="435" x2="1483" y2="435" stroke="#E8E8E6" stroke-width="1"/>
+    <text class="step-desc" x="1213" y="476">Test the result.</text>
+    <text class="step-desc" x="1213" y="500">Confirm nothing broke.</text>
+    <text class="step-desc" x="1213" y="524" fill="#888888">Then ship.</text>
+  </g>
+
+  <!-- .claude/learnings.md box (390 × 72 centered horizontally at x=605) -->
+  <g>
+    <rect class="log-box" x="605" y="710" width="390" height="72" rx="4"/>
+    <text class="log-label" x="800" y="755" text-anchor="middle">.claude/learnings.md</text>
+  </g>
+
+  <!-- Curved feedback path from card 04 bottom-mid to learnings.md right edge -->
+  <path class="feedback-path"
+        d="M 1348 570 C 1348 700, 1180 746, 995 746"
+        marker-end="url(#arrowhead-b)"/>
+
+  <!-- Forward dashed continuation: learnings.md feeds the next session (back to step 01) -->
+  <path d="M 605 746 C 350 746, 250 640, 250 600"
+        stroke="#888888" stroke-width="1.4" fill="none"
+        stroke-dasharray="4 6"
+        marker-end="url(#arrowhead-b)"/>
+
+  <!-- Arrow path labels -->
+  <text class="log-caption" x="1190" y="680" text-anchor="middle">log the session</text>
+  <text class="log-caption" x="410" y="680" text-anchor="middle">read before next</text>
+</svg>

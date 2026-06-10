@@ -1,0 +1,269 @@
+<h2>Section B · Deep-dive · Generate Fix interactive loop</h2>
+<p class="subtitle">The signature interaction. A 4-frame storyboard showing the cascade from idle to landed fix. Click any frame to redline.</p>
+
+<style>
+  .deepdive-mock { background:#F7F6F2; color:#1A1A1F; border-radius:14px; padding:24px 30px; font-family:ui-sans-serif,system-ui,sans-serif; border:1px solid #DDD9CE; box-shadow:0 1px 2px rgba(40,30,20,0.04), 0 8px 24px rgba(40,30,20,0.06); margin-bottom:16px; }
+  .dd-breadcrumb { font-family:ui-monospace,monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:#8F8F9E; margin-bottom:8px; }
+  .dd-breadcrumb .sev { display:inline-block; width:6px; height:6px; border-radius:50%; background:#C93E3E; margin:0 6px; vertical-align:middle; }
+  .dd-headline { font-size:22px; font-weight:600; color:#1A1A1F; letter-spacing:-0.015em; line-height:1.25; margin-bottom:14px; max-width:680px; }
+  .dd-meta-tiles { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:18px; padding:14px; background:#FFFDF8; border:1px solid #EDEAE2; border-radius:10px; }
+  .dd-tile { display:flex; flex-direction:column; gap:3px; }
+  .dd-tile-label { font-family:ui-monospace,monospace; font-size:9px; letter-spacing:0.08em; text-transform:uppercase; color:#8F8F9E; }
+  .dd-tile-value { font-size:18px; font-weight:600; color:#1A1A1F; letter-spacing:-0.01em; }
+  .dd-tile-sub { font-family:ui-monospace,monospace; font-size:9px; color:#8F8F9E; }
+  .dd-tile-sub.good { color:#6FCFBF; }
+
+  .frame-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
+  .frame {
+    background:#FFFDF8; border:1px solid #EDEAE2; border-radius:12px; padding:18px;
+    position:relative; cursor:pointer;
+    display:flex; flex-direction:column; gap:14px;
+  }
+  .frame-label {
+    position:absolute; top:-10px; left:16px;
+    background:#1A1A1F; color:#FFFDF8;
+    font-family:ui-monospace,monospace; font-size:10px; letter-spacing:0.06em; text-transform:uppercase;
+    padding:3px 9px; border-radius:4px;
+  }
+  .frame-tag {
+    font-family:ui-monospace,monospace; font-size:10px; letter-spacing:0.06em; text-transform:uppercase;
+    color:#B8442A;
+  }
+  .frame-title { font-size:14px; font-weight:600; color:#1A1A1F; line-height:1.3; letter-spacing:-0.005em; }
+  .frame-body { font-size:12px; color:#5B5B66; line-height:1.5; }
+
+  /* === FIX CARD STATES === */
+  .fix-card {
+    background:#F7F6F2; border:1px solid #EDEAE2; border-radius:10px; padding:14px 16px;
+    display:flex; flex-direction:column; gap:10px;
+    position:relative; overflow:hidden;
+  }
+  .fix-num { background:#1A1A1F; color:#FFFDF8; width:22px; height:22px; border-radius:50%; display:grid; place-items:center; font-family:ui-monospace,monospace; font-size:11px; font-weight:600; flex-shrink:0; }
+  .fix-head { display:flex; align-items:center; gap:10px; }
+  .fix-title { font-size:13px; font-weight:600; color:#1A1A1F; line-height:1.3; flex:1; }
+  .fix-badge { font-family:ui-monospace,monospace; font-size:10px; padding:2px 8px; border-radius:999px; background:rgba(111,207,191,0.18); color:#1A1A1F; border:1px solid rgba(111,207,191,0.5); }
+  .fix-body { font-size:12px; color:#5B5B66; line-height:1.5; }
+  .fix-chips { display:flex; gap:5px; flex-wrap:wrap; }
+  .fix-chip { font-family:ui-monospace,monospace; font-size:9px; padding:3px 8px; background:#FFFDF8; border:1px solid #EDEAE2; border-radius:999px; color:#5B5B66; }
+
+  .fix-cta {
+    align-self:flex-start; font-size:12px; font-weight:500; padding:8px 14px; border-radius:999px;
+    background:#1A1A1F; color:#FFFDF8; display:inline-flex; align-items:center; gap:6px;
+  }
+  .fix-cta.ai::before { content:""; width:8px; height:8px; border-radius:50%; background:#F07856; }
+
+  /* SHIMMER LOADING */
+  .fix-loading { display:flex; flex-direction:column; gap:8px; padding-top:4px; }
+  .shimmer { height:9px; border-radius:4px; background:linear-gradient(90deg, #EDEAE2 0%, #F7F6F2 50%, #EDEAE2 100%); animation:shimmer 1.4s ease-in-out infinite; }
+  .shimmer.s1 { width:78%; }
+  .shimmer.s2 { width:62%; }
+  .shimmer.s3 { width:88%; }
+  @keyframes shimmer { 0%,100% { opacity:0.5; } 50% { opacity:1; } }
+  .fix-loading-status { font-family:ui-monospace,monospace; font-size:11px; color:#B8442A; display:flex; align-items:center; gap:8px; }
+  .fix-loading-status::before { content:""; width:8px; height:8px; border-radius:50%; background:#F07856; animation:pulse 1.2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity:0.5; transform:scale(0.85); } 50% { opacity:1; transform:scale(1); } }
+
+  /* CODE DIFF BLOCK */
+  .diff {
+    background:#1A1A1F; color:#FFFDF8;
+    border-radius:8px; padding:12px 14px;
+    font-family:ui-monospace,monospace; font-size:11px; line-height:1.65;
+    overflow:hidden;
+  }
+  .diff-header { display:flex; justify-content:space-between; font-size:9px; opacity:0.6; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:8px; }
+  .diff-line { display:flex; gap:8px; }
+  .diff-line .ln { opacity:0.4; min-width:14px; text-align:right; }
+  .diff-line.add { background:rgba(111,207,191,0.18); border-left:2px solid #6FCFBF; padding-left:4px; margin-left:-6px; }
+  .diff-line.del { background:rgba(201,62,62,0.18); border-left:2px solid #C93E3E; padding-left:4px; margin-left:-6px; text-decoration:line-through; opacity:0.7; }
+  .diff-line.add .sign { color:#6FCFBF; }
+  .diff-line.del .sign { color:#C93E3E; }
+  .diff-line .sign { width:10px; }
+  .diff-line .text { flex:1; white-space:pre; }
+  .diff-comment { color:#8F8F9E; }
+  .caret { display:inline-block; width:6px; height:13px; background:#FFFDF8; vertical-align:middle; animation:blink 1s steps(2) infinite; }
+  @keyframes blink { 50% { opacity:0; } }
+
+  /* PREVIEW TAB */
+  .preview-tabs { display:flex; gap:0; border-bottom:1px solid #EDEAE2; }
+  .preview-tab { padding:6px 12px; font-size:11px; font-weight:500; color:#8F8F9E; cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-1px; }
+  .preview-tab.active { color:#1A1A1F; border-bottom-color:#1A1A1F; }
+  .preview-panel { background:#F7F6F2; border-radius:6px; padding:14px; display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .preview-side { display:flex; flex-direction:column; gap:5px; }
+  .preview-label { font-family:ui-monospace,monospace; font-size:9px; letter-spacing:0.06em; text-transform:uppercase; color:#8F8F9E; }
+  .preview-label.before { color:#C93E3E; }
+  .preview-label.after { color:#6FCFBF; }
+  .kanban-mini { background:#FFFDF8; border:1px solid #EDEAE2; border-radius:5px; padding:5px; display:grid; grid-template-columns:repeat(3,1fr); gap:2px; height:60px; position:relative; }
+  .kanban-mini .col { background:#F7F6F2; border-radius:3px; }
+  .heat-broken { position:absolute; left:32%; top:30%; width:24px; height:24px; border-radius:50%; background:radial-gradient(circle, rgba(201,62,62,0.7), transparent 70%); }
+  .heat-fixed { position:absolute; left:32%; top:30%; width:14px; height:14px; border-radius:50%; background:radial-gradient(circle, rgba(111,207,191,0.6), transparent 70%); }
+  .kanban-mini.fixed .col { background:#F7F6F2; outline:1px solid rgba(111,207,191,0.4); outline-offset:-1px; }
+  .sparkline-row { display:flex; align-items:center; gap:6px; font-family:ui-monospace,monospace; font-size:9px; color:#8F8F9E; }
+  .spark { width:48px; height:14px; }
+
+  /* POST-FIX CTAS */
+  .post-fix-row { display:flex; gap:8px; flex-wrap:wrap; }
+  .post-cta { font-size:12px; font-weight:500; padding:8px 14px; border-radius:999px; display:inline-flex; align-items:center; gap:6px; cursor:pointer; }
+  .post-cta.primary { background:#1A1A1F; color:#FFFDF8; }
+  .post-cta.secondary { background:transparent; color:#1A1A1F; border:1px solid #DDD9CE; }
+  .post-cta.tertiary { background:transparent; color:#8F8F9E; }
+  .verify-state {
+    display:flex; align-items:center; gap:8px;
+    background:rgba(245,179,74,0.12); border:1px solid rgba(245,179,74,0.4);
+    border-radius:8px; padding:8px 12px; font-size:11px; color:#5B5B66; font-family:ui-monospace,monospace;
+  }
+  .verify-dot { width:8px; height:8px; border-radius:50%; background:#F5B34A; animation:pulse 1.4s ease-in-out infinite; }
+
+  .annotation { color:#5B5B66; font-size:12px; line-height:1.55; margin-top:18px; }
+  .annotation strong { color:#1A1A1F; }
+  .annotation code { background:#EDEAE2; color:#1A1A1F; padding:1px 5px; border-radius:3px; font-family:ui-monospace,monospace; font-size:11px; }
+</style>
+
+<!-- DEEP DIVE PAGE CONTEXT (compact) -->
+<div class="deepdive-mock">
+  <div class="dd-breadcrumb">← Back to canvas <span class="sev"></span> KanbanColumn · ISS-002</div>
+  <div class="dd-headline">Drag targets on Task Board columns are too narrow for reliable interaction</div>
+  <div class="dd-meta-tiles">
+    <div class="dd-tile"><span class="dd-tile-label">Affected users</span><span class="dd-tile-value">12.7k</span><span class="dd-tile-sub">71% trackpad</span></div>
+    <div class="dd-tile"><span class="dd-tile-label">Sessions</span><span class="dd-tile-value">1,247</span><span class="dd-tile-sub">+228 w/w</span></div>
+    <div class="dd-tile"><span class="dd-tile-label">Confidence</span><span class="dd-tile-value">High</span><span class="dd-tile-sub">via Fitts's Law</span></div>
+    <div class="dd-tile"><span class="dd-tile-label">Est. impact</span><span class="dd-tile-value">-84%</span><span class="dd-tile-sub good">friction reduction</span></div>
+  </div>
+</div>
+
+<!-- 4-FRAME STORYBOARD -->
+<div class="frame-row">
+
+  <!-- FRAME 1: IDLE -->
+  <div class="frame">
+    <span class="frame-label">Frame 1 · T=0</span>
+    <div>
+      <span class="frame-tag">Idle</span>
+      <div class="frame-title">Fix card with single AI CTA</div>
+      <div class="frame-body">Each recommended fix card sits inert. One primary action: <strong>Generate fix with Pulse AI</strong>. No code visible yet. No clutter.</div>
+    </div>
+    <div class="fix-card">
+      <div class="fix-head">
+        <div class="fix-num">1</div>
+        <div class="fix-title">Widen drop zones to 24px minimum with invisible padding</div>
+        <span class="fix-badge">Quick win</span>
+      </div>
+      <div class="fix-body">Add 10px of inline padding on each side of the column gutter, hit-area only. The drop target becomes 24px wide; visual column gutter stays at 4px. Pure CSS change.</div>
+      <div class="fix-chips">
+        <span class="fix-chip">↓ 84% friction projected</span>
+        <span class="fix-chip">~2 dev hours</span>
+        <span class="fix-chip">Resolves WCAG 2.5.5</span>
+      </div>
+      <button class="fix-cta ai">Generate fix with Pulse AI →</button>
+    </div>
+  </div>
+
+  <!-- FRAME 2: LOADING -->
+  <div class="frame">
+    <span class="frame-label">Frame 2 · T=200ms → T=1400ms</span>
+    <div>
+      <span class="frame-tag">Loading</span>
+      <div class="frame-title">Shimmer + reading-the-codebase status</div>
+      <div class="frame-body">CTA dims; three shimmer bars fade in below it. Status line shows what Pulse is doing: "<em>Pulse AI is reading 247 KanbanColumn component instances...</em>" Pulsing orange dot signals live work.</div>
+    </div>
+    <div class="fix-card">
+      <div class="fix-head">
+        <div class="fix-num">1</div>
+        <div class="fix-title">Widen drop zones to 24px minimum with invisible padding</div>
+        <span class="fix-badge">Quick win</span>
+      </div>
+      <div class="fix-loading">
+        <div class="fix-loading-status">Pulse AI is reading 247 KanbanColumn component instances...</div>
+        <div class="shimmer s1"></div>
+        <div class="shimmer s2"></div>
+        <div class="shimmer s3"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="frame-row">
+
+  <!-- FRAME 3: DIFF TYPES IN -->
+  <div class="frame">
+    <span class="frame-label">Frame 3 · T=1400ms → T=3600ms</span>
+    <div>
+      <span class="frame-tag">Diff renders</span>
+      <div class="frame-title">Code diff types in character-by-character</div>
+      <div class="frame-body">Monospace diff block fades in. Code types in at 50ms per chunk with blinking caret. Strikethrough deletion in red, addition in green. Inline comments explain the invisible-padding technique. Real Pulse code, not mocked.</div>
+    </div>
+    <div class="diff">
+      <div class="diff-header"><span>kanban-column.tsx</span><span>+3 −1</span></div>
+      <div class="diff-line"><span class="ln">42</span><span class="sign">&nbsp;</span><span class="text">  .kanban-column-gutter {</span></div>
+      <div class="diff-line del"><span class="ln">43</span><span class="sign">−</span><span class="text">    width: 4px;</span></div>
+      <div class="diff-line add"><span class="ln">43</span><span class="sign">+</span><span class="text">    width: 4px;</span></div>
+      <div class="diff-line add"><span class="ln">44</span><span class="sign">+</span><span class="text">    padding-inline: 10px; <span class="diff-comment">/* invisible 24px hit target */</span></span></div>
+      <div class="diff-line add"><span class="ln">45</span><span class="sign">+</span><span class="text">    margin-inline: -10px; <span class="diff-comment">/* preserves visual layout */</span></span></div>
+      <div class="diff-line"><span class="ln">46</span><span class="sign">&nbsp;</span><span class="text">    cursor: col-resize;<span class="caret"></span></span></div>
+      <div class="diff-line"><span class="ln">47</span><span class="sign">&nbsp;</span><span class="text">  }</span></div>
+    </div>
+  </div>
+
+  <!-- FRAME 4: PREVIEW + POST-FIX -->
+  <div class="frame">
+    <span class="frame-label">Frame 4 · T=3600ms → T=5200ms</span>
+    <div>
+      <span class="frame-tag">Landed</span>
+      <div class="frame-title">Preview morphs broken→fixed, three CTAs appear</div>
+      <div class="frame-body">"Live preview" tab activates next to "Diff." Component renders BROKEN (red heat blob) for 600ms, then morphs to FIXED (cool teal). Sparkline trends down. Three new CTAs: <strong>Push to engineering</strong>, <strong>Verify after deploy</strong>, <strong>Revert</strong>.</div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      <div class="preview-tabs">
+        <span class="preview-tab">Diff</span>
+        <span class="preview-tab active">Live preview</span>
+      </div>
+      <div class="preview-panel">
+        <div class="preview-side">
+          <span class="preview-label before">↑ Before</span>
+          <div class="kanban-mini"><div class="col"></div><div class="col"></div><div class="col"></div><div class="heat-broken"></div></div>
+        </div>
+        <div class="preview-side">
+          <span class="preview-label after">↓ After</span>
+          <div class="kanban-mini fixed"><div class="col"></div><div class="col"></div><div class="col"></div><div class="heat-fixed"></div></div>
+        </div>
+      </div>
+      <div class="sparkline-row">
+        Friction trend: <svg class="spark" viewBox="0 0 48 14"><polyline fill="none" stroke="#C93E3E" stroke-width="1.5" points="0,4 8,5 16,3 24,4 32,7 40,10 48,12"></polyline></svg> <span style="color:#6FCFBF; font-weight:600">↓ −84%</span>
+      </div>
+      <div class="post-fix-row">
+        <span class="post-cta primary">Push to engineering →</span>
+        <span class="post-cta secondary">Verify after deploy</span>
+        <span class="post-cta tertiary">Revert</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- POST-PUSH STATE -->
+<div class="frame" style="background:#FFFDF8; border-color:#DDD9CE;">
+  <span class="frame-label" style="background:#F07856;">Optional · Verify state · T=5200ms+ after push</span>
+  <div style="display:flex; gap:18px; align-items:center; flex-wrap:wrap;">
+    <div style="flex:1; min-width:260px;">
+      <div class="frame-title" style="margin-bottom:6px;">After "Push to engineering" — fix card collapses to verify state</div>
+      <div class="frame-body">Toast confirms: <em>"Sent to engineering. Ticket EXP-247 created · KanbanColumn drag-target fix."</em> The card shows a live verify state until Pulse re-scans and confirms the fix landed in production. Optional: the deep-dive page header shows a tiny "In flight" badge.</div>
+    </div>
+    <div class="verify-state"><span class="verify-dot"></span>Awaiting verification · EXP-247 in dev · last checked 2m ago</div>
+  </div>
+</div>
+
+<p class="annotation">
+  <strong>Why this is the signature interaction.</strong> Every other surface in Pulse answers <em>what's broken</em>. This is the only surface that answers <em>here's the fix, and here's me shipping it</em>. The cascade from idle → loading → diff → preview → push is the one moment in the product where Pulse argues "I'm not analytics, I'm action." Get this right and the rest of the product reads as inevitable.
+</p>
+
+<p class="annotation">
+  <strong>Honesty caveat.</strong> "Generate" is theatrical. The diffs are pre-authored per fix (one per ranked recommendation), the morph is animation. That's fine for a portfolio product — what we're arguing is the <em>interaction model</em>, which is the real claim. Treat fix #1 (Quick win) as the only one with a full Generate Fix flow; fixes #2 and #3 can show "Generate fix with Pulse AI" CTAs that scroll-attach to inline code blocks (lighter version of the same cascade).
+</p>
+
+<p class="annotation">
+  <strong>Production implementation notes.</strong> The cascade is one stateful component (<code>&lt;GenerateFixCascade fixId="..." /&gt;</code>) with five visual states: <code>idle</code> · <code>loading</code> · <code>diff</code> · <code>preview</code> · <code>landed</code>. State transitions via Framer Motion (already a dep). Code-type-in animation uses <code>requestAnimationFrame</code> + chunked text. Live preview morph reuses the existing component-state morph engine from the Apply-fix-here flow. Sparkline drop is SVG path animation. Push-to-engineering posts a fake JSON to <code>/api/push</code> (mock endpoint, returns ticket id from a counter). Verify-state polls a mock endpoint at 30s intervals; in the prototype, the second poll always returns "verified" so the cycle completes within the case-study screen-capture window.
+</p>
+
+<p class="annotation">
+  <strong>Approval question.</strong> Does this storyboard land as the right cascade? Anything to change before I move to Section C (mobile lite + scan + drawers) and then the design doc? Three things I'm specifically asking about: (a) the 5.2s total cascade duration — too long / too short / right; (b) the "Push to engineering" copy — should it be more concrete (e.g., "Open in Linear", "Create ticket"); (c) the verify state — auto-poll-and-confirm vs. manual "I deployed this" button.
+</p>

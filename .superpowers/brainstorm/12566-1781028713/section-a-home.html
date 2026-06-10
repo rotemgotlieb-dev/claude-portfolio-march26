@@ -1,0 +1,284 @@
+<h2>Section A · The new Pulse home page</h2>
+<p class="subtitle">All five home-page moves shown in one frame. Click anything to redline; respond in terminal.</p>
+
+<style>
+  .pulse-mock {
+    position:relative;
+    background:#F7F6F2;
+    color:#1A1A1F;
+    border-radius:14px;
+    overflow:hidden;
+    font-family:ui-sans-serif,system-ui,sans-serif;
+    border:1px solid #DDD9CE;
+    box-shadow:0 1px 2px rgba(40,30,20,0.04), 0 8px 24px rgba(40,30,20,0.06);
+  }
+  .pulse-rail {
+    position:absolute; left:0; top:0; bottom:0; width:48px;
+    background:#F7F6F2; border-right:1px solid #EDEAE2;
+    display:flex; flex-direction:column; align-items:center; padding-top:14px; gap:14px;
+    font-family:ui-monospace,monospace;
+  }
+  .pulse-rail .logo { font-size:11px; font-weight:700; letter-spacing:-0.02em; margin-bottom:14px; }
+  .pulse-rail .ico { width:28px; height:28px; border-radius:7px; display:grid; place-items:center; font-size:11px; color:#5B5B66; }
+  .pulse-rail .ico.active { background:#FFFDF8; color:#1A1A1F; box-shadow:inset 0 0 0 1px #DDD9CE; }
+  .pulse-main { margin-left:48px; padding:16px 28px 24px; }
+
+  /* TODAY'S PRIORITY STRIP — the new top-of-page insight */
+  .priority {
+    background:linear-gradient(135deg, rgba(240,120,86,0.12) 0%, rgba(240,120,86,0.04) 100%);
+    border:1px solid rgba(240,120,86,0.25);
+    border-radius:12px; padding:14px 18px;
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+    margin-bottom:14px;
+  }
+  .priority-tag {
+    font-family:ui-monospace,monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase;
+    color:#B8442A; padding:3px 8px; background:rgba(240,120,86,0.15); border-radius:4px;
+  }
+  .priority-msg { font-size:14px; font-weight:500; flex:1; min-width:240px; }
+  .priority-msg .dot { display:inline-block; width:8px; height:8px; border-radius:50%; background:#C93E3E; margin-right:6px; vertical-align:middle; }
+  .priority-msg strong { font-weight:600; color:#1A1A1F; }
+  .priority-cta { font-size:12px; font-weight:600; color:#B8442A; padding:6px 12px; border:1px solid rgba(240,120,86,0.4); border-radius:999px; cursor:pointer; white-space:nowrap; }
+
+  /* PROMPT — now smaller, secondary */
+  .prompt-row {
+    display:flex; align-items:center; gap:14px;
+    background:#FFFDF8; border:1px solid #EDEAE2; border-radius:10px;
+    padding:10px 14px; margin-bottom:14px;
+  }
+  .prompt-label { font-family:ui-monospace,monospace; font-size:9px; letter-spacing:0.10em; text-transform:uppercase; color:#8F8F9E; }
+  .prompt-input { flex:1; font-size:13px; color:#5B5B66; }
+  .prompt-input span { opacity:0.5; }
+  .prompt-key { font-family:ui-monospace,monospace; font-size:10px; padding:2px 6px; background:#EDEAE2; border-radius:4px; color:#5B5B66; }
+
+  /* PAGE TABS WITH SEVERITY SIGNAL */
+  .tabs { display:flex; gap:6px; align-items:center; flex-wrap:wrap; margin-bottom:8px; }
+  .tab {
+    font-size:12px; font-weight:500; padding:6px 10px; border-radius:999px; cursor:pointer;
+    display:inline-flex; align-items:center; gap:6px;
+    color:#5B5B66;
+  }
+  .tab.active { background:#1A1A1F; color:#FFFDF8; }
+  .tab .sev { width:6px; height:6px; border-radius:50%; }
+  .tab .count { font-family:ui-monospace,monospace; font-size:10px; opacity:0.7; }
+
+  /* LAYER TOGGLE with mini-previews */
+  .layers-wrap { display:flex; align-items:flex-start; justify-content:space-between; gap:14px; margin-top:14px; margin-bottom:10px; }
+  .layers { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; flex:1; }
+  .layer {
+    border:1px solid #EDEAE2; border-radius:8px; padding:8px; background:#FFFDF8; cursor:pointer;
+    display:flex; flex-direction:column; gap:4px; position:relative;
+  }
+  .layer.active { border-color:#1A1A1F; box-shadow:0 0 0 1px #1A1A1F inset; }
+  .layer-name { font-size:11px; font-weight:600; display:flex; align-items:center; gap:5px; }
+  .layer-name .dot { width:6px; height:6px; border-radius:50%; }
+  .layer-preview { height:36px; border-radius:5px; background:#F7F6F2; position:relative; overflow:hidden; }
+  /* Distinct preview per layer */
+  .preview-friction { background:radial-gradient(ellipse at 35% 50%, rgba(240,120,86,0.7), transparent 60%), radial-gradient(ellipse at 70% 45%, rgba(245,179,74,0.5), transparent 60%), #F7F6F2; }
+  .preview-rage::before, .preview-rage::after { content:""; position:absolute; width:4px; height:4px; background:#C93E3E; border-radius:50%; box-shadow:0 0 0 3px rgba(201,62,62,0.25); }
+  .preview-rage::before { left:30%; top:50%; }
+  .preview-rage::after { left:60%; top:35%; box-shadow:0 0 0 5px rgba(201,62,62,0.3); }
+  .preview-dead {
+    background:
+      radial-gradient(circle at 25% 50%, #DDD9CE 0%, #DDD9CE 8%, transparent 30%),
+      radial-gradient(circle at 65% 45%, #DDD9CE 0%, #DDD9CE 12%, transparent 40%),
+      #F7F6F2;
+    opacity:0.85;
+  }
+  .preview-dead::after { content:""; position:absolute; inset:0; background:repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(143,143,158,0.06) 5px, rgba(143,143,158,0.06) 6px); }
+  .preview-attn { background:linear-gradient(90deg, transparent, rgba(91,140,255,0.25), rgba(91,140,255,0.5), rgba(91,140,255,0.25), transparent), #F7F6F2; }
+
+  /* CANVAS + scrubber RIGHT ABOVE it */
+  .canvas-row { display:grid; grid-template-columns:1fr 260px; gap:16px; margin-top:4px; }
+  .canvas-col { display:flex; flex-direction:column; gap:8px; }
+
+  /* SCRUBBER — promoted above canvas, sticky-feeling */
+  .scrubber {
+    display:flex; align-items:center; gap:10px;
+    background:#FFFDF8; border:1px solid #EDEAE2; border-radius:8px; padding:8px 12px;
+    font-family:ui-monospace,monospace; font-size:10px; color:#5B5B66;
+  }
+  .scrubber-track { flex:1; height:5px; background:#EDEAE2; border-radius:999px; position:relative; }
+  .scrubber-fill { position:absolute; left:0; top:0; bottom:0; width:80%; background:#1A1A1F; border-radius:999px; }
+  .scrubber-thumb { position:absolute; left:80%; top:50%; transform:translate(-50%,-50%); width:11px; height:11px; background:#1A1A1F; border:2px solid #FFFDF8; border-radius:50%; box-shadow:0 1px 3px rgba(40,30,20,0.15); }
+  .scrubber-label { font-weight:600; color:#1A1A1F; }
+  .scrubber-delta { color:#C93E3E; font-weight:600; }
+
+  .canvas {
+    height:200px; background:#FFFDF8; border-radius:10px; border:1px solid #EDEAE2;
+    padding:8px; display:grid; grid-template-columns:repeat(4,1fr); gap:6px; position:relative; overflow:hidden;
+  }
+  .canvas-col-wrap { background:#F7F6F2; border-radius:6px; padding:6px; position:relative; font-size:9px; color:#8F8F9E; }
+  .heatmap-blob { position:absolute; left:35%; top:30%; width:120px; height:120px; border-radius:50%;
+    background:radial-gradient(circle, rgba(240,120,86,0.7), rgba(245,179,74,0.3) 50%, transparent 70%); pointer-events:none; }
+
+  /* CLICKABLE FRICTION ZONES — each row has an arrow + hover treatment */
+  .friction-panel { display:flex; flex-direction:column; gap:8px; }
+  .friction-head { font-family:ui-monospace,monospace; font-size:9px; letter-spacing:0.08em; text-transform:uppercase; color:#8F8F9E; padding:0 4px; }
+  .friction-card {
+    background:#FFFDF8; border:1px solid #EDEAE2; border-radius:8px; padding:10px 12px; cursor:pointer;
+    display:flex; flex-direction:column; gap:4px; position:relative;
+    transition:transform 140ms cubic-bezier(0.32,0.72,0,1), box-shadow 140ms cubic-bezier(0.32,0.72,0,1);
+  }
+  .friction-card:hover { transform:translateY(-1px); box-shadow:0 4px 12px rgba(40,30,20,0.06); border-color:#DDD9CE; }
+  .friction-card-arrow { position:absolute; right:10px; top:50%; transform:translateY(-50%); opacity:0; transition:opacity 140ms; font-size:14px; }
+  .friction-card:hover .friction-card-arrow { opacity:1; }
+  .friction-name { display:flex; align-items:center; gap:6px; font-family:ui-monospace,monospace; font-size:10px; }
+  .friction-name .dot { width:6px; height:6px; border-radius:50%; }
+  .friction-title { font-size:11px; line-height:1.35; color:#1A1A1F; }
+  .friction-meta { font-family:ui-monospace,monospace; font-size:9px; color:#8F8F9E; display:flex; justify-content:space-between; }
+  .friction-trend { color:#C93E3E; }
+
+  /* WHAT CHANGED THIS WEEK — third panel below */
+  .changes {
+    margin-top:12px; padding:14px; border:1px dashed #DDD9CE; border-radius:10px; background:#FFFDF8;
+    display:grid; grid-template-columns:1fr 1fr; gap:14px;
+  }
+  .changes-col { display:flex; flex-direction:column; gap:4px; }
+  .changes-label { font-family:ui-monospace,monospace; font-size:9px; letter-spacing:0.08em; text-transform:uppercase; color:#8F8F9E; }
+  .changes-row { display:flex; align-items:flex-start; gap:8px; font-size:11px; line-height:1.4; }
+  .changes-row .arrow { font-family:ui-monospace,monospace; font-weight:700; }
+  .arrow.up { color:#C93E3E; }
+  .arrow.down { color:#6FCFBF; }
+
+  /* KEYBOARD HINT */
+  .hint-bar {
+    position:absolute; right:14px; bottom:14px;
+    background:rgba(26,26,31,0.9); color:#FFFDF8;
+    padding:6px 10px; border-radius:999px;
+    font-family:ui-monospace,monospace; font-size:10px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .hint-bar kbd { background:rgba(255,255,255,0.18); padding:1px 5px; border-radius:3px; font-family:inherit; font-size:9px; }
+
+  .annotation { color:#5B5B66; font-size:12px; line-height:1.5; margin-top:14px; }
+  .annotation strong { color:#1A1A1F; }
+  .annotation .num { display:inline-block; width:18px; height:18px; border-radius:50%; background:#F07856; color:#FFFDF8; text-align:center; line-height:18px; font-size:11px; font-weight:700; margin-right:6px; }
+</style>
+
+<div class="pulse-mock">
+  <aside class="pulse-rail">
+    <div class="logo">Pulse</div>
+    <div class="ico active">⌂</div>
+    <div class="ico">▦</div>
+    <div class="ico">⌖</div>
+    <div class="ico">▤</div>
+  </aside>
+  <div class="pulse-main">
+
+    <!-- 1. TODAY'S PRIORITY STRIP -->
+    <div class="priority">
+      <span class="priority-tag">Today's priority</span>
+      <span class="priority-msg"><span class="dot"></span><strong>KanbanColumn drag targets fail WCAG 2.5.5 for 9.8k users.</strong> Fix is one CSS rule. Friction up 23% week-over-week.</span>
+      <span class="priority-cta">Open issue →</span>
+    </div>
+
+    <!-- 2. PROMPT — now secondary, smaller -->
+    <div class="prompt-row">
+      <span class="prompt-label">Ask Pulse</span>
+      <span class="prompt-input"><span>what degraded this week, on the components I own?</span></span>
+      <span class="prompt-key">/</span>
+    </div>
+
+    <!-- 3. PAGE TABS WITH SEVERITY -->
+    <div class="tabs">
+      <span class="tab active"><span class="sev" style="background:#C93E3E"></span>Task Board <span class="count">3</span></span>
+      <span class="tab"><span class="sev" style="background:#F07856"></span>Onboarding <span class="count">3</span></span>
+      <span class="tab"><span class="sev" style="background:#F5B34A"></span>Settings <span class="count">2</span></span>
+      <span class="tab"><span class="sev" style="background:#6FCFBF"></span>Dashboard <span class="count">1</span></span>
+      <span class="tab"><span class="sev" style="background:#EDEAE2"></span>Project View <span class="count">0</span></span>
+    </div>
+
+    <!-- 4. LAYER TOGGLE WITH 4 DISTINCT PREVIEWS -->
+    <div class="layers">
+      <div class="layer active">
+        <span class="layer-name"><span class="dot" style="background:#F07856"></span>Friction</span>
+        <div class="layer-preview preview-friction"></div>
+      </div>
+      <div class="layer">
+        <span class="layer-name"><span class="dot" style="background:#C93E3E"></span>Rage clicks</span>
+        <div class="layer-preview preview-rage"></div>
+      </div>
+      <div class="layer">
+        <span class="layer-name"><span class="dot" style="background:#8F8F9E"></span>Dead clicks</span>
+        <div class="layer-preview preview-dead"></div>
+      </div>
+      <div class="layer">
+        <span class="layer-name"><span class="dot" style="background:#5B8CFF"></span>Attention</span>
+        <div class="layer-preview preview-attn"></div>
+      </div>
+    </div>
+
+    <!-- 5. CANVAS + PROMOTED SCRUBBER + CLICKABLE FRICTION ZONES -->
+    <div class="canvas-row">
+      <div class="canvas-col">
+        <div class="scrubber">
+          <span>Mon Jun 2</span>
+          <div class="scrubber-track"><div class="scrubber-fill"></div><div class="scrubber-thumb"></div></div>
+          <span class="scrubber-label">Tue Jun 9</span>
+          <span class="scrubber-delta">+23%</span>
+        </div>
+        <div class="canvas">
+          <div class="canvas-col-wrap">Backlog · 7</div>
+          <div class="canvas-col-wrap">In Progress · 4</div>
+          <div class="canvas-col-wrap">Review · 3</div>
+          <div class="canvas-col-wrap">Done · 12</div>
+          <div class="heatmap-blob"></div>
+        </div>
+      </div>
+      <aside class="friction-panel">
+        <div class="friction-head">Friction zones · top 3 · last 7 days</div>
+        <div class="friction-card">
+          <div class="friction-name"><span class="dot" style="background:#C93E3E"></span>KanbanColumn</div>
+          <div class="friction-title">Drag targets on Task Board columns are too narrow for reliable interaction</div>
+          <div class="friction-meta"><span>9.8k users</span><span class="friction-trend">↑ 23%</span></div>
+          <div class="friction-card-arrow">→</div>
+        </div>
+        <div class="friction-card">
+          <div class="friction-name"><span class="dot" style="background:#F07856"></span>DatePicker</div>
+          <div class="friction-title">Date picker closes unexpectedly when switching between month views</div>
+          <div class="friction-meta"><span>7.4k users</span><span class="friction-trend">↑ 8%</span></div>
+          <div class="friction-card-arrow">→</div>
+        </div>
+        <div class="friction-card">
+          <div class="friction-name"><span class="dot" style="background:#F5B34A"></span>TaskCard</div>
+          <div class="friction-title">Task card action buttons are too small for reliable touch and pointer targeting</div>
+          <div class="friction-meta"><span>7.1k users</span><span style="color:#6FCFBF">↓ 4%</span></div>
+          <div class="friction-card-arrow">→</div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- 6. WHAT CHANGED THIS WEEK -->
+    <div class="changes">
+      <div class="changes-col">
+        <span class="changes-label">↑ Degraded this week</span>
+        <div class="changes-row"><span class="arrow up">↑</span><span><strong>KanbanColumn</strong> friction up <strong>23%</strong>. Correlates with Jun 3 release that tightened column gutters from 8px to 4px.</span></div>
+        <div class="changes-row"><span class="arrow up">↑</span><span><strong>OnboardingForm</strong> rage clicks up <strong>14%</strong> on the Continue button. No code change; suspect copy regression.</span></div>
+      </div>
+      <div class="changes-col">
+        <span class="changes-label">↓ Improved this week</span>
+        <div class="changes-row"><span class="arrow down">↓</span><span><strong>SubmitButton</strong> friction down <strong>14%</strong> after the toggle-label fix shipped Tuesday.</span></div>
+        <div class="changes-row"><span class="arrow down">↓</span><span><strong>SchemaValidation</strong> resolved. Last reported 4 days ago. Closed automatically.</span></div>
+      </div>
+    </div>
+
+    <div class="hint-bar"><kbd>/</kbd> prompt · <kbd>J</kbd> <kbd>K</kbd> issues · <kbd>1-4</kbd> layers · <kbd>?</kbd> help</div>
+
+  </div>
+</div>
+
+<p class="annotation">
+  <span class="num">1</span><strong>Today's priority strip</strong> answers the 3-second JTBD before the user touches anything. Animated entrance: types character-by-character first paint only, 800ms.<br><br>
+  <span class="num">2</span><strong>Prompt is now secondary,</strong> a single line with <code>/</code> keyboard shortcut hint. The full chip row disappears (chips were a static feature-tour). Free-text prompt only.<br><br>
+  <span class="num">3</span><strong>Page tabs carry severity signal</strong> via the leading dot color + issue count. Find the fire at a glance. Severity sorts left-to-right (worst first) on first paint; user can re-sort.<br><br>
+  <span class="num">4</span><strong>Layer toggle with 4 distinct mini-previews.</strong> Each layer renders categorically different visuals: friction = thermal bloom, rage = sharp point-spikes with red rings, dead = grayscale voids with hatching, attention = horizontal gaze trail. Switching layers is a 400ms OKLab palette morph.<br><br>
+  <span class="num">5</span><strong>Scrubber promoted above the canvas,</strong> with date labels and the delta of the current scrub position vs. start. Always visible, no scroll-to-find. Friction zone cards become first-class clickable rows with hover arrow + trend delta. Clicking flies the cursor to the issue in the canvas.<br><br>
+  <span class="num">6</span><strong>"What changed this week" panel</strong> below the canvas — narrative auto-generated from the same data the Brief uses. Two columns (Degraded / Improved), each with 2 items max. Click any row → fly to that issue.<br><br>
+  <strong>Bottom-right keyboard hint bar</strong> teaches shortcuts ambient. Auto-fades after first interaction or 4 seconds. <kbd>?</kbd> opens a full shortcut help panel.<br><br>
+  <strong>Not shown but planned:</strong> first-visit guided tour overlay (3 steps), last-session memory (page+layer+scrub position restored), light/dark toggle in left rail at the bottom. The Components / Brief drawers keep their current shape with the polish fixes (dynamic dates, mixed dataset).
+</p>
+
+<div class="section" style="margin-top:24px">
+  <span class="label">Approve Section A or redline. Sections B, C, D continue in terminal.</span>
+</div>

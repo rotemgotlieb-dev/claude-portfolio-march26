@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Ghost Thumb v3 — debug states</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="sandbox-ghost-thumb-v3.css">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #1a1a1a;
+      min-height: 100vh;
+      font-family: 'Satoshi', system-ui, sans-serif;
+      color: #eaeaea;
+    }
+    .wrap { display: flex; flex-direction: column; gap: 28px; padding: 32px; align-items: center; }
+    .label { font-size: 12px; color: #888; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+    .frame {
+      width: 800px;
+      max-width: 95vw;
+      aspect-ratio: 16/9;
+      box-shadow: 0 0 40px rgba(0,0,0,0.55);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .frame .bento-card-thumb {
+      width: 100%; height: 100%; aspect-ratio: auto;
+    }
+    /* Force-pause each frame at a different keyframe progress via
+       animation-delay negative values. Each frame sits at a fixed
+       point in the timeline so we can inspect rest / fade-in /
+       drift / aligned states. */
+    .state-rest .gdg-ghost,
+    .state-rest .gdg-ping { animation-play-state: paused; animation-delay: 0ms; }
+
+    .state-fadein .is-animating .gdg-ghost { animation-play-state: paused; animation-delay: -1000ms; }
+
+    .state-drifted .is-animating .gdg-ghost { animation-play-state: paused; animation-delay: -4500ms; }
+    .state-drifted .is-animating .gdg-ping { animation-play-state: paused; animation-delay: -4500ms; }
+    .state-drifted .is-animating .gdg-ping--card { animation-delay: -4450ms; }
+    .state-drifted .is-animating .gdg-ping--stat2 { animation-delay: -4400ms; }
+    .state-drifted .is-animating .gdg-ping--button { animation-delay: -4350ms; }
+
+    .state-aligned .is-animating .gdg-ghost { animation-play-state: paused; animation-delay: -7000ms; }
+    .state-aligned .is-animating .gdg-ping { animation-play-state: paused; animation-delay: -7000ms; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div>
+      <div class="label">Rest state (no .is-animating)</div>
+      <div class="frame state-rest">
+        <div class="bento-card-thumb thumb-ghost">
+          <div class="gdg-stage" aria-hidden="true">
+            <div class="gdg-board" id="board-rest"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="label">Fade-in (T≈1000ms — ghosts appearing aligned)</div>
+      <div class="frame state-fadein">
+        <div class="bento-card-thumb thumb-ghost">
+          <div class="gdg-stage is-animating" aria-hidden="true">
+            <div class="gdg-board" id="board-fadein"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="label">Drifted + pings (T≈4500ms)</div>
+      <div class="frame state-drifted">
+        <div class="bento-card-thumb thumb-ghost">
+          <div class="gdg-stage is-animating" aria-hidden="true">
+            <div class="gdg-board" id="board-drifted"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="label">Snap-back to aligned (T≈7000ms)</div>
+      <div class="frame state-aligned">
+        <div class="bento-card-thumb thumb-ghost">
+          <div class="gdg-stage is-animating" aria-hidden="true">
+            <div class="gdg-board" id="board-aligned"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Programmatically populate each .gdg-board with the same shape set
+    // so the four states share identical markup.
+    var MARKUP = '\
+      <div class="gdg-shape gdg-shape--header" style="--gdg-dx: 8px; --gdg-dy: -3px;"><span class="gdg-ghost"></span><span class="gdg-solid"></span></div>\
+      <div class="gdg-shape gdg-shape--card" style="--gdg-dx: -7px; --gdg-dy: 5px;"><span class="gdg-ghost"></span><span class="gdg-solid"></span></div>\
+      <div class="gdg-shape gdg-shape--nav1" style="--gdg-dx: -5px; --gdg-dy: -2px;"><span class="gdg-ghost"></span><span class="gdg-solid"></span></div>\
+      <div class="gdg-shape gdg-shape--nav2" style="--gdg-dx: 6px; --gdg-dy: 4px;"><span class="gdg-ghost"></span><span class="gdg-solid"></span></div>\
+      <div class="gdg-shape gdg-shape--nav3" style="--gdg-dx: -4px; --gdg-dy: -3px;"><span class="gdg-ghost"></span><span class="gdg-solid"></span></div>\
+      <div class="gdg-shape gdg-shape--button" style="--gdg-dx: 12px; --gdg-dy: 7px;"><span class="gdg-ghost"></span><span class="gdg-solid"></span></div>\
+      <div class="gdg-shape gdg-shape--stat1" style="--gdg-dx: 5px; --gdg-dy: -6px;"><span class="gdg-ghost"></span><span class="gdg-solid"></span></div>\
+      <div class="gdg-shape gdg-shape--stat2" style="--gdg-dx: -6px; --gdg-dy: 8px;"><span class="gdg-ghost"></span><span class="gdg-solid"></span></div>\
+      <div class="gdg-shape gdg-shape--dot1" style="--gdg-dx: 4px; --gdg-dy: 4px;"><span class="gdg-ghost"></span><span class="gdg-solid"></span></div>\
+      <div class="gdg-shape gdg-shape--dot2" style="--gdg-dx: -3px; --gdg-dy: 5px;"><span class="gdg-ghost"></span><span class="gdg-solid"></span></div>\
+      <span class="gdg-ping gdg-ping--button" aria-hidden="true"></span>\
+      <span class="gdg-ping gdg-ping--card" aria-hidden="true"></span>\
+      <span class="gdg-ping gdg-ping--stat2" aria-hidden="true"></span>\
+    ';
+    ['board-rest','board-fadein','board-drifted','board-aligned'].forEach(function(id){
+      document.getElementById(id).innerHTML = MARKUP;
+    });
+  </script>
+</body>
+</html>

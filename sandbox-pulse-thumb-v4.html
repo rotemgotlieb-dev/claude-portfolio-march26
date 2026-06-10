@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pulse Living Observatory thumbnail · v4 sandbox</title>
+<meta name="viewport" content="width=1280, initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* sandbox-only chrome */
+  html, body { margin: 0; padding: 0; background: #FAFAF8; font-family: 'Satoshi', system-ui, sans-serif; }
+  .sandbox-shell { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; padding: 64px; max-width: 1280px; margin: 0 auto; align-items: start; }
+  .sandbox-cell h2 { margin: 0 0 12px; font-size: 13px; font-weight: 500; color: #888; letter-spacing: 0.04em; text-transform: lowercase; }
+  .sandbox-cell .bento-card-thumb { border-radius: 12px; }
+  .small-cell .bento-card-thumb { max-width: 480px; }
+
+  /* ====================================================================
+     PULSE LIVING OBSERVATORY THUMBNAIL · v4
+     mix-blend-mode thermal heatmap (Gemini technique) + WAAPI typewriter
+     Class prefix: ploh- (Pulse Living Observatory Heatmap)
+     ==================================================================== */
+
+  .ploh-stage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    container-type: inline-size;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 60%),
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.025) 0 1px, transparent 1px 14px),
+      repeating-linear-gradient(90deg, rgba(0,0,0,0.025) 0 1px, transparent 1px 14px),
+      #ECEFF5;
+    isolation: isolate;   /* contains mix-blend-mode to this stage */
+  }
+
+  /* Top browser-bar suggestion */
+  .ploh-bar {
+    position: absolute;
+    top: 6.5%;
+    left: 6%;
+    width: 22%;
+    height: 5%;
+    background: rgba(30, 32, 40, 0.18);
+    border-radius: 3px;
+  }
+  .ploh-bar::after {
+    content: '';
+    position: absolute;
+    top: 30%;
+    left: 12%;
+    width: 60%;
+    height: 40%;
+    background: rgba(30, 32, 40, 0.32);
+    border-radius: 2px;
+  }
+
+  /* 4 wireframe kanban columns */
+  .ploh-grid {
+    position: absolute;
+    top: 18%;
+    left: 6%;
+    right: 6%;
+    bottom: 24%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5%;
+    z-index: 1;
+  }
+  .ploh-col {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .ploh-col-header {
+    display: block;
+    width: 60%;
+    height: 6px;
+    background: rgba(30, 32, 40, 0.22);
+    border-radius: 2px;
+    margin-bottom: 6px;
+  }
+  .ploh-task {
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(30, 32, 40, 0.08);
+    border-radius: 3px;
+    padding: 5px 6px;
+    display: flex;
+    align-items: center;
+  }
+  .ploh-task-bar {
+    display: block;
+    height: 4px;
+    background: rgba(30, 32, 40, 0.32);
+    border-radius: 2px;
+  }
+  .ploh-task--hot {
+    border-color: rgba(224, 61, 42, 0.18);
+  }
+
+  /* ====================================================================
+     HEAT LAYERS (Gemini's mix-blend-mode + filter:blur thermal stack)
+     Parent owns blend mode + blur, child divs are radial gradient blobs.
+     Pure DOM — no SVG. Hardware-accelerated. iOS Safari 15+ compatible.
+     ==================================================================== */
+
+  .ploh-heat {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    filter: blur(22px);
+    will-change: opacity, transform;
+    z-index: 2;
+  }
+  .ploh-heat-blob {
+    position: absolute;
+    border-radius: 50%;
+    will-change: transform, opacity;
+  }
+
+  /* FRICTION layer — visible at rest, baseline warm glow over column 2 area */
+  .ploh-heat--friction {
+    opacity: 0.72;
+    transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1),
+                transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .ploh-heat--friction .ploh-heat-blob--a {
+    top: 32%; left: 28%;
+    width: 32%; height: 56%;
+    background: radial-gradient(circle, #ff7a2c 0%, rgba(255,122,44,0.55) 35%, transparent 70%);
+  }
+  .ploh-heat--friction .ploh-heat-blob--b {
+    top: 22%; left: 36%;
+    width: 22%; height: 38%;
+    background: radial-gradient(circle, #ff9a4c 0%, rgba(255,154,76,0.45) 40%, transparent 72%);
+  }
+  .ploh-heat--friction .ploh-heat-blob--c {
+    top: 44%; left: 22%;
+    width: 20%; height: 32%;
+    background: radial-gradient(circle, #ff7a2c 0%, transparent 65%);
+  }
+  .ploh-stage.is-animating .ploh-heat--friction {
+    opacity: 0.86;
+    transform: scale(1.05);
+    transition-delay: 3000ms;
+  }
+
+  /* RAGE layer — dormant at rest, materializes during animation. Three blobs
+     stagger in via per-blob keyframes. Anticipation easing on the center
+     blob gives the overshoot beat that sharpens the cluster. */
+  .ploh-heat--rage {
+    opacity: 0;
+    transition: opacity 400ms cubic-bezier(0.16, 1, 0.3, 1);
+    filter: blur(18px);
+  }
+  .ploh-heat--rage .ploh-heat-blob {
+    background: radial-gradient(circle, #e03d2a 0%, rgba(224,61,42,0.55) 35%, transparent 70%);
+    transform: scale(0);
+    opacity: 0;
+  }
+  .ploh-heat--rage .ploh-heat-blob--center {
+    top: 38%; left: 38%;
+    width: 22%; height: 38%;
+    transform-origin: 50% 50%;
+  }
+  .ploh-heat--rage .ploh-heat-blob--left {
+    top: 48%; left: 26%;
+    width: 18%; height: 30%;
+    transform-origin: 50% 50%;
+  }
+  .ploh-heat--rage .ploh-heat-blob--top {
+    top: 28%; left: 44%;
+    width: 14%; height: 24%;
+    transform-origin: 50% 50%;
+  }
+  .ploh-stage.is-animating .ploh-heat--rage {
+    opacity: 1;
+    transition-delay: 1000ms;
+  }
+  .ploh-stage.is-animating .ploh-heat--rage .ploh-heat-blob--center {
+    animation: ploh-rage-center 1700ms cubic-bezier(0.175, 0.885, 0.32, 1.275) 1200ms both;
+  }
+  .ploh-stage.is-animating .ploh-heat--rage .ploh-heat-blob--left {
+    animation: ploh-rage-pop 1500ms cubic-bezier(0.16, 1, 0.3, 1) 1450ms both;
+  }
+  .ploh-stage.is-animating .ploh-heat--rage .ploh-heat-blob--top {
+    animation: ploh-rage-pop 1500ms cubic-bezier(0.16, 1, 0.3, 1) 1700ms both;
+  }
+
+  @keyframes ploh-rage-center {
+    0%   { transform: scale(0);    opacity: 0; }
+    55%  { transform: scale(1.0);  opacity: 1; }
+    75%  { transform: scale(0.9);  opacity: 1; }
+    100% { transform: scale(0.92); opacity: 1; }
+  }
+  @keyframes ploh-rage-pop {
+    0%   { transform: scale(0); opacity: 0; }
+    65%  { transform: scale(1); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  /* ====================================================================
+     SCRUBBER STRIP (bottom)
+     ==================================================================== */
+  .ploh-scrubber {
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    bottom: 14%;
+    height: 4px;
+    z-index: 3;
+  }
+  .ploh-scrubber-track {
+    position: absolute;
+    inset: 0;
+    background: rgba(30, 32, 40, 0.12);
+    border-radius: 2px;
+  }
+  .ploh-scrubber-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 40%;
+    background: rgba(30, 32, 40, 0.55);
+    border-radius: 2px;
+  }
+  .ploh-scrubber-handle {
+    position: absolute;
+    top: 50%;
+    left: 40%;
+    width: 8px;
+    height: 8px;
+    background: #1f1d1a;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  /* ====================================================================
+     AI PROMPT BAR (bottom)
+     ==================================================================== */
+  .ploh-prompt {
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    bottom: 4%;
+    height: 6.5%;
+    min-height: 14px;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(30, 32, 40, 0.12);
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    z-index: 3;
+  }
+  .ploh-prompt-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #e03d2a;
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+  .ploh-prompt-text {
+    font: 500 9px/1 'Satoshi', system-ui, sans-serif;
+    color: rgba(30, 32, 40, 0.78);
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    /* Hidden at rest — WAAPI reveals via clip-path inset() */
+    clip-path: inset(0 100% 0 0);
+  }
+
+  /* ====================================================================
+     CURSOR (parked at right edge at rest, drifts to center on animate)
+     ==================================================================== */
+  .ploh-cursor {
+    position: absolute;
+    top: 46%;
+    left: 86%;
+    width: 14px;
+    height: 14px;
+    z-index: 5;
+    opacity: 0;
+    transform: translate(0, 0);
+    will-change: transform, opacity;
+    transition:
+      opacity 500ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 1100ms cubic-bezier(0.77, 0, 0.175, 1);
+    pointer-events: none;
+  }
+  .ploh-cursor svg {
+    display: block;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.18));
+  }
+  /* Animation timeline driven entirely by class state.
+     T=0:        cursor parked right, hidden
+     T=300:      fade in (opacity transition)
+     T=300-1400: drift to center (transform transition, ease-in-out)
+     T=5500:     reverse drift back (cursor parks again at right edge) */
+  .ploh-stage.is-animating .ploh-cursor {
+    opacity: 1;
+    transform: translate(-44cqi, 4cqi);
+    transition:
+      opacity 500ms cubic-bezier(0.16, 1, 0.3, 1) 300ms,
+      transform 1100ms cubic-bezier(0.77, 0, 0.175, 1) 300ms;
+  }
+  /* Return-leg: cursor parks back at the right edge near loop end. The
+     keyframe-driven return uses an exit easing for the leaving beat. */
+  .ploh-stage.is-animating .ploh-cursor {
+    animation: ploh-cursor-cycle 9000ms linear 0ms 1 forwards;
+  }
+  @keyframes ploh-cursor-cycle {
+    0%    { opacity: 0; transform: translate(0, 0); }
+    3.3%  { opacity: 0; transform: translate(0, 0); }
+    15.5% { opacity: 1; transform: translate(-44cqi, 4cqi); }
+    61%   { opacity: 1; transform: translate(-44cqi, 4cqi); }
+    72%   { opacity: 1; transform: translate(0, 0); }
+    100%  { opacity: 0; transform: translate(0, 0); }
+  }
+
+  /* ====================================================================
+     CROSS-SURFACE SCALING via container queries
+     The same module renders in homepage bento (~520-1040px) AND Other
+     Work cards (~400-500px). At narrower widths, tighten paddings + bar
+     widths so the composition still reads.
+     ==================================================================== */
+  @container (max-width: 480px) {
+    .ploh-bar { top: 5.5%; height: 4%; }
+    .ploh-grid { top: 16%; bottom: 26%; gap: 4%; }
+    .ploh-task { padding: 3px 4px; }
+    .ploh-task-bar { height: 3px; }
+    .ploh-prompt { height: 8%; }
+    .ploh-prompt-text { font-size: 8px; }
+    .ploh-cursor { width: 12px; height: 12px; }
+    .ploh-heat { filter: blur(16px); }
+  }
+  @container (min-width: 760px) {
+    .ploh-heat { filter: blur(26px); }
+    .ploh-prompt-text { font-size: 10px; }
+  }
+
+  /* ====================================================================
+     HOVER vs AUTOPLAY — paused defaults / animation eligibility
+     ==================================================================== */
+  .ploh-stage.is-paused .ploh-cursor,
+  .ploh-stage.is-paused .ploh-heat--rage .ploh-heat-blob {
+    animation-play-state: paused;
+  }
+
+  /* ====================================================================
+     REDUCED-MOTION FALLBACK
+     Pin to representative all-visible static state. No animations run.
+     ==================================================================== */
+  @media (prefers-reduced-motion: reduce) {
+    .ploh-cursor,
+    .ploh-heat--rage,
+    .ploh-heat--rage .ploh-heat-blob,
+    .ploh-heat--friction {
+      animation: none !important;
+      transition: none !important;
+    }
+    .ploh-cursor { opacity: 1; transform: translate(-44cqi, 4cqi); }
+    .ploh-heat--rage { opacity: 1; }
+    .ploh-heat--rage .ploh-heat-blob { transform: scale(1); opacity: 1; }
+    .ploh-heat--friction { opacity: 0.86; }
+    .ploh-prompt-text { clip-path: inset(0 0 0 0); }
+  }
+
+  /* ====================================================================
+     HOVER vs NO-HOVER (touch) split — autoplay path styles are identical
+     visually, the JS toggles .is-animating; CSS is the same regardless.
+     The split exists so we can constrain expensive effects on touch.
+     ==================================================================== */
+  @media (hover: none) {
+    .ploh-heat { filter: blur(18px); }   /* lighter blur on touch devices */
+  }
+</style>
+</head>
+<body>
+<div class="sandbox-shell">
+
+  <!-- Bento-scale rendition (large, ~520px wide as on homepage) -->
+  <div class="sandbox-cell large-cell">
+    <h2>bento (homepage scale)</h2>
+    <div class="bento-card-thumb thumb-pulse" style="aspect-ratio: 16/9;">
+      <!-- BEGIN inner markup -->
+      <div class="ploh-stage" data-pulse-thumb aria-hidden="true">
+        <div class="ploh-bar"></div>
+
+        <div class="ploh-grid">
+          <div class="ploh-col">
+            <span class="ploh-col-header"></span>
+            <div class="ploh-task"><span class="ploh-task-bar" style="width:78%"></span></div>
+            <div class="ploh-task"><span class="ploh-task-bar" style="width:62%"></span></div>
+          </div>
+          <div class="ploh-col">
+            <span class="ploh-col-header"></span>
+            <div class="ploh-task ploh-task--hot"><span class="ploh-task-bar" style="width:84%"></span></div>
+            <div class="ploh-task"><span class="ploh-task-bar" style="width:70%"></span></div>
+            <div class="ploh-task"><span class="ploh-task-bar" style="width:55%"></span></div>
+          </div>
+          <div class="ploh-col">
+            <span class="ploh-col-header"></span>
+            <div class="ploh-task"><span class="ploh-task-bar" style="width:72%"></span></div>
+            <div class="ploh-task"><span class="ploh-task-bar" style="width:60%"></span></div>
+          </div>
+          <div class="ploh-col">
+            <span class="ploh-col-header"></span>
+            <div class="ploh-task"><span class="ploh-task-bar" style="width:65%"></span></div>
+            <div class="ploh-task"><span class="ploh-task-bar" style="width:80%"></span></div>
+            <div class="ploh-task"><span class="ploh-task-bar" style="width:50%"></span></div>
+          </div>
+        </div>
+
+        <!-- Friction heat layer (visible at rest) -->
+        <div class="ploh-heat ploh-heat--friction" aria-hidden="true">
+          <div class="ploh-heat-blob ploh-heat-blob--a"></div>
+          <div class="ploh-heat-blob ploh-heat-blob--b"></div>
+          <div class="ploh-heat-blob ploh-heat-blob--c"></div>
+        </div>
+
+        <!-- Rage heat layer (dormant at rest, materializes on animate) -->
+        <div class="ploh-heat ploh-heat--rage" aria-hidden="true">
+          <div class="ploh-heat-blob ploh-heat-blob--center"></div>
+          <div class="ploh-heat-blob ploh-heat-blob--left"></div>
+          <div class="ploh-heat-blob ploh-heat-blob--top"></div>
+        </div>
+
+        <div class="ploh-scrubber">
+          <span class="ploh-scrubber-track"></span>
+          <span class="ploh-scrubber-fill"></span>
+          <span class="ploh-scrubber-handle"></span>
+        </div>
+
+        <div class="ploh-prompt">
+          <span class="ploh-prompt-dot"></span>
+          <span class="ploh-prompt-text" data-ploh-prompt-text>Show me the friction</span>
+        </div>
+
+        <div class="ploh-cursor" aria-hidden="true">
+          <svg viewBox="0 0 16 16" width="14" height="14">
+            <path d="M2 1.5 L13.5 8.4 L8.2 9.2 L11 14.4 L8.7 15.6 L5.9 10.4 L2 13.6 Z"
+                  fill="#1f1d1a" stroke="#fafaf8" stroke-width="0.6" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+      <!-- END inner markup -->
+    </div>
+  </div>
+
+  <!-- Other Work scale rendition (smaller, ~480px wide) -->
+  <div class="sandbox-cell small-cell">
+    <h2>other work (case-study scale)</h2>
+    <div class="bento-card-thumb thumb-pulse" style="aspect-ratio: 16/9;">
+      <div class="ploh-stage" data-pulse-thumb aria-hidden="true">
+        <div class="ploh-bar"></div>
+
+        <div class="ploh-grid">
+          <div class="ploh-col">
+            <span class="ploh-col-header"></span>
+            <div class="ploh-task"><span class="ploh-task-bar" style="width:78%"></span></div>
+            <div class="ploh-task"><span class="ploh-task-bar" style="width:62%"></span></div>
+          </div>
+          <div class="ploh-col">
+            <span class="ploh-col-header"></span>
+            <div class="ploh-task ploh-task--hot"><span class="ploh-task-bar" style="width:84%"></span></div>
+            <div class="ploh-task"><span class="ploh-task-bar" style="width:70%"></span></div>
+            <div class="ploh-task"><span class="ploh-task-bar" style="width:55%"></span></div>
+          </div>
+          <div class="ploh-col">
+            <span class="ploh-col-header"></span>
+            <div class="ploh-task"><span class="ploh-task-bar" style="width:72%"></span></div>
+            <div class="ploh-task"><span class="ploh-task-bar" style="width:60%"></span></div>
+          </div>
+          <div class="ploh-col">
+            <span class="ploh-col-header"></span>
+            <div class="ploh-task"><span class="ploh-task-bar" style="width:65%"></span></div>
+            <div class="ploh-task"><span class="ploh-task-bar" style="width:80%"></span></div>
+            <div class="ploh-task"><span class="ploh-task-bar" style="width:50%"></span></div>
+          </div>
+        </div>
+
+        <div class="ploh-heat ploh-heat--friction" aria-hidden="true">
+          <div class="ploh-heat-blob ploh-heat-blob--a"></div>
+          <div class="ploh-heat-blob ploh-heat-blob--b"></div>
+          <div class="ploh-heat-blob ploh-heat-blob--c"></div>
+        </div>
+
+        <div class="ploh-heat ploh-heat--rage" aria-hidden="true">
+          <div class="ploh-heat-blob ploh-heat-blob--center"></div>
+          <div class="ploh-heat-blob ploh-heat-blob--left"></div>
+          <div class="ploh-heat-blob ploh-heat-blob--top"></div>
+        </div>
+
+        <div class="ploh-scrubber">
+          <span class="ploh-scrubber-track"></span>
+          <span class="ploh-scrubber-fill"></span>
+          <span class="ploh-scrubber-handle"></span>
+        </div>
+
+        <div class="ploh-prompt">
+          <span class="ploh-prompt-dot"></span>
+          <span class="ploh-prompt-text" data-ploh-prompt-text>Show me the friction</span>
+        </div>
+
+        <div class="ploh-cursor" aria-hidden="true">
+          <svg viewBox="0 0 16 16" width="14" height="14">
+            <path d="M2 1.5 L13.5 8.4 L8.2 9.2 L11 14.4 L8.7 15.6 L5.9 10.4 L2 13.6 Z"
+                  fill="#1f1d1a" stroke="#fafaf8" stroke-width="0.6" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script type="module" src="js/demos/pulse-thumb-v4.js"></script>
+</body>
+</html>

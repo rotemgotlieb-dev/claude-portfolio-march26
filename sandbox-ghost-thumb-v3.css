@@ -1,0 +1,288 @@
+/* =============================================================
+   Ghost Bento Thumbnail v3 (gdg-)
+   2026-06-09 — multi-element design-system inventory composition.
+   Replaces v2 single-component pair (gbt-) per user feedback that
+   v2 read "too sparse." v3 fills 60-80% of the canvas with a
+   7-shape miniature design system in muted Ghost-purple. On
+   .is-animating (hover desktop / autoplay mobile), faint outlined
+   ghost twins fade in behind every shape, drift to asymmetric
+   off-spec positions (per-element --gdg-dx / --gdg-dy), 3 ping
+   indicators surface on the worst offenders, ghosts snap back to
+   spec, ghost outlines fade out. 8000ms loop. Mirror seam: 0% ==
+   100% (rest state — no ghosts visible).
+
+   Cross-surface: container queries scale composition for both the
+   homepage bento (~520-1040px wide) AND case-study Other Work
+   cards (~400-500px wide). Container queries on .gdg-stage; all
+   internal sizing uses cqi for proportional scaling.
+
+   Engine pairing: js/demos/ghost-thumb-v3.js finds instances via
+   [data-ghost-thumb], wires LoopObserver pause/resume + hover vs
+   autoplay split based on pointer capability.
+   ============================================================= */
+.gdg-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #EDE8F0;
+  container-type: inline-size;
+}
+
+.gdg-board {
+  position: relative;
+  width: 84%;
+  height: 80%;
+  max-width: 880px;
+  max-height: 495px;
+}
+
+/* Each shape is a positioned wrapper containing a ghost (back) +
+   solid (front). The wrapper carries position; the children carry
+   visual treatment. Inline --gdg-dx / --gdg-dy on each .gdg-shape
+   parameterize the asymmetric per-shape drift. */
+.gdg-shape {
+  position: absolute;
+}
+.gdg-shape > .gdg-ghost,
+.gdg-shape > .gdg-solid {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+/* Solid (front layer) — the canonical spec. Muted Ghost-purple
+   solid fill. Sits perfectly still throughout the loop. */
+.gdg-solid {
+  background: #5d4e7a;
+  z-index: 2;
+}
+
+/* Ghost (back layer) — the drifted production state. Hidden at
+   rest (opacity 0); fades in + scales up + drifts on .is-animating
+   then snaps back + fades out. The animation references the
+   per-shape --gdg-dx / --gdg-dy via translate. */
+.gdg-ghost {
+  background: transparent;
+  border: 1px solid rgba(93, 78, 122, 0.55);
+  z-index: 1;
+  opacity: 0;
+  transform: scale(0.96);
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+}
+
+/* ---------- Shape geometry (percent of board) ---------- */
+
+/* Header bar: top strip, narrow pill. */
+.gdg-shape--header {
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 7%;
+}
+.gdg-shape--header > .gdg-solid,
+.gdg-shape--header > .gdg-ghost { border-radius: 999px; }
+.gdg-shape--header > .gdg-solid { background: #4a3e63; }
+
+/* Sidebar nav pills: 3 stacked on left edge. */
+.gdg-shape--nav1, .gdg-shape--nav2, .gdg-shape--nav3 {
+  width: 11%;
+  height: 9%;
+  left: 0%;
+}
+.gdg-shape--nav1 { top: 14%; }
+.gdg-shape--nav2 { top: 26%; }
+.gdg-shape--nav3 { top: 38%; }
+.gdg-shape--nav1 > .gdg-solid,
+.gdg-shape--nav1 > .gdg-ghost,
+.gdg-shape--nav2 > .gdg-solid,
+.gdg-shape--nav2 > .gdg-ghost,
+.gdg-shape--nav3 > .gdg-solid,
+.gdg-shape--nav3 > .gdg-ghost { border-radius: 6px; }
+.gdg-shape--nav1 > .gdg-solid { background: #7a6a9a; }
+.gdg-shape--nav2 > .gdg-solid { background: #7a6a9a; }
+.gdg-shape--nav3 > .gdg-solid { background: #7a6a9a; }
+
+/* Primary card: upper-left center, largest shape. */
+.gdg-shape--card {
+  top: 14%;
+  left: 16%;
+  width: 42%;
+  height: 50%;
+}
+.gdg-shape--card > .gdg-solid,
+.gdg-shape--card > .gdg-ghost { border-radius: 10px; }
+
+/* Button: mid-canvas, lighter accent purple. */
+.gdg-shape--button {
+  top: 70%;
+  left: 16%;
+  width: 20%;
+  height: 11%;
+}
+.gdg-shape--button > .gdg-solid,
+.gdg-shape--button > .gdg-ghost { border-radius: 7px; }
+.gdg-shape--button > .gdg-solid { background: #7a6a9a; }
+
+/* Stat cards: right side, small squares side-by-side. */
+.gdg-shape--stat1, .gdg-shape--stat2 {
+  top: 14%;
+  width: 16%;
+  height: 28%;
+}
+.gdg-shape--stat1 { left: 64%; }
+.gdg-shape--stat2 { left: 83%; }
+.gdg-shape--stat1 > .gdg-solid,
+.gdg-shape--stat1 > .gdg-ghost,
+.gdg-shape--stat2 > .gdg-solid,
+.gdg-shape--stat2 > .gdg-ghost { border-radius: 8px; }
+
+/* Icon dots: 2 small circles, lower-right cluster. */
+.gdg-shape--dot1, .gdg-shape--dot2 {
+  top: 70%;
+  width: 5%;
+  aspect-ratio: 1 / 1;
+  height: auto;
+}
+.gdg-shape--dot1 { left: 64%; }
+.gdg-shape--dot2 { left: 73%; }
+.gdg-shape--dot1 > .gdg-solid,
+.gdg-shape--dot1 > .gdg-ghost,
+.gdg-shape--dot2 > .gdg-solid,
+.gdg-shape--dot2 > .gdg-ghost { border-radius: 50%; }
+.gdg-shape--dot1 > .gdg-solid { background: #4a3e63; }
+.gdg-shape--dot2 > .gdg-solid { background: #7a6a9a; }
+
+/* ---------- Drift indicator pings ---------- */
+/* Three small notification dots that surface on the most-drifted
+   shapes (button, card corner, stat2). Hidden at rest; pulse in
+   when ghosts reach max-drift; pulse out before ghosts return. */
+.gdg-ping {
+  position: absolute;
+  width: 2.6%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background: #7a3eaa;
+  box-shadow: 0 0 0 2px rgba(122, 62, 170, 0.18);
+  opacity: 0;
+  transform: scale(0.4);
+  z-index: 5;
+  pointer-events: none;
+}
+/* Pings sit at the visual epicenter of each drift event. The
+   --button ping rides the lighter button shape so the viewer
+   reads "this component drifted." The --card ping lands at the
+   primary card's upper-right corner. The --stat2 ping sits at
+   stat2's upper-right corner. Positions are relative to .gdg-board. */
+.gdg-ping--button { top: 78%; left: 35%; }
+.gdg-ping--card   { top: 13%; left: 56%; }
+.gdg-ping--stat2  { top: 13%; left: 97%; }
+
+/* ---------- Choreography ---------- */
+/* Master 8000ms keyframe applied to every ghost-twin via class
+   .is-animating on root. Animation iterates once per .is-animating
+   cycle — JS toggles the class for autoplay; CSS :hover (via JS
+   mouseenter) toggles for desktop. Mirror seam: 0% == 100% (rest).
+
+   T=0     rest (ghost invisible, scaled 0.96, no drift)
+   T=300   ghosts begin fade-in (staggered via animation-delay)
+   T=1500  ghosts fully visible, no drift yet
+   T=3500  ghosts arrive at drift target (per --gdg-dx, --gdg-dy)
+   T=4000  hold drifted
+   T=5500  ghosts begin return to alignment
+   T=7000  ghosts realigned (drift 0,0)
+   T=7500  ghost outlines start fading out
+   T=8000  ghosts invisible — matches T=0
+*/
+.gdg-stage.is-animating .gdg-ghost {
+  animation: gdg-ghost-drift 8000ms cubic-bezier(0.45, 0.05, 0.55, 0.95) 1 forwards;
+}
+
+@keyframes gdg-ghost-drift {
+  0%   { opacity: 0; transform: translate(0, 0) scale(0.96); }
+  4%   { opacity: 0; transform: translate(0, 0) scale(0.96); }
+  /* 4-19% (T=300 → T=1500): ghosts fade in over aligned positions */
+  19%  { opacity: 0.85; transform: translate(0, 0) scale(1); }
+  /* 19-44% (T=1500 → T=3500): ghosts drift to off-spec */
+  44%  { opacity: 0.85; transform: translate(var(--gdg-dx, 8px), var(--gdg-dy, 4px)) scale(1); }
+  /* 44-69% (T=3500 → T=5500): hold drifted */
+  50%  { opacity: 0.85; transform: translate(var(--gdg-dx, 8px), var(--gdg-dy, 4px)) scale(1); }
+  69%  { opacity: 0.85; transform: translate(var(--gdg-dx, 8px), var(--gdg-dy, 4px)) scale(1); }
+  /* 69-88% (T=5500 → T=7000): snap back to spec — the realign beat */
+  88%  { opacity: 0.85; transform: translate(0, 0) scale(1); }
+  /* 88-100% (T=7000 → T=8000): ghost outlines fade out */
+  94%  { opacity: 0.4; transform: translate(0, 0) scale(0.99); }
+  100% { opacity: 0; transform: translate(0, 0) scale(0.96); }
+}
+
+/* Stagger ghost fade-in by per-element delay so the composition
+   builds rhythmically rather than appearing all at once. Total
+   stagger spread: 600ms (within the 4-19% fade-in window). The
+   delay is achieved via negative animation-delay offsets but
+   that would also shift the END of the animation — instead I use
+   per-element keyframe variants. Simpler: keep one keyframe and
+   the staggered effect comes from the fact that the fade-in is
+   smooth (no perceptible "all at once" snap). */
+
+/* Ping keyframes — surface during max-drift hold window. */
+.gdg-stage.is-animating .gdg-ping {
+  animation: gdg-ping 8000ms cubic-bezier(0.45, 0.05, 0.55, 0.95) 1 forwards;
+}
+.gdg-stage.is-animating .gdg-ping--card   { animation-delay: 50ms; }
+.gdg-stage.is-animating .gdg-ping--stat2  { animation-delay: 100ms; }
+.gdg-stage.is-animating .gdg-ping--button { animation-delay: 150ms; }
+
+@keyframes gdg-ping {
+  0%, 43% { opacity: 0; transform: scale(0.4); }
+  46%     { opacity: 1; transform: scale(1.15); }
+  50%     { opacity: 1; transform: scale(1); }
+  /* hold while ghosts are drifted */
+  72%     { opacity: 0.95; transform: scale(1.08); }
+  82%     { opacity: 0; transform: scale(0.6); }
+  100%    { opacity: 0; transform: scale(0.4); }
+}
+
+/* Pause gate — applies to every animated element under the stage.
+   JS adds .is-paused on viewport exit / tab background; removes
+   on viewport entry. Per Mobile Video §6 and parse-time-occlusion
+   discipline, .is-paused is added by JS BEFORE LoopObserver.start()
+   so below-the-fold instances don't tick for one frame. */
+.gdg-stage.is-paused .gdg-ghost,
+.gdg-stage.is-paused .gdg-ping {
+  animation-play-state: paused;
+}
+
+/* ---------- Container-query scaling ---------- */
+/* At Other Work card widths (~400-500px), shrink the board breath
+   to keep the composition from crowding the edges. The shapes
+   stay percentage-based within the board, so they auto-scale. */
+@container (max-width: 560px) {
+  .gdg-board {
+    width: 88%;
+    height: 84%;
+  }
+  .gdg-ghost {
+    border-width: 1px;
+  }
+}
+
+/* ---------- Reduced motion: pinned aligned end-state ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .gdg-ghost,
+  .gdg-ping {
+    animation: none !important;
+  }
+  /* Pin ghosts visible + aligned (the "snap to spec" final state). */
+  .gdg-ghost {
+    opacity: 0.85;
+    transform: translate(0, 0) scale(1);
+  }
+  /* Hide pings (the alert moment has resolved). */
+  .gdg-ping {
+    opacity: 0;
+  }
+}

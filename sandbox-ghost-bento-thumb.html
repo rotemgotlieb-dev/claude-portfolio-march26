@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- 2026-06-09 (revised): throwaway sandbox for the Ghost bento thumbnail loop.
+       NEW concept: a single solid rounded-rectangle "component" rendered in
+       muted Ghost-purple, with a thin OUTLINED "ghost twin" of the same
+       shape sitting offset behind it. The ghost drifts diagonally, returns
+       into perfect alignment with the solid, holds briefly, then drifts
+       back out. One focal element, one continuous breath cycle.
+       Mirror of sandbox-pulse-bento-thumb.html shape. -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Ghost Bento Thumbnail Sandbox</title>
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Sandbox-only chrome. Centers the 16:9 thumbnail at a stable 1280x720
+       footprint for clean Playwright capture. NOT shipped to production —
+       production styles live in styles.css under the Ghost Bento Thumbnail
+       block (gbt- prefix). */
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #1a1a1a;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Satoshi', system-ui, sans-serif;
+    }
+    .sandbox-frame {
+      width: 1280px;
+      height: 720px;
+      max-width: 100vw;
+      max-height: 100vh;
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.6);
+      position: relative;
+      overflow: hidden;
+    }
+    /* Force the production .bento-card-thumb to fill the sandbox frame so
+       Playwright captures the exact 16:9 thumbnail content with no
+       letterboxing. */
+    .sandbox-frame .bento-card-thumb {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sandbox-frame">
+    <div class="bento-card-thumb thumb-ghost" id="ghostBentoThumb">
+      <div class="gbt-stage">
+
+        <!-- The focal element: a centered pair of rounded rectangles.
+             The OUTLINED ghost-twin sits in the back and drifts diagonally
+             via CSS @keyframes. The SOLID sits in front, perfectly still,
+             representing the canonical spec component. -->
+        <div class="gbt-component-pair" aria-hidden="true">
+          <div class="gbt-component-ghost"></div>
+          <div class="gbt-component-solid"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Load the thumbnail module. Relative path because sandbox file
+       sits at project root alongside index.html. -->
+  <script type="module" src="js/demos/ghost-bento-thumbnail.js"></script>
+</body>
+</html>
