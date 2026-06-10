@@ -521,13 +521,20 @@ nav.scrolled {
 }
 
 .hero-text {
-  font-size: 40px;
+  /* Fluid size tuned so the longer first line ("Product designer who
+     ships the whole loop:") always fits the container on ONE line —
+     the headline is exactly two lines at every viewport (2026-06-10).
+     max-width: 700px removed for the same reason. */
+  font-size: clamp(14px, 4.1vw, 44px);
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.02em;
   line-height: 1.2;
-  max-width: 700px;
   margin: 0;
+}
+.hero-text-line {
+  display: block;
+  white-space: nowrap;
 }
 
 .hero-subtitle {
@@ -4157,7 +4164,7 @@ footer {
 @media (max-width: 1199px) {
   nav { padding: 0 24px; }
 
-  .hero-text { font-size: 32px; }
+  /* .hero-text fixed-size override removed 2026-06-10: clamp() in the base rule governs all viewports (two-line nowrap headline). */
 
   .case-layout { grid-template-columns: 1fr; }
   .case-sidebar { display: none; }
@@ -4192,7 +4199,7 @@ footer {
   .theme-toggle { width: 44px; height: 44px; }
 
   .hero { padding-top: 100px; margin-bottom: 48px; }
-  .hero-text { font-size: 26px; line-height: 1.25; }
+  /* .hero-text fixed-size override removed 2026-06-10: clamp() in the base rule governs all viewports (two-line nowrap headline). */
   .hero-subtitle { font-size: 17px; max-width: none; margin-top: 12px; }
 
   .projects-bento { gap: 16px; margin-bottom: 80px; }
@@ -4295,7 +4302,7 @@ footer {
 }
 
 @media (max-width: 375px) {
-  .hero-text { font-size: 24px; }
+  /* .hero-text fixed-size override removed 2026-06-10: clamp() in the base rule governs all viewports (two-line nowrap headline). */
   .case-title { font-size: 24px; }
   .nav-links { gap: 16px; }
 }
