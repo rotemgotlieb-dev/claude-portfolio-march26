@@ -5112,3 +5112,42 @@ Workflows are for from-scratch builds at significant scope. They are NOT for "fi
 - Em-dash sweep + composition-rule walk (prose before visual, no adjacent loops) are cheap to run during the build, expensive to retrofit. Run them per-section as you edit, not at the end.
 
 **Files touched:** styles.css (case-hero-demo padding, plh-diag-card anchor, +~700 lines lx-demo/lxt/lxr/lxw/lxo), js/demos/lexisnexis-case-demos.js (new), work/lexisnexis.html (4 image slots replaced, text reduced), work/pulse.html + all HTML (cache-bump v=83).
+
+
+## 2026-06-09 — THE REPLICATION PLAYBOOK (user-confirmed successes — promote to standing practice)
+
+**Context.** After the 7-iteration thumbnail regression (documented above), the same session rebuilt both thumbnails, built two case-study heroes, and replaced four static LexisNexis images with built demos. The user's verbatim verdict: "All of these I'm very happy with how they turned out. The mouse movements, the choreography, and above all, what we made actually makes logical sense. It represents my work process. It represents what was in the images that we replaced. This is exactly the kind of work that I like to see and why we spent so long building these systems." This entry codifies WHY this run succeeded so any future session can replicate it.
+
+### The recipe (follow in order, every build)
+
+1. **Read the source material before designing anything.**
+   - For a demo replacing an image: open and visually read the image. Extract its REAL data (hex values, labels, step names, URLs) and reuse verbatim.
+   - For a demo representing a product: read the full case study page first.
+   - The user's #1 stated reason for satisfaction: "it represents my work process, it represents what was in the images we replaced." Authenticity comes from extraction, not invention.
+
+2. **Pick the pattern by what the animation IS, not by ambition level:**
+   - Continuous ambient loop (no story) → Pattern A: CSS keyframes, or A++: JS RAF driving one CSS variable that every coupled property calc()s from (Pulse thumb v8 — coupling guaranteed because there is only one number).
+   - Scripted story with a cursor → Pattern B: engine Cursor + Choreography timeline of {at, do} beats (Ghost thumb v8, both heroes).
+   - Real user interaction → Pattern C: plain event listeners + state classes, no engine, no observer (lxw widget builder).
+
+3. **Use the engine, never reinvent it.** `js/demos/_engine/` (Cursor, Choreography, LoopObserver, getCenterOf, prefersReduced). Every successful demo this session imported from it; all 7 failed iterations rebuilt primitives from scratch inside workflow agents.
+
+4. **One source of truth per coupled motion.** If two things must move in sync (heat + scrubber, slider + cursor), derive both from a single driver (one CSS variable, one timeline). Never two parallel animations tuned to match.
+
+5. **Browser-verify with frame series BEFORE surfacing — non-negotiable.** Playwright frame captures every 500ms across one-plus full loop. Look at them. The user only saw work after I had personally watched it. Zero misses since adopting this.
+
+6. **Measure before fixing.** For layout bugs, probe getBoundingClientRect in the browser first (nav occlusion was a 36px number, card crop was a 26px number) — then make exactly one CSS edit.
+
+7. **Benji body-demo discipline for case-study demos:** ~330px frame, browser-bar chrome with a REAL url, ONE component per demo, wireframe bars + strategic real text only, 6-10s loop, italic caption ≤15 words below.
+
+8. **Prefer structural guarantees over tuned behavior.** Bottom-anchor cards that must not crop. Set slider position only inside grab beats so it cannot move un-grabbed. Make 0% and 100% keyframes identical so seams cannot skip.
+
+9. **Tool selection (the table from the retrospective, now user-validated):**
+   - Research → background Workflow (research workflows always delivered; build workflows caused the regression)
+   - From-scratch builds, fine-tuning, bug fixes → manual + engine + browser-verify
+   - When the user repeats feedback twice → stop, reassess the model, don't iterate harder
+
+10. **Per-section hygiene while editing prose:** em-dash sweep, composition rule (prose introduces visual, no adjacent loops), captions under 15 words. Cheap inline, expensive retroactively.
+
+### Why this is fast as well as good
+The successful LexisNexis sprint (2 hero fixes + 4 new built demos + text reduction + verification) completed in ~one focused pass with zero re-iterations, versus 7 failed workflow iterations on a smaller task. Manual-with-verification is not the slow path; the rework loop is the slow path.

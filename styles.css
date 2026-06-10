@@ -6452,13 +6452,31 @@ body.modal-open { overflow: hidden; }
   flex-direction: column;
   gap: 1.4cqi;
 }
-.ploh-col-header {
-  height: 1.4cqi;
-  background: rgba(31,29,26,0.10);
-  border-radius: 0.4cqi;
-  width: 60%;
+/* Real column labels + counts (2026-06-09 authenticity upgrade —
+   matches the case-study hero's kanban vocabulary). */
+.ploh-col-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
   margin-bottom: 0.6cqi;
+  min-height: 2.4cqi;
 }
+.ploh-col-name {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 1.9cqi;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: rgba(31,29,26,0.55);
+  white-space: nowrap;
+}
+.ploh-col-count {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 1.8cqi;
+  color: rgba(31,29,26,0.40);
+  font-variant-numeric: tabular-nums;
+}
+.ploh-col-count::before { content: '· '; }
 .ploh-task {
   background: #FFFDF8;
   border: 1px solid rgba(31,29,26,0.10);
@@ -7027,10 +7045,11 @@ body.modal-open { overflow: hidden; }
   position: absolute;
   top: 50%;
   left: calc(var(--gdd-track-l) + var(--gdd-slider-pos) * var(--gdd-track-w));
-  width: 5cqi;
+  /* 6.6cqi wide (was 5, 2026-06-09): room for chevrons + grip bars. */
+  width: 6.6cqi;
   height: 7cqi;
   margin-top: -3.5cqi;
-  margin-left: -2.5cqi;
+  margin-left: -3.3cqi;
   background: #FFFFFF;
   border: 1px solid rgba(31,29,26,0.20);
   border-radius: 1cqi;
@@ -7050,6 +7069,28 @@ body.modal-open { overflow: hidden; }
     linear-gradient(90deg, rgba(31,29,26,0.40) 0%, rgba(31,29,26,0.40) 40%, transparent 40%, transparent 60%, rgba(31,29,26,0.40) 60%, rgba(31,29,26,0.40) 100%);
   border-radius: 0.2cqi;
 }
+/* Chevron drag-affordances flanking the grip bars (2026-06-09
+   authenticity upgrade — the handle reads as draggable at a glance).
+   Pure CSS arrows via rotated borders. */
+.gdd-slider-handle::before,
+.gdd-slider-handle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 1.1cqi;
+  height: 1.1cqi;
+  margin-top: -0.55cqi;
+  border-top: 0.3cqi solid rgba(31,29,26,0.45);
+  border-right: 0.3cqi solid rgba(31,29,26,0.45);
+}
+.gdd-slider-handle::before {
+  left: 0.5cqi;
+  transform: rotate(-135deg);
+}
+.gdd-slider-handle::after {
+  right: 0.5cqi;
+  transform: rotate(45deg);
+}
 
 /* ====================================================================
    CURSOR
@@ -7062,11 +7103,13 @@ body.modal-open { overflow: hidden; }
   position: absolute;
   left: -40px;
   top: -40px;
-  width: 5cqi;
-  height: 5cqi;
+  /* 6cqi (was 5cqi, 2026-06-09): the grab-hand state swap is the
+     narrative beat; it must read at bento size. */
+  width: 6cqi;
+  height: 6cqi;
   pointer-events: none;
   z-index: 10;
-  filter: drop-shadow(0 0.3cqi 0.6cqi rgba(0,0,0,0.28));
+  filter: drop-shadow(0 0.35cqi 0.7cqi rgba(0,0,0,0.32));
   /* will-change covers left/top changes during scripted moves. */
   will-change: left, top;
 }

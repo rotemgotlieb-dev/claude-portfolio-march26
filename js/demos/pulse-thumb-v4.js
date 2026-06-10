@@ -195,25 +195,28 @@ var PLOH_MARKUP = (
       '<span class="ploh-counter-label">EVENTS</span>' +
       '<span class="ploh-counter-num">12,847</span>' +
     '</div>' +
+    /* Real column labels + count badges (canonical Pulse kanban
+     * vocabulary, matching the case-study hero). Authenticity upgrade
+     * 2026-06-09: replaces the abstract header bars. */
     '<div class="ploh-grid">' +
       '<div class="ploh-col">' +
-        '<span class="ploh-col-header"></span>' +
+        '<span class="ploh-col-head"><span class="ploh-col-name">Backlog</span><span class="ploh-col-count">7</span></span>' +
         '<div class="ploh-task"><span class="ploh-task-bar" style="width:78%"></span></div>' +
         '<div class="ploh-task"><span class="ploh-task-bar" style="width:62%"></span></div>' +
       '</div>' +
       '<div class="ploh-col">' +
-        '<span class="ploh-col-header"></span>' +
+        '<span class="ploh-col-head"><span class="ploh-col-name">In Progress</span><span class="ploh-col-count">4</span></span>' +
         '<div class="ploh-task ploh-task--hot"><span class="ploh-task-bar" style="width:84%"></span></div>' +
         '<div class="ploh-task"><span class="ploh-task-bar" style="width:70%"></span></div>' +
         '<div class="ploh-task"><span class="ploh-task-bar" style="width:55%"></span></div>' +
       '</div>' +
       '<div class="ploh-col">' +
-        '<span class="ploh-col-header"></span>' +
+        '<span class="ploh-col-head"><span class="ploh-col-name">Review</span><span class="ploh-col-count">3</span></span>' +
         '<div class="ploh-task"><span class="ploh-task-bar" style="width:72%"></span></div>' +
         '<div class="ploh-task"><span class="ploh-task-bar" style="width:60%"></span></div>' +
       '</div>' +
       '<div class="ploh-col">' +
-        '<span class="ploh-col-header"></span>' +
+        '<span class="ploh-col-head"><span class="ploh-col-name">Done</span><span class="ploh-col-count">12</span></span>' +
         '<div class="ploh-task"><span class="ploh-task-bar" style="width:65%"></span></div>' +
         '<div class="ploh-task"><span class="ploh-task-bar" style="width:80%"></span></div>' +
         '<div class="ploh-task"><span class="ploh-task-bar" style="width:50%"></span></div>' +

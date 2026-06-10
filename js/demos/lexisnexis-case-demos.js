@@ -158,6 +158,9 @@ function autoplay(rootEl, loopMs, buildTimeline, resetAll) {
     if (insight) insight.classList.remove('is-visible');
   }
 
+  /* Pacing (2026-06-09 readability fix): each quote now holds on
+   * screen for 2.2s before flying into its bucket (was 0.9s, which
+   * the user flagged as too fast to read). Loop grew 9.4s -> 13.6s. */
   function beatFor(step, atMs) {
     var q = rootEl.querySelector('.lxr-quote[data-step="' + step + '"]');
     var b = buckets[step];
@@ -166,11 +169,11 @@ function autoplay(rootEl, loopMs, buildTimeline, resetAll) {
       { at: atMs, do: function () {
         if (q) q.classList.add('is-visible');
       }},
-      { at: atMs + 900, do: function () {
+      { at: atMs + 2200, do: function () {
         if (q) q.classList.add('is-flying');
         if (b) b.classList.add('is-receiving');
       }},
-      { at: atMs + 1450, do: function () {
+      { at: atMs + 2750, do: function () {
         if (q) q.classList.remove('is-visible', 'is-flying');
         if (b) b.classList.remove('is-receiving');
         if (c) c.textContent = String(baseCounts[step] + 1);
@@ -181,15 +184,15 @@ function autoplay(rootEl, loopMs, buildTimeline, resetAll) {
   function buildTimeline() {
     return []
       .concat(beatFor(0, 400))
-      .concat(beatFor(1, 2200))
-      .concat(beatFor(2, 4000))
+      .concat(beatFor(1, 3600))
+      .concat(beatFor(2, 6800))
       .concat([
-        { at: 5900, do: function () { if (insight) insight.classList.add('is-visible'); } }
-        /* hold insight through T=9400 */
+        { at: 10000, do: function () { if (insight) insight.classList.add('is-visible'); } }
+        /* hold insight through T=13600 */
       ]);
   }
 
-  autoplay(rootEl, 9400, buildTimeline, resetAll);
+  autoplay(rootEl, 13600, buildTimeline, resetAll);
 })();
 
 /* ================================================================== */
