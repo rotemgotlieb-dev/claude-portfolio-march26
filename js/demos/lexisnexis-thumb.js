@@ -177,49 +177,77 @@ function initInstance(wrapper) {
   var loopStart = 0;
   var isPlaying = false;
 
-  /* Hover inversion (2026-06-10, playful interaction): hovering the
-   * card pushes every chip toward the OPPOSITE of its current state —
-   * assembled chips scatter apart, scattered chips pull together.
-   * hoverBlend eases toward 1 on enter / 0 on leave each frame, and
-   * effective progress = p blended toward (1 - p). Autoplay never
-   * stops; the inversion rides on top of the running loop. Hover-
-   * capable pointers only (touch gets pure autoplay). */
-  var hoverTarget = 0;
-  var hoverBlend = 0;
+  /* Cursor repulsion (2026-06-10 v2, replaces the hover inversion per
+   * Rotem): chips SHY AWAY from the pointer. Each frame, any chip
+   * within REPEL_RADIUS of the cursor gets pushed along the away-
+   * vector with a quadratic falloff; per-chip offsets ease toward
+   * their targets so the flow feels fluid, and spring back to zero
+   * when the cursor leaves. Rides ON TOP of the autoplay interpolation
+   * — works in scatter, in the grid, and mid-flight. Hover-capable
+   * pointers only (touch keeps pure autoplay). */
+  var mouseX = -9999;
+  var mouseY = -9999;
+  var repelX = new Array(N);
+  var repelY = new Array(N);
+  for (var ri = 0; ri < N; ri++) { repelX[ri] = 0; repelY[ri] = 0; }
   if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    wrapper.addEventListener('mouseenter', function () { hoverTarget = 1; });
-    wrapper.addEventListener('mouseleave', function () { hoverTarget = 0; });
+    wrapper.addEventListener('mousemove', function (e) {
+      var r = stage.getBoundingClientRect();
+      mouseX = e.clientX - r.left;
+      mouseY = e.clientY - r.top;
+    });
+    wrapper.addEventListener('mouseleave', function () {
+      mouseX = -9999;
+      mouseY = -9999;
+    });
   }
 
   function tick(now) {
     if (!isPlaying) return;
     var t = (now - loopStart) % LOOP_MS;
     var absT = now; /* continuous time for drift (no seam dependence) */
-    hoverBlend += (hoverTarget - hoverBlend) * 0.07;
-    if (hoverBlend < 0.001) hoverBlend = 0;
+    /* Repulsion field scales with the stage so it feels the same on
+     * the homepage bento and the smaller Other Work cards. */
+    var W = stage.clientWidth || 1;
+    var repelRadius = W * 0.22;
+    var repelStrength = W * 0.085;
     for (var i = 0; i < N; i++) {
       var p = chipProgress(i, t);
-      /* Blend toward the inverted state under hover. */
-      var ep = p + (1 - 2 * p) * hoverBlend;
       var s = geo.scatter[i];
       var g = geo.grid[i];
-      var idle = 1 - ep;
+      var idle = 1 - p;
       var dx = Math.sin(absT / 900 + i * 1.7) * 3 * idle;
       var dy = Math.cos(absT / 1100 + i * 2.3) * 2.5 * idle;
-      var x = s.x + (g.x - s.x) * ep + dx;
-      var y = s.y + (g.y - s.y) * ep + dy;
-      /* Pro-animator touches (2026-06-10): chips carry a small
-       * deterministic rotation in scatter that settles to 0 in the
-       * grid, plus a lift-and-settle scale (0.94 loose, 1.0 locked).
-       * Messy-to-neat reads through orientation, not just position. */
-      var rot = (hash01(i, 3) - 0.5) * 16 * idle;
-      var sc = 0.94 + 0.06 * ep;
+      var bx = s.x + (g.x - s.x) * p + dx;
+      var by = s.y + (g.y - s.y) * p + dy;
+      /* Repulsion target from the chip's CENTER to the pointer. */
+      var cx = bx + geo.chipW / 2;
+      var cy = by + geo.chipH / 2;
+      var vx = cx - mouseX;
+      var vy = cy - mouseY;
+      var dist = Math.sqrt(vx * vx + vy * vy);
+      var tx = 0, ty = 0;
+      if (dist < repelRadius && dist > 0.5) {
+        var f = 1 - dist / repelRadius;
+        f = f * f; /* quadratic falloff: strong up close, gentle at edge */
+        tx = (vx / dist) * repelStrength * f;
+        ty = (vy / dist) * repelStrength * f;
+      }
+      /* Ease toward the target — fluid push, springy return. */
+      repelX[i] += (tx - repelX[i]) * 0.14;
+      repelY[i] += (ty - repelY[i]) * 0.14;
+      var x = bx + repelX[i];
+      var y = by + repelY[i];
+      /* Pro-animator touches: settle-rotation + lift-scale, plus a
+       * touch of extra tilt while a chip is being displaced. */
+      var pushMag = Math.min(1, (Math.abs(repelX[i]) + Math.abs(repelY[i])) / 30);
+      var rot = (hash01(i, 3) - 0.5) * 16 * idle + (hash01(i, 5) - 0.5) * 10 * pushMag;
+      var sc = 0.94 + 0.06 * p + 0.03 * pushMag;
       chips[i].style.transform =
         'translate3d(' + x + 'px,' + y + 'px,0) rotate(' + rot + 'deg) scale(' + sc + ')';
     }
-    /* Stamp: in at 2200-2500, out at 4200-4500. Suppressed while the
-     * hover inversion is active (the grid it labels is dispersing). */
-    if (t >= 2200 && t < 4200 && hoverBlend < 0.4) stamp.classList.add('is-visible');
+    /* Stamp: in at 2200-2500, out at 4200-4500. */
+    if (t >= 2200 && t < 4200) stamp.classList.add('is-visible');
     else stamp.classList.remove('is-visible');
     rafId = requestAnimationFrame(tick);
   }

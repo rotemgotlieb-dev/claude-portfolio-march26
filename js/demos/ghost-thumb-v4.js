@@ -1,177 +1,159 @@
-/* Ghost Bento Thumbnail v8 (2026-06-09)
+/* Ghost Bento Thumbnail v9 — Miniature AI Fix Flow (2026-06-10)
  * ====================================================================
  *
- * Architecture: Choreography timeline drives a custom cursor + sets
- * --gdd-slider-pos in exactly TWO beats (drag-right T=1400, drag-left
- * T=3100). Outside those beats, --gdd-slider-pos is NOT touched, so
- * the slider IS structurally stationary. Slider transform/clip-path
- * have a fixed 1200ms cubic-bezier transition — they only animate when
- * the variable changes, which only happens in those two beats.
+ * Drastic rework per Rotem: the previous spec/prod slider thumb read
+ * weak next to the case-study page. This version miniaturizes the
+ * page's strongest artifact — the AI Fix Flow hero — into the bento
+ * slot, reusing its REAL content (deviation rows, Expected/Found
+ * swatches, the −1.4:1 delta, Apply fix, the Fixed badge) and its
+ * canonical colors (#dc2626/#f97316/#eab308 severity dots, #15803d
+ * fixed-green, indigo accents).
  *
- * This enforces the user's "slider only moves when cursor is on it"
- * contract at the architectural level: there is literally no code path
- * that changes the slider position outside the drag beats.
+ * The 7.2s loop tells Ghost's whole story:
+ *   see the deviation -> open it -> Expected vs Found -> Apply fix ->
+ *   watch production snap back to spec (swatch recolors, dot goes
+ *   green, label strikes through) -> reset -> loop.
  *
- * Choreography (5500ms loop):
- *   T=0       Cursor (arrow) at start position above-right of handle.
- *             Slider at LEFT. Production layer dominant.
- *   T=400     Cursor moves down-left toward handle (800ms ease-in-out).
- *   T=1200    Cursor reaches handle. Swap SVG arrow → grab-hand.
- *             clickStamp feedback (cursor.is-stamping for 200ms).
- *   T=1400    Drag right: --gdd-slider-pos: 1 (1200ms transition);
- *             cursor moves to handle-right (1200ms, same duration so
- *             they appear locked).
- *   T=2600    Hold at right (500ms — user's "wait half a second").
- *   T=3100    Drag back left: --gdd-slider-pos: 0; cursor moves to
- *             handle-left (1200ms each, locked).
- *   T=4300    Slider arrives at left. Cursor swap grab-hand → arrow.
- *   T=4500    Cursor lifts up (200ms quick).
- *   T=4800    Cursor returns to start position (500ms ease).
- *   T=5300    Held at start. T=5500 == T=0 (seamless loop).
+ * Engine pattern: Choreography timeline + custom cursor (arrow SVG,
+ * clickStamp feedback) + LoopObserver gating + prefersReduced static
+ * end-state. JS-injection into .thumb-ghost wrappers (homepage bento +
+ * Other Work cards) per the Cross-Surface Thumbnail Consistency Rule.
  *
- * Engine imports: Choreography, LoopObserver, prefersReduced.
- *
- * Cursor: custom DOM element managed in this file (NOT the engine's
- * Cursor primitive). Reason: we need to swap SVG state (arrow ↔ hand)
- * which the Cursor primitive's hardcoded arrow SVG doesn't support.
- * Same CSS-transition-on-left/top model as the Cursor primitive though.
+ * Namespace: gft- (Ghost Fix-flow Thumbnail). Replaces the gdd- build.
  */
 
 import { Choreography, LoopObserver, prefersReduced } from './_engine/index.js';
 
-var LOOP_MS = 5500;
-var DRAG_MS = 1200;
-var APPROACH_MS = 800;
-var LIFT_MS = 200;
-var RETURN_MS = 500;
-var GRAB_FEEDBACK_MS = 200;
+var LOOP_MS = 7200;
 
 var ARROW_SVG =
   '<svg viewBox="0 0 16 16" width="100%" height="100%">' +
     '<path d="M2 1.5 L13.5 8.4 L8.2 9.2 L11 14.4 L8.7 15.6 L5.9 10.4 L2 13.6 Z" ' +
           'fill="#1f1d1a" stroke="#fafaf8" stroke-width="0.6" stroke-linejoin="round"/>' +
   '</svg>';
-var GRAB_HAND_SVG =
-  '<svg viewBox="0 0 18 18" width="100%" height="100%">' +
-    '<g fill="#1f1d1a" stroke="#fafaf8" stroke-width="0.5" stroke-linejoin="round">' +
-      '<rect x="5" y="6" width="8" height="9" rx="2"/>' +
-      '<rect x="5" y="5" width="2.2" height="3" rx="1"/>' +
-      '<rect x="7.5" y="3.5" width="2.2" height="4.5" rx="1"/>' +
-      '<rect x="10" y="4.2" width="2.2" height="3.8" rx="1"/>' +
-      '<rect x="12.5" y="5.5" width="2" height="3" rx="1"/>' +
-    '</g>' +
-  '</svg>';
 
 function initInstance(stage) {
-  if (!stage || stage.__gddInitialized) return;
-  stage.__gddInitialized = true;
+  if (!stage || stage.__gftInitialized) return;
+  stage.__gftInitialized = true;
 
   if (prefersReduced()) {
-    stage.style.setProperty('--gdd-slider-pos', '0.5');
-    stage.classList.add('gdd-reduced');
+    /* Static end state: panel open, fix applied, row fixed. The thesis
+     * (Ghost finds it AND fixes it) reads with zero motion. */
+    stage.classList.add('gft-reduced');
     return;
   }
 
-  var cursor = stage.querySelector('.gdd-cursor');
-  var cursorSvgEl = stage.querySelector('.gdd-cursor-svg');
-  if (!cursor || !cursorSvgEl) return;
+  var row1     = stage.querySelector('.gft-row[data-row="0"]');
+  var panel    = stage.querySelector('.gft-panel');
+  var applyBtn = stage.querySelector('.gft-apply');
+  var progress = stage.querySelector('.gft-progress-fill');
+  var cursor   = stage.querySelector('.gft-cursor');
+  if (!row1 || !panel || !applyBtn || !cursor) return;
 
   var positions = {};
   function computePositions() {
-    var w = stage.clientWidth;
-    var h = stage.clientHeight;
-    var leftX = w * 0.08;
-    var rightX = w * 0.92;
-    var midY = h * 0.50;
-    positions.start = { x: w * 0.55, y: h * 0.18 };
-    positions.handleLeft = { x: leftX, y: midY };
-    positions.handleRight = { x: rightX, y: midY };
-    positions.lifted = { x: leftX, y: h * 0.26 };
+    var sr = stage.getBoundingClientRect();
+    if (!sr.width) return;
+    var rr = row1.getBoundingClientRect();
+    var ar = applyBtn.getBoundingClientRect();
+    /* Panel hides via translateX(24px); subtract it so the cursor
+     * lands on the button's OPEN position. */
+    var panelHidden = !panel.classList.contains('is-open');
+    var shift = panelHidden ? 24 : 0;
+    positions.rest = { x: sr.width * 0.62, y: sr.height * 0.14 };
+    positions.row1 = { x: rr.left - sr.left + rr.width * 0.45, y: rr.top - sr.top + rr.height / 2 };
+    positions.apply = { x: ar.left - sr.left + ar.width / 2 - shift, y: ar.top - sr.top + ar.height / 2 };
   }
   computePositions();
   var resizeId = null;
   window.addEventListener('resize', function () {
     clearTimeout(resizeId);
-    resizeId = setTimeout(computePositions, 100);
+    resizeId = setTimeout(computePositions, 120);
   });
 
-  function snapToStart() {
+  function snapCursor(x, y) {
     cursor.style.transition = 'none';
-    cursor.style.left = positions.start.x + 'px';
-    cursor.style.top = positions.start.y + 'px';
-    cursorSvgEl.innerHTML = ARROW_SVG;
-    cursor.classList.remove('is-grabbing', 'is-stamping');
+    cursor.style.left = x + 'px';
+    cursor.style.top = y + 'px';
     void cursor.offsetWidth;
   }
-
-  function moveCursor(x, y, durationMs) {
+  function moveCursor(x, y, ms) {
     cursor.style.transition =
-      'left ' + durationMs + 'ms cubic-bezier(0.77, 0, 0.175, 1), ' +
-      'top ' + durationMs + 'ms cubic-bezier(0.77, 0, 0.175, 1)';
+      'left ' + ms + 'ms cubic-bezier(0.77, 0, 0.175, 1), ' +
+      'top ' + ms + 'ms cubic-bezier(0.77, 0, 0.175, 1)';
     cursor.style.left = x + 'px';
     cursor.style.top = y + 'px';
   }
-
-  function setCursorSvg(html, grabbing) {
-    cursorSvgEl.innerHTML = html;
-    if (grabbing) cursor.classList.add('is-grabbing');
-    else cursor.classList.remove('is-grabbing');
-  }
-
   function clickStamp() {
     cursor.classList.remove('is-stamping');
     void cursor.offsetWidth;
     cursor.classList.add('is-stamping');
-    setTimeout(function () { cursor.classList.remove('is-stamping'); }, GRAB_FEEDBACK_MS);
   }
 
-  function setSliderPos(p) {
-    stage.style.setProperty('--gdd-slider-pos', String(p));
+  function resetAll() {
+    row1.classList.remove('is-hovered', 'is-clicked', 'is-fixed');
+    panel.classList.remove('is-open', 'is-fixed');
+    applyBtn.classList.remove('is-pressed');
+    if (progress) progress.classList.remove('is-filling');
+    cursor.classList.remove('is-stamping');
   }
 
   var timeline = [
-    { at: 400,  do: function () { moveCursor(positions.handleLeft.x, positions.handleLeft.y, APPROACH_MS); } },
-    { at: 1200, do: function () { setCursorSvg(GRAB_HAND_SVG, true); clickStamp(); } },
-    { at: 1400, do: function () {
-      setSliderPos(1);
-      moveCursor(positions.handleRight.x, positions.handleRight.y, DRAG_MS);
+    /* Cursor approaches the first (red, Breaking) deviation row. */
+    { at: 500,  do: function () { moveCursor(positions.row1.x, positions.row1.y, 600); } },
+    { at: 1100, do: function () { row1.classList.add('is-hovered'); } },
+    /* Click: row selects, detail panel slides in. */
+    { at: 1300, do: function () {
+      clickStamp();
+      row1.classList.remove('is-hovered');
+      row1.classList.add('is-clicked');
+      panel.classList.add('is-open');
     } },
-    { at: 3100, do: function () {
-      setSliderPos(0);
-      moveCursor(positions.handleLeft.x, positions.handleLeft.y, DRAG_MS);
+    /* Cursor travels to Apply fix. */
+    { at: 2200, do: function () { moveCursor(positions.apply.x, positions.apply.y, 600); } },
+    /* Click: apply presses, progress fills. */
+    { at: 2950, do: function () {
+      clickStamp();
+      applyBtn.classList.add('is-pressed');
+      if (progress) progress.classList.add('is-filling');
     } },
-    { at: 4300, do: function () { setCursorSvg(ARROW_SVG, false); } },
-    { at: 4500, do: function () { moveCursor(positions.lifted.x, positions.lifted.y, LIFT_MS); } },
-    { at: 4800, do: function () { moveCursor(positions.start.x, positions.start.y, RETURN_MS); } }
+    /* The fix lands: Found swatch snaps to Expected, badge pops,
+     * row dot flips green + label strikes through. */
+    { at: 3800, do: function () {
+      applyBtn.classList.remove('is-pressed');
+      panel.classList.add('is-fixed');
+      row1.classList.add('is-fixed');
+    } },
+    /* Read hold, then the panel closes. */
+    { at: 5400, do: function () { panel.classList.remove('is-open'); } },
+    /* Cursor returns to rest. */
+    { at: 5700, do: function () { moveCursor(positions.rest.x, positions.rest.y, 700); } },
+    /* Row state fades back for the seam. */
+    { at: 6500, do: function () {
+      row1.classList.remove('is-clicked', 'is-fixed');
+      panel.classList.remove('is-fixed');
+      if (progress) progress.classList.remove('is-filling');
+    } }
   ];
 
-  var choreo = new Choreography({
-    timeline: timeline,
-    duration: LOOP_MS,
-    onReset: function () {
-      snapToStart();
-      setSliderPos(0);
-    }
-  });
+  var choreo = new Choreography({ timeline: timeline, duration: LOOP_MS, onReset: resetAll });
 
-  var loopTimeoutId = null;
+  var loopTimerId = null;
   function startLoop() {
-    snapToStart();
-    setSliderPos(0);
+    resetAll();
+    computePositions();
+    snapCursor(positions.rest.x, positions.rest.y);
     requestAnimationFrame(function () {
       choreo.play();
-      loopTimeoutId = setTimeout(function loopFn() {
+      loopTimerId = setTimeout(function loopFn() {
         choreo.reset();
         choreo.play();
-        loopTimeoutId = setTimeout(loopFn, LOOP_MS);
+        loopTimerId = setTimeout(loopFn, LOOP_MS);
       }, LOOP_MS);
     });
   }
   function stopLoop() {
-    if (loopTimeoutId) {
-      clearTimeout(loopTimeoutId);
-      loopTimeoutId = null;
-    }
+    if (loopTimerId) { clearTimeout(loopTimerId); loopTimerId = null; }
     choreo.pause();
   }
 
@@ -183,65 +165,60 @@ function initInstance(stage) {
   observer.start();
 }
 
-var GDD_MARKUP = (
-  '<div class="gdd-stage" data-ghost-thumb aria-hidden="true">' +
-    '<div class="gdd-halo" aria-hidden="true"></div>' +
-    '<div class="gdd-tag gdd-tag--spec">SPEC</div>' +
-    '<div class="gdd-tag gdd-tag--diff"><span class="gdd-tag-dot"></span>DIFF</div>' +
-    '<div class="gdd-tag gdd-tag--prod">PROD</div>' +
-    '<div class="gdd-layer gdd-layer--spec">' +
-      '<div class="gdd-nav">' +
-        '<span class="gdd-nav-logo"></span>' +
-        '<span class="gdd-nav-item"></span>' +
-        '<span class="gdd-nav-item"></span>' +
-        '<span class="gdd-nav-item"></span>' +
+/* Markup — single source of truth. Content lifted verbatim from the
+ * case-study AI Fix Flow hero for cross-surface authenticity. */
+var GFT_MARKUP = (
+  '<div class="gft-stage" data-ghost-thumb aria-hidden="true">' +
+    '<div class="gft-halo" aria-hidden="true"></div>' +
+    '<div class="gft-header">' +
+      '<span class="gft-header-label">Deviations · Scan 007</span>' +
+      '<span class="gft-header-count">21 found</span>' +
+    '</div>' +
+    '<div class="gft-body">' +
+      '<div class="gft-list">' +
+        '<div class="gft-row" data-row="0">' +
+          '<span class="gft-dot gft-dot--red"></span>' +
+          '<span class="gft-row-text"><span class="gft-row-label">Color · Table</span><span class="gft-row-meta">#text-secondary</span></span>' +
+          '<span class="gft-row-check" aria-hidden="true">' +
+            '<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>' +
+          '</span>' +
+        '</div>' +
+        '<div class="gft-row" data-row="1">' +
+          '<span class="gft-dot gft-dot--orange"></span>' +
+          '<span class="gft-row-text"><span class="gft-row-label">Spacing · Card</span><span class="gft-row-meta">16 &rarr; 12</span></span>' +
+        '</div>' +
+        '<div class="gft-row" data-row="2">' +
+          '<span class="gft-dot gft-dot--yellow"></span>' +
+          '<span class="gft-row-text"><span class="gft-row-label">Radius · Button</span><span class="gft-row-meta">8 &rarr; 6</span></span>' +
+        '</div>' +
       '</div>' +
-      '<div class="gdd-card">' +
-        '<span class="gdd-card-title"></span>' +
-        '<span class="gdd-card-subtitle"></span>' +
-        '<span class="gdd-card-line gdd-card-line--1"></span>' +
-        '<span class="gdd-card-line gdd-card-line--2"></span>' +
-        '<button class="gdd-card-cta gdd-card-cta--spec"><span class="gdd-card-cta-label"></span></button>' +
-      '</div>' +
-      '<div class="gdd-sidebar">' +
-        '<span class="gdd-sidebar-item"></span>' +
-        '<span class="gdd-sidebar-item"></span>' +
-        '<span class="gdd-sidebar-item"></span>' +
-      '</div>' +
-      '<div class="gdd-stats">' +
-        '<div class="gdd-stat"><span class="gdd-stat-num"></span><span class="gdd-stat-label"></span></div>' +
-        '<div class="gdd-stat"><span class="gdd-stat-num"></span><span class="gdd-stat-label"></span></div>' +
+      '<div class="gft-panel">' +
+        '<div class="gft-panel-head">' +
+          '<span class="gft-dot gft-dot--red"></span>' +
+          '<span class="gft-panel-title">Color · Table</span>' +
+          '<span class="gft-badge gft-badge--breaking">Breaking</span>' +
+          '<span class="gft-badge gft-badge--fixed">Fixed</span>' +
+        '</div>' +
+        '<div class="gft-compare">' +
+          '<div class="gft-compare-cell">' +
+            '<span class="gft-compare-label">Expected</span>' +
+            '<span class="gft-swatch" style="background:#9CA3AF"></span>' +
+            '<span class="gft-hex">#9CA3AF</span>' +
+          '</div>' +
+          '<div class="gft-compare-cell">' +
+            '<span class="gft-compare-label">Found</span>' +
+            '<span class="gft-swatch gft-swatch--found"></span>' +
+            '<span class="gft-hex gft-hex--found">#6B7280</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="gft-delta">Delta: &minus;1.4:1 contrast</div>' +
+        '<button class="gft-apply" type="button" tabindex="-1">' +
+          '<span class="gft-apply-label">Apply fix</span>' +
+          '<span class="gft-progress"><span class="gft-progress-fill"></span></span>' +
+        '</button>' +
       '</div>' +
     '</div>' +
-    '<div class="gdd-layer gdd-layer--prod">' +
-      '<div class="gdd-nav">' +
-        '<span class="gdd-nav-logo gdd-nav-logo--drift"></span>' +
-        '<span class="gdd-nav-item"></span>' +
-        '<span class="gdd-nav-item"></span>' +
-      '</div>' +
-      '<div class="gdd-card">' +
-        '<span class="gdd-card-title gdd-card-title--drift"></span>' +
-        '<span class="gdd-card-subtitle"></span>' +
-        '<span class="gdd-card-line gdd-card-line--1 gdd-card-line--drift"></span>' +
-        '<span class="gdd-card-line gdd-card-line--2"></span>' +
-        '<button class="gdd-card-cta gdd-card-cta--amber"><span class="gdd-card-cta-label"></span></button>' +
-      '</div>' +
-      '<div class="gdd-sidebar">' +
-        '<span class="gdd-sidebar-item gdd-sidebar-item--drift"></span>' +
-        '<span class="gdd-sidebar-item"></span>' +
-      '</div>' +
-      '<div class="gdd-stats">' +
-        '<div class="gdd-stat gdd-stat--amber"><span class="gdd-stat-num"></span><span class="gdd-stat-label"></span></div>' +
-        '<div class="gdd-stat"><span class="gdd-stat-num"></span><span class="gdd-stat-label"></span></div>' +
-      '</div>' +
-    '</div>' +
-    '<div class="gdd-slider-line" aria-hidden="true"></div>' +
-    '<div class="gdd-slider-handle" aria-hidden="true">' +
-      '<span class="gdd-slider-handle-bars"></span>' +
-    '</div>' +
-    '<div class="gdd-cursor" aria-hidden="true">' +
-      '<span class="gdd-cursor-svg"></span>' +
-    '</div>' +
+    '<div class="gft-cursor" aria-hidden="true">' + ARROW_SVG + '</div>' +
   '</div>'
 );
 
@@ -250,7 +227,7 @@ function injectIntoWrappers() {
   for (var i = 0; i < wrappers.length; i++) {
     var w = wrappers[i];
     if (!w.querySelector('[data-ghost-thumb]')) {
-      w.innerHTML = GDD_MARKUP;
+      w.innerHTML = GFT_MARKUP;
     }
   }
 }
