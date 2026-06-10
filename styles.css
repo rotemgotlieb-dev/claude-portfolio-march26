@@ -504,8 +504,11 @@ nav.scrolled {
    HERO
    ============================================ */
 .hero {
-  padding-top: 100px;
-  margin-bottom: 48px;
+  /* Compressed 2026-06-10 (was 100px top / 48px bottom) so the bento
+     grid's second row crops less at common laptop heights. Combined
+     with the removed resume link this reclaims ~80px above the fold. */
+  padding-top: 84px;
+  margin-bottom: 36px;
 }
 
 .section-label-home {
@@ -514,7 +517,7 @@ nav.scrolled {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text-faint);
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 
 .hero-text {
@@ -616,7 +619,9 @@ nav.scrolled {
 .project-label {
   font-size: 12px; font-weight: 400;
   color: var(--text-muted);
-  text-transform: lowercase;
+  /* text-transform: lowercase removed 2026-06-10 so "LexisNexis Risk
+     Solutions" displays with its correct capitals; other labels are
+     authored lowercase and keep their look. */
   letter-spacing: 0.04em;
   margin-bottom: 4px;
 }
@@ -7186,9 +7191,11 @@ body.modal-open { overflow: hidden; }
    gets no dimming — the default hover-lift still works. Tuned to a
    gentler 0.45/grayscale(0.4) rather than Salaja's 0.2/grayscale(1) so
    the unhovered work still reads as part of the curated set. */
-.bento-grid:has(.bento-card:hover) .bento-card:not(:hover),
-.bento-row-top:has(.bento-card:hover) .bento-card:not(:hover),
-.bento-row-bottom:has(.bento-card:hover) .bento-card:not(:hover) {
+/* 2026-06-10 bug fix: was scoped per-row (.bento-row-top:has /
+   .bento-row-bottom:has) so hovering a bottom-row card only dimmed its
+   row-mate, never the top-row cards. Scoping to the shared parent
+   section (.projects-bento) dims every other card grid-wide. */
+.projects-bento:has(.bento-card:hover) .bento-card:not(:hover) {
   opacity: 0.45;
   filter: grayscale(0.4);
   transform: scale(0.99);

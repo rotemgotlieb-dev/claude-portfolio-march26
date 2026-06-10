@@ -48,6 +48,23 @@
       index.html + every work/*.html needs ?v=N synchronized. Per CLAUDE.md
       Mobile Video Standing Rule meta-layer (M).
 
+   7. Pixel-transform stages must be SCALED, not resized (2026-06-10).
+      Pulse/Ghost thumb stages lay out in container-relative units (cqi/%),
+      so they re-render correctly when the cloned thumb becomes 100vw/100vh.
+      The LexisNexis Token Snap stage (.lxs-stage) positions its chips with
+      JS-measured PIXEL transforms — resizing its container leaves the
+      composition card-sized in the top-left corner of the fullscreen clone.
+      Fix: pin the cloned stage at its original pixel size and scale() it to
+      the viewport. Any future thumb with JS-measured pixel transforms needs
+      the same treatment — add its stage class to PIXEL_STAGES.
+
+   8. bfcache cleanup (2026-06-10). The expansion hides the original card,
+      appends a fullscreen clone, and navigates. On browser-back, bfcache
+      restores the page VERBATIM — frozen clone covering the viewport,
+      original card invisible, IN_FLIGHT stuck true. Two-layer fix: pagehide
+      removes the clone + restores the card BEFORE the snapshot is cached,
+      and pageshow(persisted) sweeps any stray clones as a safety net.
+
    Established 2026-06-09.
 */
 
@@ -74,12 +91,18 @@ function isInternalLink(card) {
   return true;
 }
 
+/* Stage classes whose children are positioned by JS-measured PIXEL
+ * transforms (see gotcha #7). These get pinned + scale()d in the clone
+ * instead of being allowed to resize. */
+var PIXEL_STAGES = ['.lxs-stage'];
+
 function buildClone(card, rect) {
   var clone = card.cloneNode(true);
 
   // Strip interactivity from clone — it is a visual prop, not a link.
   clone.removeAttribute('href');
   clone.setAttribute('aria-hidden', 'true');
+  clone.setAttribute('data-expansion-clone', '');
   clone.style.pointerEvents = 'none';
   clone.style.userSelect = 'none';
 
@@ -112,6 +135,27 @@ function buildClone(card, rect) {
     thumb.style.height = '100%';
     thumb.style.margin = '0';
     thumb.style.borderRadius = '0';
+  }
+
+  // Gotcha #7: pixel-transform stages keep their measured coordinate
+  // space and get uniformly scale()d to the viewport instead of resized.
+  var srcThumb = card.querySelector('.bento-card-thumb, .project-thumbnail');
+  if (thumb && srcThumb) {
+    var srcRect = srcThumb.getBoundingClientRect();
+    for (var i = 0; i < PIXEL_STAGES.length; i++) {
+      var stage = thumb.querySelector(PIXEL_STAGES[i]);
+      if (stage && srcRect.width > 0 && srcRect.height > 0) {
+        stage.style.width = srcRect.width + 'px';
+        stage.style.height = srcRect.height + 'px';
+        stage.style.inset = 'auto';
+        stage.style.top = '0';
+        stage.style.left = '0';
+        stage.style.transformOrigin = '0 0';
+        stage.style.transform = 'scale(' +
+          (window.innerWidth / srcRect.width) + ', ' +
+          (window.innerHeight / srcRect.height) + ')';
+      }
+    }
   }
 
   return clone;
@@ -154,6 +198,10 @@ function navigate(href) {
   window.location.href = href;
 }
 
+/* Module-level refs for bfcache cleanup (gotcha #8). */
+var ACTIVE_CARD = null;
+var ACTIVE_CLONE = null;
+
 function runExpansion(card, event) {
   if (IN_FLIGHT) {
     // Suppress all click handling for the duration of a running expansion.
@@ -172,6 +220,8 @@ function runExpansion(card, event) {
   var rect = card.getBoundingClientRect();
   var radius = getRadiusPx(card);
   var clone = buildClone(card, rect);
+  ACTIVE_CARD = card;
+  ACTIVE_CLONE = clone;
 
   // Hide original FIRST (in same frame) so the user never sees both.
   // visibility (not display) preserves layout box — grid does not reflow.
@@ -210,6 +260,34 @@ function cleanup(card, clone) {
   if (clone && clone.parentNode) clone.parentNode.removeChild(clone);
   if (card) card.style.visibility = '';
 }
+
+/* bfcache cleanup (gotcha #8): scrub the expansion state before the page
+ * snapshot is cached (pagehide) AND after a persisted restore (pageshow)
+ * as a safety net. Without this, browser-back restores a frozen
+ * fullscreen clone covering the homepage. */
+function scrubExpansionState() {
+  if (ACTIVE_CLONE && ACTIVE_CLONE.parentNode) {
+    ACTIVE_CLONE.parentNode.removeChild(ACTIVE_CLONE);
+  }
+  if (ACTIVE_CARD) ACTIVE_CARD.style.visibility = '';
+  ACTIVE_CARD = null;
+  ACTIVE_CLONE = null;
+  // Sweep strays (belt + suspenders — e.g., a clone that survived in the
+  // cached snapshot from a previous page lifetime).
+  var strays = document.querySelectorAll('[data-expansion-clone]');
+  for (var i = 0; i < strays.length; i++) {
+    if (strays[i].parentNode) strays[i].parentNode.removeChild(strays[i]);
+  }
+  var hidden = document.querySelectorAll('.bento-card[style*="visibility"], .other-work-card[style*="visibility"]');
+  for (var j = 0; j < hidden.length; j++) {
+    hidden[j].style.visibility = '';
+  }
+  IN_FLIGHT = false;
+}
+window.addEventListener('pagehide', scrubExpansionState);
+window.addEventListener('pageshow', function (event) {
+  if (event.persisted) scrubExpansionState();
+});
 
 function attach() {
   // Capture phase so we outrank the global page-transition click handler
