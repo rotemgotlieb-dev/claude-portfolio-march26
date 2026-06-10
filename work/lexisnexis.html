@@ -21,7 +21,7 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1A1A'/><text x='50%25' y='52%25' dominant-baseline='central' text-anchor='middle' font-family='system-ui,-apple-system,sans-serif' font-weight='900' font-size='20' fill='%23FAFAF8'>R</text></svg>">
   <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1A1A'/><text x='50%25' y='52%25' dominant-baseline='central' text-anchor='middle' font-family='system-ui,-apple-system,sans-serif' font-weight='900' font-size='20' fill='%23FAFAF8'>R</text></svg>">
   <script>(function(){/* dark mode disabled 2026-05-13: keep theme=light. Restore: revert this <script> + .theme-toggle CSS hide */})();</script>
-  <link rel="stylesheet" href="../styles.css?v=89">
+  <link rel="stylesheet" href="../styles.css?v=90">
 </head>
 <body>
 
@@ -78,7 +78,7 @@
            pipeline. Built with engine primitives Cursor + Choreography
            in js/demos/lexisnexis-pipeline-hero.js. -->
       <div class="case-hero-demo fade-in" data-delay="0.3" id="lexisPipelineHero">
-        <div class="lxh-container" aria-label="LexisNexis design-to-code pipeline: edit one Figma color token, watch it cascade through JSON to CSS to React, production UI components update in 30 seconds.">
+        <div data-scale-fit="640" class="lxh-container" aria-label="LexisNexis design-to-code pipeline: edit one Figma color token, watch it cascade through JSON to CSS to React, production UI components update in 30 seconds.">
           <!-- Header strip -->
           <div class="lxh-header">
             <div class="lxh-header-traffic">
@@ -217,8 +217,7 @@
           <section id="overview" class="case-section reveal">
             <span class="section-label">Overview</span>
             <h2>A palette update used to take three people and a full day. I got it down to one designer and 30 seconds.</h2>
-            <p>At LexisNexis Risk Solutions, I inherited a design system where Figma, Storybook, and production code spoke different languages. Every handoff was a manual translation that introduced drift.</p>
-            <p>Over seven months, I ran the research that shaped the roadmap, built the prototypes that validated it, and helped build the token infrastructure that connected design to code. It starts in Figma: every foundation swatch maps to a semantic alias.</p>
+            <p>At LexisNexis Risk Solutions, Figma, Storybook, and production code spoke different languages. I ran the research, built the prototypes, and helped ship the pipeline that connects them. It starts with naming: every foundation swatch maps to a semantic alias.</p>
           </section>
 
           <!-- Token Aliasing demo (lxt) · autoplay ~8s. Replaces the
@@ -297,14 +296,14 @@
           <section id="the-problem" class="case-section reveal">
             <span class="section-label">The Problem</span>
             <h2>Two design systems. Zero shared language.</h2>
-            <p>LexisNexis runs ThreatMetrix, a fraud detection platform used by financial institutions worldwide. The design org maintained two separate Figma systems with no connection between them or to the codebase.</p>
-            <p>A palette update meant one designer rebuilding swatches in Figma, then two UX engineers translating those values into Storybook and production CSS by hand. Names didn't match across systems. Meanwhile, the fraud analysts using the product daily had never been formally interviewed.</p>
+            <p>LexisNexis runs ThreatMetrix, fraud detection for financial institutions worldwide. A palette update took one designer and two UX engineers hand-translating values into Storybook and CSS.</p>
+            <p>And the fraud analysts using the product daily had never been interviewed.</p>
           </section>
 
           <section id="phase-1" class="case-section reveal">
             <span class="section-label">Phase 1 · Research</span>
             <h2>Eight interviews that rewrote the roadmap.</h2>
-            <p>Custom Layouts was on the roadmap, but no one had grounded what "custom" should actually mean. I joined client calls, dug into recordings, and tagged everything in Dovetail across 8 interviews.</p>
+            <p>Custom Layouts was on the roadmap, but nobody had defined what "custom" meant. I joined client calls and tagged 8 interviews in Dovetail.</p>
           </section>
 
           <div class="case-image reveal">
@@ -312,7 +311,7 @@
           </div>
 
           <section class="case-section reveal">
-            <p>The core finding was stark: analysts monitor fraud across dozens of signals, but the dashboard forces a fixed layout. One analyst toggled between four browser tabs because a single view couldn't show what she needed. Every insight landed in a three-dimension taxonomy, so counts could answer roadmap questions directly.</p>
+            <p>Analysts monitor dozens of signals, but the dashboard forces one fixed layout. Every insight went into a three-dimension taxonomy so counts could answer roadmap questions.</p>
           </section>
 
           <!-- Research Taxonomy demo (lxr) · autoplay ~9.5s. Replaces the
@@ -404,8 +403,8 @@
           <section id="phase-2" class="case-section reveal">
             <span class="section-label">Phase 2 · Prototyping</span>
             <h2>Three rounds in two weeks.</h2>
-            <p>With research pointing at customizable dashboards, I built an interactive Figma prototype that simulated drag-and-drop layout customization. Each round of moderated testing, I watched analysts hesitate, fixed what stuck, and shipped an updated version before the next session.</p>
-            <p>By the third round, users completed tasks without guidance. This is the core interaction, rebuilt: pick a widget, add it, shape the layout.</p>
+            <p>I built an interactive Figma prototype of drag-and-drop dashboard customization. Each round of moderated testing, I fixed what made analysts hesitate and shipped before the next session.</p>
+            <p>By the third round, analysts completed tasks without guidance. The core interaction, rebuilt:</p>
           </section>
 
           <!-- Widget Builder (lxw) · INTERACTIVE. Replaces the cropped
@@ -471,8 +470,8 @@
           <section id="phase-3" class="case-section reveal">
             <span class="section-label">Phase 3 · Token Pipeline</span>
             <h2>One source of truth for two design systems.</h2>
-            <p>I built a Figma token library with 180+ colors, each WCAG-tested and assigned a semantic alias that describes usage, not appearance: "surface-elevated" and "feedback-error" replaced "gray-200" and "red-3."</p>
-            <p>With a UX engineer, I defined the JSON export schema so token names, nesting, and values survive the trip from Figma to code without manual cleanup. Figma variables export as JSON, a parsing script converts them into CSS and JS config, and those feed Storybook and production React.</p>
+            <p>I built a Figma token library: 180+ colors, each WCAG-tested, each named for usage, not appearance. "Surface-elevated" and "feedback-error" replaced "gray-200" and "red-3."</p>
+            <p>With a UX engineer, I defined the JSON schema so token names, nesting, and values survive the trip from Figma to code untouched.</p>
           </section>
 
           <section id="outcome" class="outcome-section reveal">
@@ -483,7 +482,7 @@
               <p><strong>180+ WCAG-tested tokens</strong> serving 2 design systems through a shared architecture.</p>
               <p><strong>8 user interviews</strong> that directly shaped the Custom Layouts product roadmap.</p>
             </div>
-            <p>The token pipeline became the foundation for the 2025 design system rollout across LexisNexis Risk Solutions. Every designer and engineer on both product teams now ships faster because this infrastructure exists. The whole pipeline, before and after:</p>
+            <p>The token pipeline became the foundation for the 2025 design system rollout across LexisNexis Risk Solutions. Before and after:</p>
 
             <!-- Before/After Pipeline demo (lxo) · autoplay ~10s. Replaces
                  the static footer_apr23.png. The BEFORE row lights slowly
@@ -605,12 +604,12 @@
     </div>
   </div>
 
-  <script src="../main.js?v=21"></script>
+  <script src="../main.js?v=23"></script>
   <script src="../game.js?v=3"></script>
-  <script type="module" src="../js/demos/lexisnexis-pipeline-hero.js?v=89"></script>
-  <script type="module" src="../js/demos/lexisnexis-case-demos.js?v=89"></script>
-  <script type="module" src="../js/demos/pulse-thumb-v4.js?v=89"></script>
-  <script type="module" src="../js/demos/ghost-thumb-v4.js?v=89"></script>
-  <script type="module" src="../js/demos/origin-aware-thumb-expansion.js?v=89"></script>
+  <script type="module" src="../js/demos/lexisnexis-pipeline-hero.js?v=90"></script>
+  <script type="module" src="../js/demos/lexisnexis-case-demos.js?v=90"></script>
+  <script type="module" src="../js/demos/pulse-thumb-v4.js?v=90"></script>
+  <script type="module" src="../js/demos/ghost-thumb-v4.js?v=90"></script>
+  <script type="module" src="../js/demos/origin-aware-thumb-expansion.js?v=90"></script>
 </body>
 </html>

@@ -24,3 +24,9 @@
 ## Copy
 - EM DASH BAN (— and &mdash;) in all user-facing prose. Replace: period > comma > parens > colon. Verify: grep -c "—\|&mdash;" work/*.html index.html → 0.
 - Cross-surface thumbnails: homepage bento and Other Work cards use the SAME implementation (JS-injected). Never img on one + animation on the other.
+
+## Live-product links (2026-06-10)
+.case-live-link pill under the case title (accent via --live-accent inline var), target _blank + ?from=portfolio (products show a back-chip). Pulse's is staged commented-out until pulse.rotemgotlieb.com resolves.
+
+## Copy register (2026-06-10 trim, peer-validated)
+Body prose earns its place only if a founding-designer hiring manager loses something in a 60-second scan without it. Demos carry explanation; prose carries numbers, proper nouns, and one craft moment per page. Sentences ≤20 words.

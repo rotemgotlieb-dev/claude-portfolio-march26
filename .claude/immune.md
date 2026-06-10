@@ -13,3 +13,4 @@ Scan the diff against these historical failures:
 10. Other Work thumbnails diverging from homepage bento implementation
 11. nowrap text without measured fit across 320-1440px viewports
 12. New "for every video/element" JS loop without viewport scoping
+13. Mobile viewport blowout: fixed-width/no-shrink children or nowrap text expand the LAYOUT viewport (page opens zoomed on phones). min-content propagates up width:100% chains PAST overflow:hidden; transform:scale does NOT change the layout box. Real fixes: min-width:0 on every column level, or scale-fit (main.js applyScaleFit: child absolute + measured against document width). Probe: window.innerWidth>375 at 375 device. (2026-06-10)

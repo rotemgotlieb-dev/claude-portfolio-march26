@@ -21,7 +21,7 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1A1A'/><text x='50%25' y='52%25' dominant-baseline='central' text-anchor='middle' font-family='system-ui,-apple-system,sans-serif' font-weight='900' font-size='20' fill='%23FAFAF8'>R</text></svg>">
   <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1A1A'/><text x='50%25' y='52%25' dominant-baseline='central' text-anchor='middle' font-family='system-ui,-apple-system,sans-serif' font-weight='900' font-size='20' fill='%23FAFAF8'>R</text></svg>">
   <script>(function(){/* dark mode disabled 2026-05-13: keep theme=light. Restore: revert this <script> + .theme-toggle CSS hide */})();</script>
-  <link rel="stylesheet" href="../styles.css?v=89">
+  <link rel="stylesheet" href="../styles.css?v=90">
 </head>
 <body>
 
@@ -80,7 +80,7 @@
            js/demos/ghost-ai-fix-flow-hero.js.
            ============================================ -->
       <div class="case-hero-demo fade-in" data-delay="0.3" id="aiFixFlowHero">
-        <div class="fix-hero-container" aria-label="AI Fix Flow demo">
+        <div data-scale-fit="660" class="fix-hero-container" aria-label="AI Fix Flow demo">
           <div class="fix-hero-browser-bar">
             <div class="fix-hero-traffic-lights">
               <span style="background:#ff5f57"></span>
@@ -228,6 +228,11 @@
 
       <div class="case-content-inner">
         <h1 class="case-title fade-in" data-delay="0.5">Ghost · Design System Reality Scanner</h1>
+        <a class="case-live-link fade-in" data-delay="0.6" style="--live-accent:#4F46E5" href="https://ghost.rotemgotlieb.com?from=portfolio" target="_blank" rel="noopener">
+          <span class="case-live-dot" aria-hidden="true"></span>
+          Try the live product
+          <span class="case-live-arrow" aria-hidden="true">&#8599;</span>
+        </a>
 
         <div class="metadata-grid fade-in" data-delay="0.7">
           <div class="metadata-item">
@@ -253,20 +258,20 @@
           <section id="overview" class="case-section reveal">
             <span class="section-label">Overview</span>
             <h2>Design systems break silently. Ghost makes the drift visible.</h2>
-            <p>Ghost is a Design System Reality Scanner. It compares Figma source of truth against production. The signature interaction is a comparison slider: design on one side, production on the other, gap visible in one motion.</p>
+            <p>Ghost is a Design System Reality Scanner, designed and built end to end in code. It compares the Figma source of truth against production.</p>
           </section>
 
           <section id="the-problem" class="case-section reveal">
             <span class="section-label">The Problem</span>
             <h2>Nobody checks if production matches the spec.</h2>
-            <p>A developer hardcodes padding instead of using the token. A color shifts by one hex digit during a refactor. A border radius rounds down from 8 to 6 because someone eyeballed a Figma inspect. None of these are bugs. All of them pass code review. After six months, your product looks like three products wearing the same logo.</p>
-            <p>Chromatic, Percy, Applitools catch regressions against <em>previous code</em>. They answer "did this component change since last week?" They don't answer the question designers actually care about: does our product match our design system?</p>
+            <p>A hardcoded padding here, a hex digit there, a radius eyeballed from 8 to 6. None are bugs. All pass code review. Six months later, your product is three products wearing the same logo.</p>
+            <p>Chromatic, Percy, and Applitools catch regressions against <em>previous code</em>. None answer the designer's question: does production match the design system?</p>
           </section>
 
           <section id="the-insight" class="case-section reveal">
             <span class="section-label">The Insight</span>
             <h2>Designers check work by holding the spec next to the output.</h2>
-            <p>The comparison slider mirrors how designers check work: spec next to output, gap visible in one motion. No report required.</p>
+            <p>Spec on one side, production on the other, gap visible in one motion. No report required.</p>
           </section>
 
           <div class="demo-frame reveal">
@@ -451,16 +456,15 @@
           <section id="the-solution" class="case-section reveal">
             <span class="section-label">The Solution</span>
             <h2>Drag to reveal. Detect, diagnose, remediate.</h2>
-            <p><strong>Deviation markers carry the diagnosis.</strong> Red for breaking, amber for drift, blue for undocumented variants. Each marker shows the exact delta. 'Expected: padding 16px. Found: padding 12px. Off by 4.'</p>
-            <p><strong>The AI Fix Flow closes the loop.</strong> Detection, diagnosis, and remediation in a single workflow. No competitor offers this.</p>
+            <p><strong>Markers carry the diagnosis:</strong> red for breaking, amber for drift, blue for undocumented variants. The AI Fix Flow closes the loop in one workflow. No competitor offers this.</p>
           </section>
 
           <section id="design-process" class="case-section reveal">
             <span class="section-label">Design Process</span>
             <h2>Three pivots made Ghost what it is.</h2>
-            <p><strong>The slider moved from buried feature to hero.</strong> The first version was a standard monitoring console: fidelity score donut, stat cards, trend chart. The slider existed but was three clicks deep. I rebuilt the dashboard with the slider as the entry point, pre-loaded with the heaviest scan.</p>
-            <p><strong>The interface shifted from dashboard to investigation workspace.</strong> Once the slider led, the rest needed to match. Dashboards are for monitoring; Ghost is for investigating. I restructured scan detail as a workspace with spec, production, and deviation list visible simultaneously.</p>
-            <p><strong>Detection became detection-to-remediation.</strong> The biggest shift. Ghost originally stopped at 'here's the problem.' I added the AI Fix Flow. This turned Ghost from an audit tool into a remediation tool.</p>
+            <p><strong>The slider moved from buried feature to hero.</strong> The first build hid it three clicks deep. I rebuilt the dashboard around it.</p>
+            <p><strong>The dashboard became an investigation workspace.</strong> Dashboards monitor; Ghost investigates. Spec, production, and deviations sit visible at once.</p>
+            <p><strong>Detection became remediation.</strong> Early Ghost stopped at 'here's the problem.' The AI Fix Flow turned an audit tool into a fix tool.</p>
           </section>
 
           <!-- ============================================
@@ -552,7 +556,7 @@
 
           <section class="case-section reveal">
             <h2>Detection runs at the token level.</h2>
-            <p>Drift starts at the token, where designers don't look. Ghost scans every component on every push, surfacing the deviation before it ever ships.</p>
+            <p>Drift starts at the token, where designers don't look. Ghost scans every component on every push and flags deviations before they ship.</p>
           </section>
 
           <!-- ============================================
@@ -598,7 +602,7 @@
 
           <section class="case-section reveal">
             <h2>Four view modes, plus accessibility as a first-class signal.</h2>
-            <p>Slider for the dramatic reveal. Side-by-Side for detailed comparison. Overlay for precise alignment. Timeline shows the same page at four points in time, revealing how drift accumulated, a view no competitor offers. Component health tracking sits behind all of it: each of 21 components has a health ring, sparkline trend, and instance gallery. WCAG compliance is integrated directly into the drift narrative. "This color deviation is also a contrast failure: found 2.8:1, required 4.5:1."</p>
+            <p>Timeline is the one no competitor offers: the same page at four points in time, drift accumulating. All 21 components carry health rings and sparklines. WCAG failures surface inside the drift story: found 2.8:1, required 4.5:1.</p>
           </section>
 
           <!-- ============================================
@@ -689,12 +693,12 @@
           <section id="key-decisions" class="case-section reveal">
             <span class="section-label">Key Decisions</span>
             <h2>Clinical precision as the visual identity.</h2>
-            <p>Ghost uses Clash Display for headings, DM Sans for body, JetBrains Mono for data values. Color is restrained: deep indigo accent, severity dots only where they carry meaning. The tone is surgical. "Deviation detected" not "violation found." "Recommendation available" not "fix required." Drift isn't anyone's fault, and the tool shouldn't assign blame.</p>
+            <p>Clash Display for headings, DM Sans for body, JetBrains Mono for data. The tone is surgical: "deviation detected," not "violation found." Drift isn't anyone's fault, and the tool shouldn't assign blame.</p>
           </section>
 
           <section class="case-section reveal">
             <h2>Color where it carries meaning.</h2>
-            <p>I keep color on what carries meaning. Severity dots hold the drift signal; text labels don't, so they go neutral.</p>
+            <p>I keep color on what carries meaning. Severity dots hold the drift signal; text labels go neutral.</p>
           </section>
 
           <!-- ============================================
@@ -751,10 +755,9 @@
           <section id="outcome" class="outcome-section reveal">
             <span class="section-label">Outcome</span>
             <h2>A concept that earned its place.</h2>
-            <p>Ghost started from a gap I hit at LexisNexis. The token pipeline we shipped there solved how tokens get <em>defined</em>; it didn't solve how to verify production uses them. Ghost is my answer to the half I couldn't solve the first time.</p>
-            <p>Ghost is a prototype with mock data. The workflow is real, informed by a market scan of funded tools (Chromatic, Knapsack, Applitools, Zeroheight). Three hard pivots reshaped the first version.</p>
-            <p><strong>What I'd do differently.</strong> Start with the comparison slider on day one instead of building a monitoring dashboard first. Three pivots taught me the signature interaction should have been the first thing I designed, not the third. Conventional is invisible.</p>
-            <p><strong>Built with:</strong> Figma, Next.js 14, Tailwind, Recharts, Framer Motion, Lucide React. The AI Fix flow is the next build target: wiring it to the Figma API so deviations become one-click pull requests.</p>
+            <p>Ghost started from a gap I hit at LexisNexis. The token pipeline we shipped solved how tokens get <em>defined</em>, not whether production uses them. Ghost, a working prototype with mock data, is the half I couldn't solve the first time.</p>
+            <p><strong>What I'd do differently:</strong> start with the comparison slider on day one, not the monitoring dashboard. Conventional is invisible.</p>
+            <p><strong>Next target:</strong> wiring the AI Fix Flow to the Figma API so deviations become one-click pull requests.</p>
 
             <!-- ============================================
                  DEMO: GHOST CRITICAL THREE (Process Loops Sprint, 2026-05-27)
@@ -862,7 +865,7 @@
     </div>
   </div>
 
-  <script src="../main.js?v=21"></script>
+  <script src="../main.js?v=23"></script>
   <script src="../game.js?v=3"></script>
   <script src="../js/demos/ghost-slider.js?v=1" defer></script>
   <script type="module" src="../js/demos/ghost-view-modes-widget.js?v=1" defer></script>
@@ -871,9 +874,9 @@
   <script type="module" src="../js/demos/ghost-severity-build.js?v=3" defer></script>
   <script type="module" src="../js/demos/ghost-critical-three.js?v=3" defer></script>
   <script type="module" src="../js/demos/ghost-restraint-strip.js?v=3" defer></script>
-  <script type="module" src="../js/demos/lexisnexis-thumb.js?v=89"></script>
-  <script type="module" src="../js/demos/pulse-thumb-v4.js?v=89"></script>
-  <script type="module" src="../js/demos/ghost-thumb-v4.js?v=89"></script>
-  <script type="module" src="../js/demos/origin-aware-thumb-expansion.js?v=89"></script>
+  <script type="module" src="../js/demos/lexisnexis-thumb.js?v=90"></script>
+  <script type="module" src="../js/demos/pulse-thumb-v4.js?v=90"></script>
+  <script type="module" src="../js/demos/ghost-thumb-v4.js?v=90"></script>
+  <script type="module" src="../js/demos/origin-aware-thumb-expansion.js?v=90"></script>
 </body>
 </html>

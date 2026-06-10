@@ -21,7 +21,7 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1A1A'/><text x='50%25' y='52%25' dominant-baseline='central' text-anchor='middle' font-family='system-ui,-apple-system,sans-serif' font-weight='900' font-size='20' fill='%23FAFAF8'>R</text></svg>">
   <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1A1A'/><text x='50%25' y='52%25' dominant-baseline='central' text-anchor='middle' font-family='system-ui,-apple-system,sans-serif' font-weight='900' font-size='20' fill='%23FAFAF8'>R</text></svg>">
   <script>(function(){/* dark mode disabled 2026-05-13: keep theme=light. Restore: revert this <script> + .theme-toggle CSS hide */})();</script>
-  <link rel="stylesheet" href="../styles.css?v=89">
+  <link rel="stylesheet" href="../styles.css?v=90">
 </head>
 <body>
 
@@ -182,6 +182,13 @@
 
       <div class="case-content-inner">
         <h1 class="case-title fade-in" data-delay="0.5">Pulse · AI UX Intelligence Dashboard</h1>
+        <!-- LIVE LINK STAGED (2026-06-10): pulse.rotemgotlieb.com has no DNS
+             yet (curl 000). Uncomment when the Pulse chat deploys.
+        <a class="case-live-link fade-in" data-delay="0.6" style="--live-accent:#F07856" href="https://pulse.rotemgotlieb.com?from=portfolio" target="_blank" rel="noopener">
+          <span class="case-live-dot" aria-hidden="true"></span>
+          Try the live product
+          <span class="case-live-arrow" aria-hidden="true">&#8599;</span>
+        </a> -->
 
         <div class="metadata-grid fade-in" data-delay="0.7">
           <div class="metadata-item">
@@ -207,30 +214,30 @@
           <section id="overview" class="case-section reveal">
             <span class="section-label">Overview</span>
             <h2>A UX intelligence tool built for designers, not analysts.</h2>
-            <p>Pulse diagnoses friction in production interfaces, anchored to your design system at the component level. The signature surface is the Living Observatory: one canvas that fuses a procedural wireframe of the analyzed page, a multi-layer thermal heatmap, a time scrubber, and an AI prompt bar that flies a cursor across the canvas to land on the issue you asked about.</p>
-            <p>I built Pulse because every UX analytics tool I've used was built for the wrong audience. Hotjar speaks in bounce rates. FullStory buries insights behind enterprise search. Contentsquare ties friction to revenue, not to the component that's broken. Designers ship UI components; the tools they're given report on pages.</p>
+            <p>Pulse is an AI-native product I designed and built end to end in code. It diagnoses friction in production interfaces, anchored to your design system at the component level.</p>
+            <p>I built it because every analytics tool speaks to analysts. Hotjar reports bounce rates. FullStory buries insights in enterprise search. Contentsquare maps friction to revenue, not components.</p>
           </section>
 
           <section id="the-problem" class="case-section reveal">
             <span class="section-label">The Problem</span>
             <h2>Designers ship components. Their tools report on pages.</h2>
-            <p>A designer doesn't need "bounce rate increased 12% on /onboarding." She needs to know users are clicking the submit button 3.2 times because the disabled state looks identical to the enabled state. That's a WCAG 1.4.3 violation. Existing tools flatten that into a chart and call it a heatmap.</p>
-            <p>The gap isn't data. The gap is translation. Pages are too coarse. Sessions are too granular. Components are the unit designers think in, and almost no analytics tool sees them that way.</p>
+            <p>A designer doesn't need "bounce rate increased 12% on /onboarding." She needs to know users click submit 3.2 times because the disabled state looks enabled. That's a WCAG 1.4.3 violation.</p>
+            <p>The gap is translation, not data. Pages are too coarse, sessions too granular. Components are the unit designers think in.</p>
           </section>
 
           <section id="the-insight" class="case-section reveal">
             <span class="section-label">The Insight</span>
             <h2>Make the heatmap an interface, not a visualization.</h2>
             <p>You can look at a Hotjar heatmap. You can't ask it a question.</p>
-            <p>Pulse's heatmap is interactive, layered, time-aware, and component-anchored. Hover a hot zone, get a diagnosis card with the component name, evidence, sparkline trend, and proposed fix. Click "Apply fix here," and the heatmap visibly cools as the morph plays. The blob became a tool.</p>
+            <p>Hover a hot zone and the diagnosis arrives with a fix attached. The blob became a tool.</p>
           </section>
 
           <section id="the-solution" class="case-section reveal">
             <span class="section-label">The Solution</span>
             <h2>The Living Observatory.</h2>
-            <p>The home canvas is everything in one frame. A procedural wireframe renders in the center, drawn in code, not screenshotted. Four heatmap layers (Friction, Rage Clicks, Dead Clicks, Attention) overlay it, each with its own OKLab-interpolated thermal palette. A seven-day scrubber runs along the bottom. An AI prompt bar runs along the top.</p>
-            <p>Every observation anchors to a component, not a page. A diagnosis names the component, its instance count, the users affected, and the fix as a token-level code change. Anchoring to the component you shipped, not the page it lives on, is the whole reason Pulse exists.</p>
-            <p>Adding a heatmap layer is a sentence to Pulse. I point at the canvas, name the layer I want, the canvas paints it in.</p>
+            <p>A procedural wireframe renders in code, not screenshots. Four heatmap layers (Friction, Rage Clicks, Dead Clicks, Attention) overlay it in OKLab-interpolated thermal palettes.</p>
+            <p>Every diagnosis anchors to the component you shipped, not the page. It names the users affected and a token-level fix.</p>
+            <p>Adding a heatmap layer is a sentence to Pulse. I name the layer; the canvas paints it in.</p>
 
             <!-- LOOP: Compose (Pulse Animation Revamp 2026-05-30 spec §4) -->
             <div class="cm-widget reveal" id="pulseCompose">
@@ -415,14 +422,14 @@
             </div>
             <p class="demo-frame-caption"><em>Version one was Linear meets Datadog. The rebuild is one canvas.</em></p>
 
-            <p>Version one was Linear meets Datadog meets Statsig: dark mode, sidebar nav, health ring, severity pills, sparkline. Polished, professional, forgettable. The rebuild moved to a paper-on-cream identity, Geist Mono headlines, one canvas with two drawers instead of five separate dashboard views. Page X-Ray became Living Observatory. X-Ray is medical and passive; Observatory is exploratory and active. The naming change signaled the conceptual shift.</p>
-            <p>The lesson wasn't "redesign harder." It was that competent SaaS dashboard work has a ceiling, and the ceiling is far below "memorable."</p>
+            <p>The rebuild went paper-on-cream with Geist Mono headlines: one canvas, two drawers, not five dashboard views. Page X-Ray became the Living Observatory, exploratory instead of medical.</p>
+            <p>The lesson wasn't "redesign harder." Competent SaaS dashboard work has a ceiling, and it sits far below memorable.</p>
           </section>
 
           <section id="design-process" class="case-section reveal">
             <span class="section-label">Design Process</span>
             <h2>Every change started as an annotation.</h2>
-            <p><strong>This is my two-Claude method.</strong> I annotate a component, Claude Code executes the change, and I review what comes back. The same loop built every part of Pulse. Below, one real instance: anchoring a diagnosis to the component it belongs to.</p>
+            <p><strong>My two-Claude method:</strong> I annotate a component, Claude Code executes, I review what ships back. This loop built every part of Pulse. Below, one real instance.</p>
 
             <!-- LOOP: Annotate-execute (Pulse Animation Reconception spec §6) -->
             <div class="ae-widget reveal" id="pulseAnnotateExecute">
@@ -491,9 +498,9 @@
             <span class="section-label">Outcome</span>
             <h2>A concept that earns its place.</h2>
             <p><strong>17 issues authored across five pages. 32 components tracked. Six procedural wireframes rendered in code. Four heatmap layers. Twelve build phases on a single branch in a focused day, on top of six weeks of part-time work.</strong></p>
-            <p>The most valuable thing Pulse demonstrates isn't the canvas. It's the strategic argument around it. Pulse names its competitors. It makes deliberate decisions about what <em>not</em> to build (predictive heatmaps, mobile responsive, real Figma integration). It maps to a real buyer (Director / VP of Design) and a real user (the designer on their team).</p>
-            <p><strong>What I'd do differently.</strong> I spent too long polishing the monitoring dashboard before realizing it wasn't the interesting part. If I were running it again, I'd mock the most ambitious interaction first, not the most conventional one.</p>
-            <p><strong>Built with:</strong> Figma, Next.js 14, TypeScript, Tailwind v4, Framer Motion. Procedural SVG wireframes, custom canvas-based heatmap renderer at 60fps. The next build target is a static code analyzer that produces the same diagnosis-card output by scanning your codebase and Figma file directly.</p>
+            <p>The canvas isn't the point; the strategic argument is. Pulse names its competitors, what it won't build (predictive heatmaps, mobile, Figma integration), and its buyer: a Director of Design.</p>
+            <p><strong>What I'd do differently.</strong> I polished the monitoring dashboard too long before seeing it wasn't the interesting part. Next time I'd mock the most ambitious interaction first.</p>
+            <p><strong>Built with:</strong> Figma, Next.js 14, TypeScript, Tailwind v4, Framer Motion. Procedural SVG wireframes and a custom canvas heatmap renderer at 60fps.</p>
             <p style="margin-top: 32px;"><a href="https://pulse.rotemgotlieb.com" class="cta-link">Live prototype &rarr;</a> <span class="cta-aside" style="margin-left: 8px; color: var(--text-secondary); font-size: 14px;">(coming soon)</span></p>
           </section>
 
@@ -547,15 +554,15 @@
     </div>
   </div>
 
-  <script src="../main.js?v=21"></script>
+  <script src="../main.js?v=23"></script>
   <script src="../game.js?v=3"></script>
   <script type="module" src="../js/demos/pulse-compose.js?v=71"></script>
   <script type="module" src="../js/demos/pulse-rebuild.js?v=70"></script>
   <script type="module" src="../js/demos/pulse-annotate-execute.js?v=68"></script>
-  <script type="module" src="../js/demos/pulse-observatory-hero.js?v=89"></script>
-  <script type="module" src="../js/demos/lexisnexis-thumb.js?v=89"></script>
-  <script type="module" src="../js/demos/pulse-thumb-v4.js?v=89"></script>
-  <script type="module" src="../js/demos/ghost-thumb-v4.js?v=89"></script>
-  <script type="module" src="../js/demos/origin-aware-thumb-expansion.js?v=89"></script>
+  <script type="module" src="../js/demos/pulse-observatory-hero.js?v=90"></script>
+  <script type="module" src="../js/demos/lexisnexis-thumb.js?v=90"></script>
+  <script type="module" src="../js/demos/pulse-thumb-v4.js?v=90"></script>
+  <script type="module" src="../js/demos/ghost-thumb-v4.js?v=90"></script>
+  <script type="module" src="../js/demos/origin-aware-thumb-expansion.js?v=90"></script>
 </body>
 </html>

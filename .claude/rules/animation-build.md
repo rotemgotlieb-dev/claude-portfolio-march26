@@ -29,3 +29,6 @@ Playwright frame series (every 500ms across full loop+) OR video. WATCH it. Elem
 
 ## Loop seam diagnosis
 Skip at the seam = GEOMETRY not timing. Content at T=0 must equal T=END. Pixel-precise JS-measured values over percentages. N failed parameter tweaks = wrong layer, stop and reframe.
+
+## Mobile width discipline (2026-06-10)
+Demo grids/flex rows: every column gets min-width:0 at ≤640px; nowrap text gets ellipsis or display:none; never fixed px widths without a mobile shrink rule. Verify: window.innerWidth === 375 on a 375 device for every page.

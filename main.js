@@ -771,4 +771,62 @@
     setInterval(updateFooterStatusTime, 1000);
   }
 
+
+  /* ---- SCALE-FIT v2 (2026-06-10) ----
+     Complex hero demos with min-content wider than phone viewports keep
+     their designed layout at a fixed natural width and scale down to
+     fit. v2 lessons: (a) measure available width from the DOCUMENT, not
+     the parent (the parent may already be inflated by the child's
+     min-content); (b) while scaled, the child must be position:absolute
+     so its 640px layout box stops propagating min-content up the chain
+     (overflow:hidden does NOT stop that propagation). */
+  function applyScaleFit() {
+    document.querySelectorAll('[data-scale-fit]').forEach(function (el) {
+      var natural = parseFloat(el.getAttribute('data-scale-fit')) || 520;
+      var parent = el.parentElement;
+      if (!parent) return;
+      var docW = document.documentElement.clientWidth;
+      var pcs = getComputedStyle(parent);
+      var padL = parseFloat(pcs.paddingLeft) || 0;
+      var padR = parseFloat(pcs.paddingRight) || 0;
+      var padT = parseFloat(pcs.paddingTop) || 0;
+      var padB = parseFloat(pcs.paddingBottom) || 0;
+      var avail = Math.min(parent.clientWidth - padL - padR, docW - padL - padR);
+      if (avail >= natural) {
+        el.style.position = '';
+        el.style.top = '';
+        el.style.left = '';
+        el.style.width = '';
+        el.style.transform = '';
+        el.style.transformOrigin = '';
+        parent.style.height = '';
+        parent.style.position = '';
+        return;
+      }
+      var scale = avail / natural;
+      /* Measure natural height at natural width, in flow, untransformed. */
+      el.style.position = '';
+      el.style.transform = '';
+      el.style.width = natural + 'px';
+      var naturalH = el.offsetHeight;
+      parent.style.position = 'relative';
+      el.style.position = 'absolute';
+      el.style.top = padT + 'px';
+      el.style.left = padL + 'px';
+      el.style.transformOrigin = '0 0';
+      el.style.transform = 'scale(' + scale + ')';
+      parent.style.height = (naturalH * scale + padT + padB) + 'px';
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', applyScaleFit);
+  } else {
+    applyScaleFit();
+  }
+  var scaleFitResizeId = null;
+  window.addEventListener('resize', function () {
+    clearTimeout(scaleFitResizeId);
+    scaleFitResizeId = setTimeout(applyScaleFit, 120);
+  });
+
 })();

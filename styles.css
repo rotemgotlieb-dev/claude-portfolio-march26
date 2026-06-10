@@ -9039,3 +9039,98 @@ body.modal-open { overflow: hidden; }
 @media (max-width: 767px) {
   .lxs-stamp { font-size: 9px; padding: 4px 10px; }
 }
+
+/* ====================================================================
+   MOBILE VIEWPORT-BLOWOUT FIX (2026-06-10)
+   Root cause of "page opens zoomed-in on phone": grid/flex children
+   with unshrinkable min-content (fixed widths, nowrap text, fr tracks
+   defaulting to min-width:auto) forced the LAYOUT viewport to 483px
+   (lexisnexis) / 549px (ghost) at 375px devices. min-content
+   propagates up through width:100% chains regardless of
+   overflow:hidden. Fix: let every column shrink (min-width:0) and
+   drop non-essential nowrap text at phone widths.
+   ==================================================================== */
+@media (max-width: 640px) {
+  /* LexisNexis pipeline hero */
+  .lxh-figma, .lxh-pipeline, .lxh-prod { min-width: 0; }
+  .lxh-token { min-width: 0; }
+  .lxh-token-name { overflow: hidden; text-overflow: ellipsis; }
+  .lxh-token-hex { display: none; }
+  .lxh-header-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+  .lxh-header-section { display: none; }
+  .lxh-comparison { display: none; }
+  .lxh-popover { width: 120px; }
+  .lxh-prod-button { padding: 0 10px; font-size: 10px; }
+  .lxh-prod-row-label { min-width: 44px; font-size: 8.5px; }
+
+  /* Ghost AI Fix Flow hero */
+  .fix-hero-main { min-width: 0; }
+  .fix-hero-deviation-list { width: 42%; min-width: 0; }
+  .fix-hero-detail-panel { min-width: 0; padding: 10px 10px; }
+  .fix-hero-row { min-width: 0; }
+  .fix-hero-row-meta { display: none; }
+  .fix-hero-compare-grid { gap: 6px; }
+  .fix-hero-compare-hex { font-size: 9px; }
+  .fix-hero-rec-text { font-size: 9px; }
+  .fix-hero-delta { font-size: 9px; }
+}
+/* Safety net: never let stray content widen the page scroll area. */
+html, body { overflow-x: clip; }
+
+/* ====================================================================
+   CASE LIVE-PRODUCT LINK (2026-06-10)
+   Pill under the case title linking to the deployed product. Pulsing
+   live dot + accent ring on hover. Pops without stealing the page:
+   ghost-quiet at rest, confident on hover.
+   ==================================================================== */
+.case-live-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin: 14px 0 6px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  background: #FFFFFF;
+  border: 1px solid var(--live-accent, #4F46E5);
+  color: var(--live-accent, #4F46E5);
+  font-size: 13.5px;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: -0.005em;
+  transition: transform 200ms var(--ease-quint, cubic-bezier(0.19,1,0.22,1)),
+              box-shadow 200ms var(--ease-quint, cubic-bezier(0.19,1,0.22,1)),
+              background 200ms ease, color 200ms ease;
+}
+.case-live-link:hover {
+  transform: translateY(-1px);
+  background: var(--live-accent, #4F46E5);
+  color: #FFFFFF;
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--live-accent, #4F46E5) 28%, transparent);
+}
+.case-live-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+  position: relative;
+  flex-shrink: 0;
+}
+.case-live-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(34,197,94,0.5);
+  animation: case-live-ring 1.4s ease-out infinite;
+}
+@keyframes case-live-ring {
+  0% { transform: scale(1); opacity: 0.7; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+.case-live-link .case-live-arrow {
+  font-size: 12px;
+  transition: transform 200ms var(--ease-quint, cubic-bezier(0.19,1,0.22,1));
+}
+.case-live-link:hover .case-live-arrow { transform: translate(2px, -2px); }
+@media (prefers-reduced-motion: reduce) {
+  .case-live-dot::after { animation: none; opacity: 0; }
+}
