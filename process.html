@@ -3,25 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="How I design and ship products in 2026: the methodology, the protocol, and the system behind every project on this site.">
+  <meta name="description" content="How I work with AI: the operating model behind three products shipped in 2026. The fork, the verify habit, and why green tests are not a working product.">
   <meta name="theme-color" content="#FAFAF8">
   <link rel="canonical" href="https://rotemgotlieb.com/process.html">
   <meta name="author" content="Rotem Gotlieb">
-  <meta property="og:title" content="How I Work · Rotem Gotlieb">
-  <meta property="og:description" content="How I design and ship products in 2026: the methodology, the protocol, and the system behind every project on this site.">
+  <meta property="og:title" content="How I Work With AI · Rotem Gotlieb">
+  <meta property="og:description" content="The operating model behind three products shipped in 2026. The fork, the verify habit, and why green tests are not a working product.">
   <meta property="og:image" content="https://rotemgotlieb.com/og-image.png">
   <meta property="og:url" content="https://rotemgotlieb.com/process.html">
   <meta property="og:type" content="article">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="How I Work · Rotem Gotlieb">
-  <meta name="twitter:description" content="How I design and ship products in 2026: the methodology, the protocol, and the system behind every project on this site.">
+  <meta name="twitter:title" content="How I Work With AI · Rotem Gotlieb">
+  <meta name="twitter:description" content="The operating model behind three products shipped in 2026. The fork, the verify habit, and why green tests are not a working product.">
   <meta name="twitter:image" content="https://rotemgotlieb.com/og-image.png">
-  <title>How I Work · Rotem Gotlieb</title>
+  <title>How I Work With AI · Rotem Gotlieb</title>
   <style>.page-transition.active{position:fixed;inset:0;background:#FAFAF8;z-index:9998;opacity:1;}</style>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1A1A'/><text x='50%25' y='52%25' dominant-baseline='central' text-anchor='middle' font-family='system-ui,-apple-system,sans-serif' font-weight='900' font-size='20' fill='%23FAFAF8'>R</text></svg>">
   <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1A1A'/><text x='50%25' y='52%25' dominant-baseline='central' text-anchor='middle' font-family='system-ui,-apple-system,sans-serif' font-weight='900' font-size='20' fill='%23FAFAF8'>R</text></svg>">
   <script>(function(){/* dark mode disabled 2026-05-13: keep theme=light. Restore: revert this <script> + .theme-toggle CSS hide */})();</script>
-  <link rel="stylesheet" href="styles.css?v=91">
+  <link rel="stylesheet" href="styles.css?v=92">
 </head>
 <body>
 
@@ -59,12 +59,13 @@
     <aside class="case-sidebar">
       <a href="index.html" class="sidebar-home">&#8592; HOME</a>
       <div class="sidebar-nav">
-        <a href="#two-claude" class="sidebar-link">TWO-CLAUDE SYSTEM</a>
-        <a href="#the-protocol" class="sidebar-link">THE PROTOCOL</a>
-        <a href="#the-log" class="sidebar-link">THE LOG</a>
-        <a href="#this-site" class="sidebar-link">THIS SITE</a>
-        <a href="#why" class="sidebar-link">WHY I BUILT IT</a>
-        <a href="#takeaway" class="sidebar-link">WHAT I'D BRING</a>
+        <a href="#fork" class="sidebar-link">THE FORK</a>
+        <a href="#green" class="sidebar-link">TESTS VS TRUTH</a>
+        <a href="#verify" class="sidebar-link">HOW WE VERIFY</a>
+        <a href="#memory" class="sidebar-link">MEMORY AS SYSTEM</a>
+        <a href="#seams" class="sidebar-link">SHOW THE SEAMS</a>
+        <a href="#proof" class="sidebar-link">WHAT IT SHIPPED</a>
+        <a href="#bring" class="sidebar-link">WHAT I'D BRING</a>
       </div>
       <a href="#main-content" class="sidebar-top">&#8593; BACK TO TOP</a>
     </aside>
@@ -73,67 +74,203 @@
     <div class="case-content">
       <div class="case-content-inner">
         <span class="section-label fade-in" data-delay="0.3" style="margin-top: 88px;">Process · 2026</span>
-        <h1 class="case-title fade-in" data-delay="0.5" style="padding-top: 12px;">How I Work</h1>
-        <p class="process-lead fade-in" data-delay="0.7">What does it look like to design and ship a product in 2026?</p>
+        <h1 class="case-title fade-in" data-delay="0.5" style="padding-top: 12px;">How I work with AI.</h1>
+        <p class="process-lead fade-in" data-delay="0.7">I shipped three products this year with an AI building beside me. Not autocomplete, a real operating model. The split is clear. It brings velocity and breadth. I bring taste and the bar. Here is how the work actually happens.</p>
 
         <article class="case-body">
 
-          <section id="two-claude" class="case-section reveal">
-            <h2>The two-Claude system.</h2>
-            <p>I work with two AI surfaces in parallel, on purpose. They have different jobs.</p>
-            <p>The first is a strategic chat. This is where I think out loud, plan, write prompts, argue with myself about a design decision, draft case study copy, decide what to ship. Nothing in this chat touches the codebase. Its only job is to slow me down enough to think clearly before anything gets built.</p>
-            <p>The second is an executor running inside VS Code. It reads the plan, makes the changes, runs the verification, and stops. It doesn't make design decisions. It implements them.</p>
-            <p>Splitting strategy from execution is the same instinct that drove my work on the LexisNexis token pipeline: separate the layer that decides from the layer that propagates. Designers think in components, not pages. I think in plans, not commands.</p>
+          <section id="fork" class="case-section reveal">
+            <span class="section-label">The fork model</span>
+            <h2>Every decision is a fork.</h2>
+            <p>The AI does not wait to be told, and it does not run loose. For anything that matters it lays out a fork: the real options, a recommendation, and the tradeoff between them. I lock one.</p>
+            <p>Sometimes I take the recommendation. Sometimes I overrule it. On the Pulse case study spine I chose the riskier option B over the safe A, because a signature signal was worth the saturation risk. The AI then builds what I locked, not what it preferred.</p>
+            <p>One rule sits above all of it. No production code until the mockup is approved. Pulse's home screen went through four mockups before a single real line shipped, and each round of redlines caught something the words had hidden. A hover arrow colliding with wrapped text. A tour spotlight ten pixels off.</p>
           </section>
 
-          <div class="case-image case-image--video-wide reveal">
-            <img src="img/process/v1/two-claudes.png" alt="Two-Claude system diagram: strategist instance for planning, executor instance for shipping, with the designer as mediator between them" loading="lazy">
+          <div class="proc-demo reveal">
+            <div class="fork-demo" id="forkDemo" aria-label="A decision laid out as three options with one locked in.">
+              <div class="fork-source">
+                <span class="fork-source-label">DECISION</span>
+                <span class="fork-source-q">Case study spine</span>
+              </div>
+              <div class="fork-options">
+                <div class="fork-opt" data-opt="A">
+                  <span class="fork-opt-tag">A</span>
+                  <span class="fork-opt-text">Safe rhythm</span>
+                  <span class="fork-opt-rec">rec</span>
+                </div>
+                <div class="fork-opt" data-opt="B">
+                  <span class="fork-opt-tag">B</span>
+                  <span class="fork-opt-text">Signature signal</span>
+                  <span class="fork-opt-lock">LOCKED</span>
+                </div>
+                <div class="fork-opt" data-opt="C">
+                  <span class="fork-opt-tag">C</span>
+                  <span class="fork-opt-text">Minimal</span>
+                </div>
+              </div>
+              <div class="fork-cursor" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="#1A1A1A" stroke="#FAFAF8" stroke-width="1"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/></svg>
+              </div>
+            </div>
+          </div>
+          <p class="proc-demo-caption">The recommendation was A. I locked B. The AI builds what I lock.</p>
+
+          <section id="green" class="case-section reveal">
+            <span class="section-label">Tests versus truth</span>
+            <h2>Passing tests are not a working product.</h2>
+            <p>This is the lesson all three products taught me, each one on its own. Pulse had 116 tests green and the type checker clean while a compare panel sat there contradicting the heatmap right beside it. Ghost shipped headings rendered white on white, invisible, every test still passing.</p>
+            <p>The tests asserted that things existed. They could not see that things were wrong. Mechanical gates check syntax and contracts. They are blind to whether the pixels are right.</p>
+          </section>
+
+          <div class="proc-demo reveal">
+            <div class="green-demo" id="greenDemo" aria-label="A test suite passing while the live screen renders a contradiction.">
+              <div class="gd-terminal">
+                <div class="gd-term-bar">
+                  <span class="gd-term-lights"><i></i><i></i><i></i></span>
+                  <span class="gd-term-title">pnpm test</span>
+                </div>
+                <div class="gd-term-body" data-gd-rows></div>
+                <div class="gd-term-summary">
+                  <span class="gd-pass"><span class="gd-pass-count" data-gd-count>0</span> / 116 passed</span>
+                  <span class="gd-build" data-gd-build>build</span>
+                </div>
+              </div>
+              <div class="gd-ui">
+                <div class="gd-ui-bar">pulse.app/observatory</div>
+                <div class="gd-heat" aria-hidden="true"><span class="gd-heat-peak"></span></div>
+                <div class="gd-readout" data-gd-readout>
+                  <span class="gd-readout-label">COMPARE</span>
+                  <span class="gd-readout-status" data-gd-status>quiet &middot; 0 issues</span>
+                  <div class="gd-flag" data-gd-flag aria-hidden="true"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="proc-demo-caption">All green. Build clean. The readout still lies about the canvas beside it.</p>
+
+          <section id="verify" class="case-section reveal">
+            <span class="section-label">How we verify</span>
+            <h2>So we verify like skeptics.</h2>
+            <p>If green is not enough, something has to look at the rendered thing. Two habits close the gap.</p>
+            <p>First, the AI reviews its own work adversarially. Independent reviewers raise findings, then separate refuters try to disprove each one before it counts. On Pulse, two passes confirmed sixteen real bugs with zero false positives, while every test stayed green. Structured skepticism sees what a checkmark cannot.</p>
+            <p>Second, nothing I have not watched gets shown to you. Every animation on this site was checked frame by frame in a real browser before it shipped. A deploy is not live until an anonymous request returns it correctly, not when the dashboard says the build passed.</p>
+          </section>
+
+          <div class="verdict-card reveal" aria-label="How a finding earns its place: three reviewers raise it, two refuters attack it, only survivors ship.">
+            <div class="verdict-flow">
+              <div class="verdict-stage">
+                <span class="verdict-stage-label">RAISE</span>
+                <div class="verdict-dots verdict-dots--review"><i></i><i></i><i></i></div>
+                <span class="verdict-stage-sub">3 reviewers</span>
+              </div>
+              <span class="verdict-arrow" aria-hidden="true">&rarr;</span>
+              <div class="verdict-stage">
+                <span class="verdict-stage-label">REFUTE</span>
+                <div class="verdict-dots verdict-dots--refute"><i></i><i></i></div>
+                <span class="verdict-stage-sub">2 refuters</span>
+              </div>
+              <span class="verdict-arrow" aria-hidden="true">&rarr;</span>
+              <div class="verdict-stage">
+                <span class="verdict-stage-label">VERDICT</span>
+                <div class="verdict-result">survives</div>
+              </div>
+            </div>
+            <div class="verdict-stat">
+              <span class="verdict-stat-num">16</span> confirmed
+              <span class="verdict-stat-div">&middot;</span>
+              <span class="verdict-stat-num verdict-stat-num--zero">0</span> false positives
+              <span class="verdict-stat-div">&middot;</span>
+              while <span class="verdict-stat-num">116/116</span> tests passed
+            </div>
           </div>
 
-          <section id="the-protocol" class="case-section reveal">
-            <h2>The protocol.</h2>
-            <p>Every change I ship follows the same shape. It's not heavy. It just doesn't skip steps.</p>
-            <p><strong>Diagnose before executing.</strong> No edit happens until the current state is read and reported. Word counts, file paths, line numbers, existing class names, all out loud, so I can verify the brief I just wrote isn't operating on stale assumptions. Roughly half the bugs I almost shipped were caught here, before any code changed.</p>
-            <p><strong>Backup before modifying.</strong> Every modifying session creates a timestamped backup folder before touching a single file. The cost is a few kilobytes. The value is that I can revert any decision, at any point, without it being a question.</p>
-            <p><strong>Propose before applying.</strong> For anything bigger than a one-line CSS fix, the change is shown to me first as a complete diff. I approve, adjust, or reject. Then it ships.</p>
-            <p><strong>Verify after.</strong> Word counts, link integrity, image paths, HTML balance, sidebar nav references. Same checks every time. Mechanical. Boring. Catches the asymmetric class on a single Other Work card that nobody else would notice.</p>
-            <p><strong>Log the session.</strong> Every modifying session ends with a structured entry in a learnings file: what was done, what worked, what failed, what I learned. The file is now over a thousand lines long. It's also the most useful design document I own.</p>
+          <section id="memory" class="case-section reveal">
+            <span class="section-label">Memory as a system</span>
+            <h2>Memory is infrastructure, not notes.</h2>
+            <p>The method only compounds if the AI remembers. Early on that meant one file it read every session. Thirteen hundred lines, around forty thousand tokens, most of it irrelevant to the task at hand.</p>
+            <p>I re-architected it into a small always loaded core, topical rules pulled in only when the matching work starts, and a checklist of past failures read only at review time. Session start cost dropped by a factor of sixty to eighty. Every bug a review catches becomes one line in that checklist, so the next session never re-debugs it.</p>
+            <p>This is the same instinct as a design token. Solve a thing once, encode the solution as infrastructure, and stop solving it.</p>
           </section>
 
-          <div class="case-image case-image--video-wide reveal">
-            <img src="img/process/v1/protocol.png" alt="The four-step protocol (diagnose, propose, execute, verify) with a feedback loop logging each session to .claude/learnings.md" loading="lazy">
+          <div class="proc-demo reveal">
+            <div class="mem-demo" id="memDemo" aria-label="A bloated always-read memory file distilled into a lean core plus rules on demand.">
+              <div class="mem-before">
+                <div class="mem-file">
+                  <span class="mem-file-name">learnings.md</span>
+                  <div class="mem-lines" aria-hidden="true"></div>
+                </div>
+                <span class="mem-meta"><span class="mem-token" data-mem-count>40,000</span> tokens &middot; read every session</span>
+              </div>
+              <div class="mem-after" data-mem-after>
+                <div class="mem-core">core &middot; ~510 tokens</div>
+                <div class="mem-chips">
+                  <span class="mem-chip">rules/animation</span>
+                  <span class="mem-chip">rules/video</span>
+                  <span class="mem-chip">rules/design</span>
+                  <span class="mem-chip mem-chip--immune">immune &middot; review only</span>
+                </div>
+                <span class="mem-meta mem-meta--after"><span class="mem-token mem-token--after">~510</span> tokens at session start</span>
+              </div>
+            </div>
+          </div>
+          <p class="proc-demo-caption">One file read every session becomes a lean core, with the rest pulled in only when it is needed.</p>
+
+          <section id="seams" class="case-section reveal">
+            <span class="section-label">Show the seams</span>
+            <h2>The seams are the proof.</h2>
+            <p>None of these launches were clean, and I left the evidence in. Ghost's first deploy returned an error on every route behind a login wall, then served a dead site because a framework preset guessed wrong, then stalled because an old email address looked to the platform like a paywall. Pulse's entire compare feature once vanished below a certain screen width, because its only output lived in a column that could hide.</p>
+            <p>Most case studies claim a smooth line from idea to launch. This one shows the debugging. A method is only worth trusting when you can see where it broke and how it recovered.</p>
+          </section>
+
+          <div class="seam-log reveal" aria-label="A sample of real launch-day failures and their recoveries.">
+            <div class="seam-log-bar"><span class="seam-log-dot"></span> launch log</div>
+            <ul class="seam-log-rows">
+              <li><span class="seam-tag seam-tag--fail">FAIL</span> every route 404s behind Vercel SSO <span class="seam-fix">turned protection off</span></li>
+              <li><span class="seam-tag seam-tag--fail">FAIL</span> build green, site dead, preset autodetected wrong <span class="seam-fix">pinned the framework</span></li>
+              <li><span class="seam-tag seam-tag--fail">FAIL</span> compare panel hides under 1400px <span class="seam-fix">output never routed through a hideable column again</span></li>
+              <li><span class="seam-tag seam-tag--rule">RULE</span> a deploy is not live until an anonymous request returns 200</li>
+            </ul>
           </div>
 
-          <section id="the-log" class="case-section reveal">
-            <h2>Why the log matters.</h2>
-            <p>The learnings file is the part of the system most designers don't have. It's not a changelog. It's institutional memory: the record of every wrong turn, every regression, every &ldquo;this looked obvious but actually broke production.&rdquo; When I start a new session, the executor reads it before doing anything. So do I.</p>
-            <p>The first time the About page hero photo had a stray gray box behind it, I spent twenty minutes debugging. The second time, six weeks later, I fixed it in two minutes, because the log told me exactly which two CSS properties to touch. The third time it regressed, I promoted the rule to a permanent invariant in the project's standing rules and it hasn't broken since.</p>
-            <p>This is the same instinct as a token system. Solve a problem once, encode the solution as infrastructure, and stop solving it.</p>
+          <section id="proof" class="case-section reveal">
+            <span class="section-label">What it shipped</span>
+            <h2>What the method shipped.</h2>
+            <p>Three products this year, built this way, and you can open two of them right now.</p>
           </section>
 
-          <div class="case-image case-image--video-wide reveal">
-            <img src="img/process/v1/learnings-artifact.png" alt="A real learnings.md entry from the Pulse V2 integration session, showing the file's structure and the kind of rule the protocol surfaces" loading="lazy">
+          <div class="proof-grid reveal">
+            <div class="proof-item">
+              <span class="proof-name">Pulse</span>
+              <p class="proof-line">A living UX observatory. Scrub time, watch friction heat up, ship the fix.</p>
+              <div class="proof-links">
+                <a href="https://pulse-rotemgotlieb-8238s-projects.vercel.app/?drawer=brief&amp;from=portfolio" target="_blank" rel="noopener" class="proof-link proof-link--live">Live product &#8599;</a>
+                <a href="work/pulse.html" class="proof-link">Case study &rarr;</a>
+              </div>
+            </div>
+            <div class="proof-item">
+              <span class="proof-name">Ghost</span>
+              <p class="proof-line">A design system reality scanner. Pick the canon, measure the drift.</p>
+              <div class="proof-links">
+                <a href="https://ghost.rotemgotlieb.com/demo?from=portfolio" target="_blank" rel="noopener" class="proof-link proof-link--live">Live demo &#8599;</a>
+                <a href="work/ghost.html" class="proof-link">Case study &rarr;</a>
+              </div>
+            </div>
+            <div class="proof-item">
+              <span class="proof-name">This portfolio</span>
+              <p class="proof-line">Vanilla HTML, CSS, and JS. Every animation on it built and verified the same way.</p>
+              <div class="proof-links">
+                <a href="index.html" class="proof-link">You are looking at it &rarr;</a>
+              </div>
+            </div>
           </div>
 
-          <section id="this-site" class="case-section reveal">
-            <h2>What this site is.</h2>
-            <p>This portfolio is a vanilla HTML/CSS/JS site. No framework, no build step, no React. Every line is something I can defend in an interview.</p>
-            <p>It's also a working artifact of the protocol. The intro animation, the bento grid, the case study layouts, the dark mode, the canvas-rendered footer game. Every piece was planned in chat, executed by the workflow, backed up, verified, and logged. Six weeks of sessions, all preserved.</p>
-          </section>
-
-          <section id="why" class="case-section reveal">
-            <h2>Why I built it this way.</h2>
-            <p>Two reasons.</p>
-            <p>The first is honest compounding. Working this way lets me ship at velocities I couldn't match doing the same work by hand. It's the same multiplier I saw on the LexisNexis token pipeline. The right system makes the team faster without compromising the work.</p>
-            <p>The second is harder to explain to people who haven't tried it. Working this way changes how I think about design. I'm forced to articulate the brief. Forced to verify my assumptions before acting. Forced to revisit my own decisions when the log shows I've made the same call three different ways. The discipline of writing a good prompt is the discipline of designing well: knowing what you want, why you want it, and how you'd know if you got it.</p>
-          </section>
-
-          <section id="takeaway" class="outcome-section reveal">
+          <section id="bring" class="outcome-section reveal">
+            <span class="section-label">What I'd bring</span>
             <h2>What I'd bring to your team.</h2>
-            <p>This is the system I'd bring to a startup designer #1, #2, or #3 role: a real operating model for AI-augmented design work, a bias toward shipping infrastructure over one-offs, and a process documented well enough that the next person to join the team can pick it up.</p>
-            <p>If that sounds like the kind of designer you're hiring for, I'd love to talk.</p>
+            <p>A real operating model for building with AI, not a vibe. A bias toward shipping the whole loop, research through production code. And the discipline to verify what actually renders, not just what compiles.</p>
+            <p>If that is the designer you are hiring, I would love to talk.</p>
             <p style="margin-top: 32px;"><a href="mailto:rotem.gotlieb@gmail.com" class="cta-link">Get in touch &rarr;</a></p>
-            <p style="margin-top: 14px;"><a href="/Rotem_Gotlieb_Resume.pdf" class="cta-link cta-link-secondary" download>View resume (PDF) &rarr;</a></p>
           </section>
 
         </article>
@@ -161,42 +298,10 @@
     </div>
   </footer>
 
-  <!-- Resume Modal -->
-  <div class="resume-modal" id="resumeModal" role="dialog" aria-labelledby="resumeModalTitle" aria-hidden="true">
-    <div class="resume-modal-backdrop" data-resume-close></div>
-    <div class="resume-modal-content" tabindex="-1">
-      <div class="resume-modal-header">
-        <h2 id="resumeModalTitle" class="resume-modal-title">Resume</h2>
-        <div class="resume-modal-actions">
-          <a href="/Rotem_Gotlieb_Resume.pdf" download class="resume-modal-download">Download PDF &darr;</a>
-          <button type="button" class="resume-modal-close" aria-label="Close" data-resume-close>&times;</button>
-        </div>
-      </div>
-      <div class="resume-modal-body">
-        <div class="resume-modal-pdfjs-container">
-          <canvas class="resume-modal-pdfjs-canvas"></canvas>
-        </div>
-        <div class="resume-modal-pdfjs-toolbar">
-          <div class="resume-modal-pdfjs-pagination">
-            <button type="button" class="resume-modal-pdfjs-btn" data-pdfjs-prev aria-label="Previous page">&larr;</button>
-            <span class="resume-modal-pdfjs-page-info" aria-live="polite"></span>
-            <button type="button" class="resume-modal-pdfjs-btn" data-pdfjs-next aria-label="Next page">&rarr;</button>
-          </div>
-          <div class="resume-modal-pdfjs-zoom">
-            <button type="button" class="resume-modal-pdfjs-btn" data-pdfjs-zoom-out aria-label="Zoom out">&minus;</button>
-            <button type="button" class="resume-modal-pdfjs-btn" data-pdfjs-zoom-in aria-label="Zoom in">+</button>
-          </div>
-        </div>
-        <div class="resume-modal-mobile-fallback">
-          <p>PDF preview is best on desktop. Tap below to download or open in a new tab.</p>
-          <a href="/Rotem_Gotlieb_Resume.pdf" download class="resume-modal-download">Download PDF &darr;</a>
-          <a href="/Rotem_Gotlieb_Resume.pdf" target="_blank" rel="noopener" class="resume-modal-open">Open in new tab &rarr;</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <script src="main.js?v=23"></script>
   <script src="game.js?v=3"></script>
+  <script type="module" src="js/demos/process-fork.js?v=1"></script>
+  <script type="module" src="js/demos/process-green-broken.js?v=1"></script>
+  <script type="module" src="js/demos/process-memory.js?v=1"></script>
 </body>
 </html>

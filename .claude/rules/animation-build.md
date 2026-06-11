@@ -37,3 +37,6 @@ Demo grids/flex rows: every column gets min-width:0 at ≤640px; nowrap text get
 Chrome: a flex:1 child with an unbreakable token (demo browser-bar URLs) still propagates its content size during intrinsic sizing even with min-width:0 + overflow:hidden. Only a DEFINITE max-width (vw units, not %) stops it. All 12 *-url classes capped at 56vw ≤640px.
 Verify the FIX, not just the viewport: with html{overflow-x:clip} the page reports clientWidth 375 while .case-content is silently clipped at 412+. Probe .case-content width === viewport width on every case page.
 Driver hunt recipe: iteratively hide elements until width drops, record, keep hidden, repeat — enumerates ALL independent drivers in one pass (they stack; fixing one reveals the next).
+
+## flex:1 1 0 collapses in COLUMN layout (2026-06-10, process demos)
+A row of `flex:1 1 0` equal columns collapses to ~0 height when the container switches to `flex-direction:column` with no defined height (green-demo went 447px to 22px on mobile). On the stacking breakpoint, reset children to `flex:none; width:100%`. Same class as the min-width:0 sweep: a flex value correct in one axis is wrong in the other. Verify demo height > 0 at 375, not just no overflow.
