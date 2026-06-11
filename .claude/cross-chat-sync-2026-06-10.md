@@ -1,6 +1,6 @@
 # Cross-chat sync — paste each block into the matching CC chat (2026-06-10)
 
-STATUS: Ghost REPLIED (handoff received + integrated; process material distilled to research/2026-06-10_process-tab-source.md). Pulse PARTIAL: deployed + linked from portfolio via stable URL pulse-rotemgotlieb-8238s-projects.vercel.app (swap to pulse.rotemgotlieb.com when DNS CNAME lands). STILL OWED BY PULSE CHAT: learnings exchange (ask 3), AI process data 200-400 words (ask 4), ?from=portfolio back-chip (ask 2).
+STATUS: COMPLETE. Ghost + Pulse both replied with full handoffs (links + learnings + AI-process data). All integrated. Process tab REBUILT from scratch and live (cdf06a4) using all three projects' data. Pulse back-chip shipped on their side. ONLY OPEN ITEM: swap portfolio Pulse href from the stable Vercel URL to pulse.rotemgotlieb.com when the DNS CNAME lands (Pulse chat's option A). Non-blocking Pulse-side items: GitHub push (Apple Git video-history bug), custom domain DNS record.
 
 ---
 
