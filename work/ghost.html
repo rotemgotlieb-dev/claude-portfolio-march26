@@ -3,25 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Case study: Ghost, a Design System Reality Scanner that compares Figma spec against production and surfaces every deviation visually.">
+  <meta name="description" content="Case study: Ghost, a design-system reality scanner shipped as a live product. It compares the Figma canon against production and reports the drift.">
   <meta name="theme-color" content="#FAFAF8">
   <link rel="canonical" href="https://rotemgotlieb.com/work/ghost.html">
   <meta name="author" content="Rotem Gotlieb">
   <meta property="og:title" content="Ghost · Rotem Gotlieb">
-  <meta property="og:description" content="Case study: Ghost, a Design System Reality Scanner that compares Figma spec against production and surfaces every deviation visually.">
+  <meta property="og:description" content="Case study: Ghost, a design-system reality scanner shipped as a live product. It compares the Figma canon against production and reports the drift.">
   <meta property="og:image" content="https://rotemgotlieb.com/og-image.png">
   <meta property="og:url" content="https://rotemgotlieb.com/work/ghost.html">
   <meta property="og:type" content="article">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Ghost · Rotem Gotlieb">
-  <meta name="twitter:description" content="Case study: Ghost, a Design System Reality Scanner that compares Figma spec against production and surfaces every deviation visually.">
+  <meta name="twitter:description" content="Case study: Ghost, a design-system reality scanner shipped as a live product. It compares the Figma canon against production and reports the drift.">
   <meta name="twitter:image" content="https://rotemgotlieb.com/og-image.png">
   <title>Ghost · Rotem Gotlieb</title>
   <style>.page-transition.active{position:fixed;inset:0;background:#FAFAF8;z-index:9998;opacity:1;}</style>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1A1A'/><text x='50%25' y='52%25' dominant-baseline='central' text-anchor='middle' font-family='system-ui,-apple-system,sans-serif' font-weight='900' font-size='20' fill='%23FAFAF8'>R</text></svg>">
   <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1A1A'/><text x='50%25' y='52%25' dominant-baseline='central' text-anchor='middle' font-family='system-ui,-apple-system,sans-serif' font-weight='900' font-size='20' fill='%23FAFAF8'>R</text></svg>">
   <script>(function(){/* dark mode disabled 2026-05-13: keep theme=light. Restore: revert this <script> + .theme-toggle CSS hide */})();</script>
-  <link rel="stylesheet" href="../styles.css?v=90">
+  <link rel="stylesheet" href="../styles.css?v=91">
 </head>
 <body>
 
@@ -228,16 +228,22 @@
 
       <div class="case-content-inner">
         <h1 class="case-title fade-in" data-delay="0.5">Ghost · Design System Reality Scanner</h1>
-        <a class="case-live-link fade-in" data-delay="0.6" style="--live-accent:#4F46E5" href="https://ghost.rotemgotlieb.com?from=portfolio" target="_blank" rel="noopener">
-          <span class="case-live-dot" aria-hidden="true"></span>
-          Try the live product
-          <span class="case-live-arrow" aria-hidden="true">&#8599;</span>
-        </a>
+        <div class="case-live-row fade-in" data-delay="0.6">
+          <a class="case-live-link" style="--live-accent:#4F46E5" href="https://ghost.rotemgotlieb.com/demo?from=portfolio" target="_blank" rel="noopener">
+            <span class="case-live-dot" aria-hidden="true"></span>
+            Open the live demo
+            <span class="case-live-arrow" aria-hidden="true">&#8599;</span>
+          </a>
+          <a class="case-live-link case-live-link--quiet" style="--live-accent:#4F46E5" href="https://ghost.rotemgotlieb.com?from=portfolio" target="_blank" rel="noopener">
+            Visit the site
+            <span class="case-live-arrow" aria-hidden="true">&#8599;</span>
+          </a>
+        </div>
 
         <div class="metadata-grid fade-in" data-delay="0.7">
           <div class="metadata-item">
             <span class="metadata-label">Context</span>
-            <span class="metadata-value">Concept Project</span>
+            <span class="metadata-value">Live Product · v0.4</span>
           </div>
           <div class="metadata-item">
             <span class="metadata-label">Role</span>
@@ -249,7 +255,7 @@
           </div>
           <div class="metadata-item">
             <span class="metadata-label">Tools</span>
-            <span class="metadata-value">Figma, Next.js, Tailwind, Framer Motion, Claude</span>
+            <span class="metadata-value">Figma, Next.js, TypeScript, Playwright, Claude Code</span>
           </div>
         </div>
 
@@ -258,7 +264,7 @@
           <section id="overview" class="case-section reveal">
             <span class="section-label">Overview</span>
             <h2>Design systems break silently. Ghost makes the drift visible.</h2>
-            <p>Ghost is a Design System Reality Scanner, designed and built end to end in code. It compares the Figma source of truth against production.</p>
+            <p>Ghost is a design-system reality scanner, designed, built, and shipped as a live product. It compares the Figma source of truth against what production actually renders.</p>
           </section>
 
           <section id="the-problem" class="case-section reveal">
@@ -754,10 +760,11 @@
 
           <section id="outcome" class="outcome-section reveal">
             <span class="section-label">Outcome</span>
-            <h2>A concept that earned its place.</h2>
-            <p>Ghost started from a gap I hit at LexisNexis. The token pipeline we shipped solved how tokens get <em>defined</em>, not whether production uses them. Ghost, a working prototype with mock data, is the half I couldn't solve the first time.</p>
+            <h2>A concept that became a shipped product.</h2>
+            <p>Ghost started from a gap I hit at LexisNexis. The token pipeline we shipped solved how tokens get <em>defined</em>, not whether production uses them. Ghost is the half I couldn't solve the first time, now live at ghost.rotemgotlieb.com.</p>
+            <p>The live demo scans Meridian UI, a payments dashboard built as Ghost's canon, and reports 7 deviations on prepared data. Behind it: 65 unit tests, 22 end-to-end tests, Lighthouse 0.95+ on every route, zero type suppressions, $0 a month to run.</p>
             <p><strong>What I'd do differently:</strong> start with the comparison slider on day one, not the monitoring dashboard. Conventional is invisible.</p>
-            <p><strong>Next target:</strong> wiring the AI Fix Flow to the Figma API so deviations become one-click pull requests.</p>
+            <p><strong>Next target:</strong> Figma OAuth and a live scan pipeline, so any team can point Ghost at its own canon.</p>
 
             <!-- ============================================
                  DEMO: GHOST CRITICAL THREE (Process Loops Sprint, 2026-05-27)
@@ -874,9 +881,9 @@
   <script type="module" src="../js/demos/ghost-severity-build.js?v=3" defer></script>
   <script type="module" src="../js/demos/ghost-critical-three.js?v=3" defer></script>
   <script type="module" src="../js/demos/ghost-restraint-strip.js?v=3" defer></script>
-  <script type="module" src="../js/demos/lexisnexis-thumb.js?v=90"></script>
-  <script type="module" src="../js/demos/pulse-thumb-v4.js?v=90"></script>
-  <script type="module" src="../js/demos/ghost-thumb-v4.js?v=90"></script>
-  <script type="module" src="../js/demos/origin-aware-thumb-expansion.js?v=90"></script>
+  <script type="module" src="../js/demos/lexisnexis-thumb.js?v=91"></script>
+  <script type="module" src="../js/demos/pulse-thumb-v4.js?v=91"></script>
+  <script type="module" src="../js/demos/ghost-thumb-v4.js?v=91"></script>
+  <script type="module" src="../js/demos/origin-aware-thumb-expansion.js?v=91"></script>
 </body>
 </html>

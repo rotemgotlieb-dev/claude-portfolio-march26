@@ -9073,6 +9073,42 @@ body.modal-open { overflow: hidden; }
   .fix-hero-compare-hex { font-size: 9px; }
   .fix-hero-rec-text { font-size: 9px; }
   .fix-hero-delta { font-size: 9px; }
+
+  /* Demo browser-bar URLs are single unbreakable tokens; their
+     min-content (up to ~280px) widened .case-content past the phone
+     viewport (silently clipped since overflow-x:clip). min-width:0
+     alone does NOT stop the propagation in Chrome (flex-basis:0%
+     items still contribute content size during intrinsic sizing);
+     a definite max-width in vw units does. */
+  .ae-widget-url, .cm-widget-url, .ct-widget-url, .dd-widget-url,
+  .demo-frame-url, .fix-hero-url, .kd-widget-url, .lx-demo-url,
+  .plh-url, .rb-widget-url, .sb-widget-url, .vm-widget-url {
+    min-width: 0;
+    max-width: 56vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .ae-widget-traffic-lights, .cm-widget-traffic-lights, .ct-widget-traffic-lights,
+  .dd-widget-traffic-lights, .demo-frame-traffic-lights, .fix-hero-traffic-lights,
+  .kd-widget-traffic-lights, .rb-widget-traffic-lights, .sb-widget-traffic-lights,
+  .vm-widget-traffic-lights { flex-shrink: 0; }
+
+  /* LexisNexis outcome pipeline (lxo): 6-node before-row cannot hold
+     34px icons + full labels at 335px. Compress to fit. */
+  .lxo-node { min-width: 0; }
+  .lxo-node-icon { width: 20px; height: 20px; }
+  .lxo-node-icon svg { width: 11px; height: 11px; }
+  .lxo-node-label { max-width: 10vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 8px; }
+  .lxo-arrow { min-width: 5px; margin: 0 1px 12px; }
+  .lxo-track { min-width: 0; }
+
+  /* LexisNexis Dovetail demo (lxr): chips + bucket headers ellipsize. */
+  .lxr-chip { min-width: 0; max-width: 26vw; overflow: hidden; }
+  .lxr-chip-label, .lxr-chip-count { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .lxr-bucket { min-width: 0; }
+  .lxr-bucket-name { min-width: 0; max-width: 18vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .lxr-bucket-count { flex-shrink: 0; }
 }
 /* Safety net: never let stray content widen the page scroll area. */
 html, body { overflow-x: clip; }
@@ -9133,4 +9169,22 @@ html, body { overflow-x: clip; }
 .case-live-link:hover .case-live-arrow { transform: translate(2px, -2px); }
 @media (prefers-reduced-motion: reduce) {
   .case-live-dot::after { animation: none; opacity: 0; }
+}
+.case-live-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 14px 0 6px;
+}
+.case-live-row .case-live-link { margin: 0; }
+.case-live-link--quiet {
+  border-color: var(--border-color, #E8E8E6);
+  color: #555;
+}
+.case-live-link--quiet:hover {
+  background: #FFFFFF;
+  border-color: var(--live-accent, #4F46E5);
+  color: var(--live-accent, #4F46E5);
+  box-shadow: 0 4px 14px rgba(26, 26, 26, 0.07);
 }

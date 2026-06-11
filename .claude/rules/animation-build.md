@@ -32,3 +32,8 @@ Skip at the seam = GEOMETRY not timing. Content at T=0 must equal T=END. Pixel-p
 
 ## Mobile width discipline (2026-06-10)
 Demo grids/flex rows: every column gets min-width:0 at ≤640px; nowrap text gets ellipsis or display:none; never fixed px widths without a mobile shrink rule. Verify: window.innerWidth === 375 on a 375 device for every page.
+
+## min-width:0 is not enough (2026-06-10, round 2 of viewport blowout)
+Chrome: a flex:1 child with an unbreakable token (demo browser-bar URLs) still propagates its content size during intrinsic sizing even with min-width:0 + overflow:hidden. Only a DEFINITE max-width (vw units, not %) stops it. All 12 *-url classes capped at 56vw ≤640px.
+Verify the FIX, not just the viewport: with html{overflow-x:clip} the page reports clientWidth 375 while .case-content is silently clipped at 412+. Probe .case-content width === viewport width on every case page.
+Driver hunt recipe: iteratively hide elements until width drops, record, keep hidden, repeat — enumerates ALL independent drivers in one pass (they stack; fixing one reveals the next).
