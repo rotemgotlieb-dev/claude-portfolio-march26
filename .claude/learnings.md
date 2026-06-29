@@ -12,6 +12,9 @@ Active knowledge lives in topical, on-demand files:
 - .claude/canonical-motion-spec.md — full motion parameter tables (reference)
 - .claude/research/ — dated research files (reference by topic)
 
+## Entries
+- 2026-06-11: Migrated to Conductor workflow. Project pushed to github.com/rotemgotlieb-dev/claude-portfolio-march26. Git history replaces _archive/ manual backups. Parallel agents via Conductor worktrees from here on.
+
 ## Append protocol (REPLACES the old "log every session" loop)
 1. New durable lesson → append ≤10 lines to the MATCHING rules/ file, not here.
 2. Recurring failure → one line in immune.md.

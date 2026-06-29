@@ -4,6 +4,12 @@
 Vanilla HTML/CSS/JS, no frameworks. Single styles.css + main.js; game.js separate; demos in js/demos/ (engine primitives in js/demos/_engine/). Satoshi from Fontshare.
 Run: `python3 -m http.server 8080`. Deploy: `vercel deploy --prod --yes` (aliases www.rotemgotlieb.com). Cache-bust `?v=N` lockstep across ALL html before any deploy.
 
+## Conductor workflow (migrated 2026-06-11)
+This project is a git repo tracked at github.com/rotemgotlieb-dev/claude-portfolio-march26. We use Conductor to run parallel Claude Code agents in isolated git worktrees.
+- Phase checkpoints = git commits (replaces manual _archive/_pre-phase-* copies). _archive/ stays on disk but is gitignored; git history is the backup mechanism.
+- Working model: Claude Code owns build-review-iterate loop (build → Playwright self-review → iterate). Surface only genuine design forks or final visual review to the strategy chat.
+- Strategy chat (once-a-sprint): hard decisions, direction changes, user playtests only. Not for mechanical build tasks.
+
 ## TRIGGER INDEX — read the rule file BEFORE the matching work (mandatory)
 | Before… | Read |
 |---|---|
