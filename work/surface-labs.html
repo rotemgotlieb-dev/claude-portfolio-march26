@@ -21,7 +21,7 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1A1A'/><text x='50%25' y='52%25' dominant-baseline='central' text-anchor='middle' font-family='system-ui,-apple-system,sans-serif' font-weight='900' font-size='20' fill='%23FAFAF8'>R</text></svg>">
   <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1A1A'/><text x='50%25' y='52%25' dominant-baseline='central' text-anchor='middle' font-family='system-ui,-apple-system,sans-serif' font-weight='900' font-size='20' fill='%23FAFAF8'>R</text></svg>">
   <script>(function(){/* dark mode disabled 2026-05-13: keep theme=light. */})();</script>
-  <link rel="stylesheet" href="../styles.css?v=93">
+  <link rel="stylesheet" href="../styles.css?v=94">
 </head>
 <body>
 
@@ -122,7 +122,7 @@
           <section id="the-system" class="case-section reveal">
             <span class="section-label">The System</span>
             <h2>On-brand by construction.</h2>
-            <p>A new page is a typed data object plus a three-line route. Nothing else. Content lives in a typed data file, layout lives in a template, and the two never mix.</p>
+            <p>A new page is a typed data object plus a three-line route. Nothing else. Content lives in a typed data file, layout lives in a template, and the two never mix. Type the object, the page builds.</p>
 
             <div class="sf-video-frame reveal">
               <div class="sf-video-chrome">
@@ -133,7 +133,6 @@
                 </video>
               </div>
             </div>
-            <p class="demo-frame-caption"><em>One typed data object. One template. A finished, on-brand page.</em></p>
 
             <p>The competitor pages run one formula: the headline is an argument, exactly three reasons, an honest capability matrix, one CTA. I built it once, then drove every rival from a data file.</p>
             <a class="sf-page-preview reveal" href="https://withsurface.com/compare/hubspot?from=portfolio" target="_blank" rel="noopener">
@@ -145,9 +144,8 @@
               <div class="sf-pp-shot"><img src="../img/surface-compare-hubspot.jpg" alt="A competitor comparison page I built for Surface Labs: The modern HubSpot alternative, with a speed-to-lead comparison." loading="lazy"></div>
               <div class="sf-pp-cta" aria-hidden="true">View live &#8599;</div>
             </a>
-            <p class="demo-frame-caption"><em>A competitor page I built, end to end. It's live, click to open it.</em></p>
 
-            <p>Style comes only from the Surface kit, so every page passes as a withsurface.com page. A design-token check blocks raw hex, so pages stay on the kit before they ship.</p>
+            <p>Style comes only from the Surface kit, so every page passes as a withsurface.com page. A design-token check blocks raw hex, so pages stay on the kit before they ship. The same engine, different data.</p>
             <a class="sf-page-preview reveal" href="https://withsurface.com/for/marketing-leaders?from=portfolio" target="_blank" rel="noopener">
               <div class="sf-pp-bar">
                 <div class="sf-pp-lights"><span></span><span></span><span></span></div>
@@ -157,11 +155,10 @@
               <div class="sf-pp-shot" style="aspect-ratio: 1440 / 635;"><img src="../img/surface-for-marketing-leaders.jpg" alt="The 'Marketing did its job. Then everything broke.' section from the marketing leaders persona page I built, showing three data-visualization problem cards." loading="lazy"></div>
               <div class="sf-pp-cta" aria-hidden="true">View live &#8599;</div>
             </a>
-            <p class="demo-frame-caption"><em>Same engine, a persona page, also live.</em></p>
 
             <p>The contract proposal counts around 17 pages live in roughly two weeks: strategy guides, persona pages, competitor pages, an industries directory. I composed with the team's component kit. I shipped the pages, not the kit.</p>
 
-            <p>I also shipped interactive lead tools. This one diagnoses where a funnel leaks, one tap per stage. Try it.</p>
+            <p>I also shipped interactive lead tools. This one diagnoses where a B2B funnel leaks, one tap per stage. The live version is at withsurface.com/lp/pipeline-diagnosis.</p>
 
             <!-- INTERACTIVE · mini Pipeline Diagnosis (Pattern C).
                  Driven by js/demos/surface-pipeline-diagnosis.js. Faithful
@@ -173,7 +170,7 @@
               </div>
               <div class="sd-stage" data-sd-stage>
                 <span class="sd-eyebrow">PIPELINE DIAGNOSIS</span>
-                <h3 class="sd-title">Why is your pipeline down?</h3>
+                <h3 class="sd-title">Where is your pipeline leaking?</h3>
                 <div class="sd-progress" data-sd-progress aria-hidden="true">
                   <span class="sd-seg" data-sd-seg="0"></span>
                   <span class="sd-seg" data-sd-seg="1"></span>
@@ -184,6 +181,7 @@
                   <!-- questions injected by JS -->
                 </div>
                 <div class="sd-result" data-sd-result hidden>
+                  <span class="sd-result-eyebrow">Stage health</span>
                   <div class="sd-funnel" data-sd-funnel aria-hidden="true"></div>
                   <p class="sd-verdict" data-sd-verdict></p>
                   <a class="sd-cta" data-sd-cta href="https://www.withsurface.com/lp/pipeline-diagnosis?from=portfolio" target="_blank" rel="noopener">See how Surface fixes this &#8599;</a>
@@ -191,7 +189,6 @@
                 </div>
               </div>
             </div>
-            <p class="demo-frame-caption"><em>The real lead magnet, in miniature. Four questions, one per funnel stage. The weakest stage surfaces as the leak.</em></p>
           </section>
 
           <section id="shipped" class="case-section reveal">
@@ -208,7 +205,6 @@
                 </video>
               </div>
             </div>
-            <p class="demo-frame-caption"><em>Six early merges, reverted, then re-shipped as consolidated reviewed PRs.</em></p>
 
             <p>Thirteen-plus core pages are merged and live. Eight more sit in review, where they belong. The revert is the point.</p>
           </section>
@@ -217,7 +213,7 @@
             <span class="section-label">The Motion System</span>
             <h2>One file drives the film and its sound.</h2>
             <p>I also build motion systems. One codebase renders many films across square, vertical, and wide. Swap the data, and the visuals and the SFX re-sync by construction.</p>
-            <p>Built in Remotion, vanilla code-driven motion graphics. No screenshots, the product UI is rebuilt in code.</p>
+            <p>Built in Remotion, code-driven motion graphics. No screenshots: the product UI is rebuilt in code. The AI Visibility Index, an honest leaderboard where a competitor wins and Surface is the CTA.</p>
 
             <div class="sf-video-frame reveal">
               <div class="sf-video-chrome">
@@ -228,7 +224,8 @@
                 </video>
               </div>
             </div>
-            <p class="demo-frame-caption"><em>AI Visibility Index. An honest leaderboard where a competitor wins and Surface is the CTA.</em></p>
+
+            <p>Same system, a different brief. Four AI models answer the same prompt. The divergence is the story.</p>
 
             <div class="sf-video-frame reveal">
               <div class="sf-video-chrome">
@@ -239,7 +236,6 @@
                 </video>
               </div>
             </div>
-            <p class="demo-frame-caption"><em>Same prompt, four AI models. The divergence is the story.</em></p>
           </section>
 
           <section id="outcome" class="outcome-section reveal">
