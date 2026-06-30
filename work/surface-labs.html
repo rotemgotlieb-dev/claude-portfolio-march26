@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Case study: Surface Labs. Contract design engineering. I designed marketing pages in Claude, shipped them in code, and merged them to production on withsurface.com.">
+  <meta name="theme-color" content="#FAFAF8">
+  <link rel="canonical" href="https://rotemgotlieb.com/work/surface-labs.html">
+  <meta name="author" content="Rotem Gotlieb">
+  <meta property="og:title" content="Surface Labs · Rotem Gotlieb">
+  <meta property="og:description" content="Contract design engineering. I designed pages in Claude, shipped them in code, and merged them to production on withsurface.com.">
+  <meta property="og:image" content="https://rotemgotlieb.com/og-image.png">
+  <meta property="og:url" content="https://rotemgotlieb.com/work/surface-labs.html">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Surface Labs · Rotem Gotlieb">
+  <meta name="twitter:description" content="Contract design engineering. I designed pages in Claude, shipped them in code, and merged them to production on withsurface.com.">
+  <meta name="twitter:image" content="https://rotemgotlieb.com/og-image.png">
+  <title>Surface Labs · Rotem Gotlieb</title>
+  <style>.page-transition.active{position:fixed;inset:0;background:#FAFAF8;z-index:9998;opacity:1;}</style>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1A1A'/><text x='50%25' y='52%25' dominant-baseline='central' text-anchor='middle' font-family='system-ui,-apple-system,sans-serif' font-weight='900' font-size='20' fill='%23FAFAF8'>R</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1A1A'/><text x='50%25' y='52%25' dominant-baseline='central' text-anchor='middle' font-family='system-ui,-apple-system,sans-serif' font-weight='900' font-size='20' fill='%23FAFAF8'>R</text></svg>">
+  <script>(function(){/* dark mode disabled 2026-05-13: keep theme=light. */})();</script>
+  <link rel="stylesheet" href="../styles.css?v=93">
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div class="scroll-progress" id="scrollProgress" style="background:#2a9bbb;"></div>
+
+  <!-- Page Transition Overlay -->
+  <div class="page-transition"></div>
+
+  <!-- Nav -->
+  <nav>
+    <a href="../index.html" class="nav-name fade-in" data-delay="0.2">ROTEM</a>
+    <ul class="nav-links fade-in" data-delay="0.4">
+      <li><a href="../index.html">Work</a></li>
+      <li><a href="../process.html">Process</a></li>
+      <li><a href="../about.html">About</a></li>
+      <li><a href="mailto:rotem.gotlieb@gmail.com">Contact</a></li>
+    </ul>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+      <svg class="theme-icon theme-icon-light" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="10" cy="10" r="4"/>
+        <path d="M10 1v2M10 17v2M1 10h2M17 10h2M3.5 3.5l1.4 1.4M15.1 15.1l1.4 1.4M3.5 16.5l1.4-1.4M15.1 4.9l1.4-1.4"/>
+      </svg>
+      <svg class="theme-icon theme-icon-dark" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M17 10.5A7 7 0 119.5 3a5.5 5.5 0 007.5 7.5z"/>
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="case-layout case-layout--airy" id="main-content">
+
+    <!-- Sidebar -->
+    <aside class="case-sidebar">
+      <a href="../index.html" class="sidebar-home">&#8592; HOME</a>
+      <div class="sidebar-nav">
+        <a href="#overview" class="sidebar-link">OVERVIEW</a>
+        <a href="#the-system" class="sidebar-link">THE SYSTEM</a>
+        <a href="#shipped" class="sidebar-link">SHIPPED</a>
+        <a href="#motion" class="sidebar-link">MOTION SYSTEM</a>
+        <a href="#outcome" class="sidebar-link">OUTCOME</a>
+      </div>
+      <a href="#main-content" class="sidebar-top">&#8593; BACK TO TOP</a>
+    </aside>
+
+    <!-- Content -->
+    <div class="case-content">
+
+      <!-- HERO · Remotion-rendered Surface page header with the animated brand
+           cube motif (product-videos/src/SurfaceHeader.tsx). Seamless loop, silent. -->
+      <div class="case-hero-demo fade-in" data-delay="0.3">
+        <div class="sf-hero-video-frame">
+          <video class="sf-hero-video" autoplay muted loop playsinline preload="metadata"
+            poster="../video/surface-header-poster.jpg"
+            aria-label="Animated Surface marketing page header: the brand cube motif floats and reshuffles around the headline, Marketing drives traffic, we make it convert.">
+            <source src="../video/surface-header.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+
+      <div class="case-content-inner">
+        <h1 class="case-title fade-in" data-delay="0.5">Surface Labs · Design engineering</h1>
+        <a class="case-live-link fade-in" data-delay="0.6" style="--live-accent:#2a9bbb" href="https://withsurface.com/?from=portfolio" target="_blank" rel="noopener">
+          <span class="case-live-dot" aria-hidden="true"></span>
+          Visit the live site
+          <span class="case-live-arrow" aria-hidden="true">&#8599;</span>
+        </a>
+
+        <div class="metadata-grid fade-in" data-delay="0.7">
+          <div class="metadata-item">
+            <span class="metadata-label">Context</span>
+            <span class="metadata-value">Founding startup, contract</span>
+          </div>
+          <div class="metadata-item">
+            <span class="metadata-label">Role</span>
+            <span class="metadata-value">Design engineering</span>
+          </div>
+          <div class="metadata-item">
+            <span class="metadata-label">Timeline</span>
+            <span class="metadata-value">June 2026</span>
+          </div>
+          <div class="metadata-item">
+            <span class="metadata-label">Tools</span>
+            <span class="metadata-value">Claude, Next.js, Tailwind, Remotion</span>
+          </div>
+        </div>
+
+        <article class="case-body">
+
+          <section id="overview" class="case-section reveal">
+            <span class="section-label">Overview</span>
+            <h2>I design the page, then ship the last mile myself in the repo.</h2>
+            <p>Freelance design engineering for Surface Labs, a public YC company building an AI-native GTM conversion platform. I designed marketing pages in Claude, built them in the production repo with Claude Code, and shipped them as reviewed pull requests.</p>
+            <p>Designed in Claude, shipped in code, merged to production. The cursor is the designer. It types the data, the page builds itself.</p>
+          </section>
+
+          <section id="the-system" class="case-section reveal">
+            <span class="section-label">The System</span>
+            <h2>On-brand by construction.</h2>
+            <p>A new page is a typed data object plus a three-line route. Nothing else. Content lives in a typed data file, layout lives in a template, and the two never mix.</p>
+
+            <div class="sf-video-frame reveal">
+              <div class="sf-video-chrome">
+                <video class="sf-video" autoplay muted loop playsinline preload="metadata"
+                  poster="../video/portfolio-template-poster.jpg"
+                  aria-label="On-brand by construction: a typed data object is entered on the left, a connection beam fires, and a complete on-brand Surface marketing page builds itself section by section on the right.">
+                  <source src="../video/portfolio-template.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <p class="demo-frame-caption"><em>One typed data object. One template. A finished, on-brand page.</em></p>
+
+            <p>The competitor pages run one formula: the headline is an argument, exactly three reasons, an honest capability matrix, one CTA. I built it once, then drove every rival from a data file.</p>
+            <a class="sf-page-preview reveal" href="https://withsurface.com/compare/hubspot?from=portfolio" target="_blank" rel="noopener">
+              <div class="sf-pp-bar">
+                <div class="sf-pp-lights"><span></span><span></span><span></span></div>
+                <div class="sf-pp-url">withsurface.com/compare/hubspot</div>
+                <span class="sf-pp-live">View live &#8599;</span>
+              </div>
+              <div class="sf-pp-shot"><img src="../img/surface-compare-hubspot.jpg" alt="A competitor comparison page I built for Surface Labs: The modern HubSpot alternative, with a speed-to-lead comparison." loading="lazy"></div>
+              <div class="sf-pp-cta" aria-hidden="true">View live &#8599;</div>
+            </a>
+            <p class="demo-frame-caption"><em>A competitor page I built, end to end. It's live, click to open it.</em></p>
+
+            <p>Style comes only from the Surface kit, so every page passes as a withsurface.com page. A design-token check blocks raw hex, so pages stay on the kit before they ship.</p>
+            <a class="sf-page-preview reveal" href="https://withsurface.com/for/marketing-leaders?from=portfolio" target="_blank" rel="noopener">
+              <div class="sf-pp-bar">
+                <div class="sf-pp-lights"><span></span><span></span><span></span></div>
+                <div class="sf-pp-url">withsurface.com/for/marketing-leaders</div>
+                <span class="sf-pp-live">View live &#8599;</span>
+              </div>
+              <div class="sf-pp-shot" style="aspect-ratio: 1440 / 635;"><img src="../img/surface-for-marketing-leaders.jpg" alt="The 'Marketing did its job. Then everything broke.' section from the marketing leaders persona page I built, showing three data-visualization problem cards." loading="lazy"></div>
+              <div class="sf-pp-cta" aria-hidden="true">View live &#8599;</div>
+            </a>
+            <p class="demo-frame-caption"><em>Same engine, a persona page, also live.</em></p>
+
+            <p>The contract proposal counts around 17 pages live in roughly two weeks: strategy guides, persona pages, competitor pages, an industries directory. I composed with the team's component kit. I shipped the pages, not the kit.</p>
+
+            <p>I also shipped interactive lead tools. This one diagnoses where a funnel leaks, one tap per stage. Try it.</p>
+
+            <!-- INTERACTIVE · mini Pipeline Diagnosis (Pattern C).
+                 Driven by js/demos/surface-pipeline-diagnosis.js. Faithful
+                 recreation of the real live lead-magnet; questions illustrative. -->
+            <div class="sd-widget reveal" id="surfacePipelineDiagnosis">
+              <div class="sd-bar">
+                <div class="sd-lights"><span></span><span></span><span></span></div>
+                <div class="sd-url">withsurface.com/lp/pipeline-diagnosis</div>
+              </div>
+              <div class="sd-stage" data-sd-stage>
+                <span class="sd-eyebrow">PIPELINE DIAGNOSIS</span>
+                <h3 class="sd-title">Why is your pipeline down?</h3>
+                <div class="sd-progress" data-sd-progress aria-hidden="true">
+                  <span class="sd-seg" data-sd-seg="0"></span>
+                  <span class="sd-seg" data-sd-seg="1"></span>
+                  <span class="sd-seg" data-sd-seg="2"></span>
+                  <span class="sd-seg" data-sd-seg="3"></span>
+                </div>
+                <div class="sd-questions" data-sd-questions>
+                  <!-- questions injected by JS -->
+                </div>
+                <div class="sd-result" data-sd-result hidden>
+                  <div class="sd-funnel" data-sd-funnel aria-hidden="true"></div>
+                  <p class="sd-verdict" data-sd-verdict></p>
+                  <a class="sd-cta" data-sd-cta href="https://www.withsurface.com/lp/pipeline-diagnosis?from=portfolio" target="_blank" rel="noopener">See how Surface fixes this &#8599;</a>
+                  <button class="sd-again" type="button" data-sd-again>RUN AGAIN</button>
+                </div>
+              </div>
+            </div>
+            <p class="demo-frame-caption"><em>The real lead magnet, in miniature. Four questions, one per funnel stage. The weakest stage surfaces as the leak.</em></p>
+          </section>
+
+          <section id="shipped" class="case-section reveal">
+            <span class="section-label">Shipped with discipline</span>
+            <h2>A healthy main branch matters more than my commit count.</h2>
+            <p>Six merges once landed before they were cleared. I reverted all of them. Then I re-shipped the same work as consolidated, reviewed pull requests.</p>
+
+            <div class="sf-video-frame reveal">
+              <div class="sf-video-chrome">
+                <video class="sf-video" autoplay muted loop playsinline preload="metadata"
+                  poster="../video/portfolio-revert-poster.jpg"
+                  aria-label="Shipped with discipline: six merged-early commit rows appear, a revert pill fires, strikethroughs sweep across all six, then three consolidated reviewed pull requests replace them.">
+                  <source src="../video/portfolio-revert.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <p class="demo-frame-caption"><em>Six early merges, reverted, then re-shipped as consolidated reviewed PRs.</em></p>
+
+            <p>Thirteen-plus core pages are merged and live. Eight more sit in review, where they belong. The revert is the point.</p>
+          </section>
+
+          <section id="motion" class="case-section reveal">
+            <span class="section-label">The Motion System</span>
+            <h2>One file drives the film and its sound.</h2>
+            <p>I also build motion systems. One codebase renders many films across square, vertical, and wide. Swap the data, and the visuals and the SFX re-sync by construction.</p>
+            <p>Built in Remotion, vanilla code-driven motion graphics. No screenshots, the product UI is rebuilt in code.</p>
+
+            <div class="sf-video-frame reveal">
+              <div class="sf-video-chrome">
+                <video class="sf-video" autoplay muted loop playsinline preload="metadata"
+                  poster="../video/surface-ai-visibility-index-poster.jpg"
+                  aria-label="AI Visibility Index leaderboard motion graphic: an honest category leaderboard where a competitor lands at number one and Surface is the call to action.">
+                  <source src="../video/surface-ai-visibility-index.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <p class="demo-frame-caption"><em>AI Visibility Index. An honest leaderboard where a competitor wins and Surface is the CTA.</em></p>
+
+            <div class="sf-video-frame reveal">
+              <div class="sf-video-chrome">
+                <video class="sf-video" autoplay muted loop playsinline preload="metadata"
+                  poster="../video/surface-model-compare-poster.jpg"
+                  aria-label="Same prompt asked of four AI models motion graphic: the divergence between models is the story.">
+                  <source src="../video/surface-model-compare.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <p class="demo-frame-caption"><em>Same prompt, four AI models. The divergence is the story.</em></p>
+          </section>
+
+          <section id="outcome" class="outcome-section reveal">
+            <span class="section-label">Outcome</span>
+            <h2>Live on withsurface.com, shipped as reviewed PRs.</h2>
+            <p><strong>Live on withsurface.com today, shipped as reviewed pull requests on the team's repo.</strong> The role: the designer who ships the last mile in code via Claude Code.</p>
+            <p>Surface reports roughly 30 percent more demos in two weeks. That is their product claim, not my result.</p>
+            <p>Contract and freelance, not full-time. Full-time is six-plus months out, and that is honest.</p>
+            <p style="margin-top: 28px;"><strong>One page from each template I built, all live:</strong></p>
+            <ul class="sf-page-links">
+              <li><a href="https://withsurface.com/compare/hubspot?from=portfolio" target="_blank" rel="noopener">Surface vs HubSpot</a></li>
+              <li><a href="https://withsurface.com/compare/marketo?from=portfolio" target="_blank" rel="noopener">Surface vs Marketo</a></li>
+              <li><a href="https://withsurface.com/content-engineering?from=portfolio" target="_blank" rel="noopener">Content Engineering 101</a></li>
+              <li><a href="https://withsurface.com/paid-media-b2b?from=portfolio" target="_blank" rel="noopener">Paid Media B2B</a></li>
+              <li><a href="https://withsurface.com/for/marketing-leaders?from=portfolio" target="_blank" rel="noopener">For Marketing Leaders</a></li>
+              <li><a href="https://withsurface.com/for/marketers?from=portfolio" target="_blank" rel="noopener">For Marketers</a></li>
+              <li><a href="https://withsurface.com/industries?from=portfolio" target="_blank" rel="noopener">Industries directory</a></li>
+              <li><a href="https://withsurface.com/lp/pipeline-diagnosis?from=portfolio" target="_blank" rel="noopener">Pipeline Diagnosis</a></li>
+            </ul>
+            <p><a href="https://withsurface.com/?from=portfolio" class="cta-link" target="_blank" rel="noopener">Visit withsurface.com &rarr;</a></p>
+          </section>
+
+          <section class="other-work reveal">
+            <h2 class="other-work-heading">Other Work</h2>
+            <div class="other-work-grid">
+              <a href="lexisnexis.html" class="other-work-card">
+                <div class="project-thumbnail thumb-lexisnexis"></div>
+                <p class="project-label">LexisNexis Risk Solutions, 2024-2025</p>
+                <h3 class="project-title">Bridging Design and Engineering</h3>
+              </a>
+              <a href="pulse.html" class="other-work-card">
+                <div class="project-thumbnail thumb-pulse"></div>
+                <p class="project-label">live product, 2026</p>
+                <h3 class="project-title">Pulse · AI UX Intelligence Dashboard</h3>
+              </a>
+              <a href="ghost.html" class="other-work-card">
+                <div class="project-thumbnail thumb-ghost"></div>
+                <p class="project-label">live product, 2026</p>
+                <h3 class="project-title">Ghost · Design System Reality Scanner</h3>
+              </a>
+            </div>
+          </section>
+
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-game container">
+      <canvas id="bikeGame" class="bike-game-canvas" role="img" aria-label="Decorative pixel-art mountain biking game. Press space or click to play."></canvas>
+      <p class="game-prompt" id="gamePrompt">press space or click to ride</p>
+      <p class="game-score" id="gameScore"></p>
+    </div>
+    <div class="footer-content container reveal">
+      <p class="footer-status-line"><span id="footerStatusTime">&hellip;</span> in San Jose, California <span class="footer-status-glyph">&there4;</span></p>
+      <div class="footer-social">
+        <a href="https://www.linkedin.com/in/rotemgotlieb/" target="_blank" rel="noopener">LINKEDIN</a>
+        <a href="mailto:rotem.gotlieb@gmail.com">EMAIL</a>
+      </div>
+      <div class="footer-nav">
+        <a href="../index.html">Home</a>
+        <a href="../about.html">About</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Image Modal -->
+  <div class="image-modal" id="imageModal" role="dialog" aria-label="Image preview" aria-hidden="true">
+    <div class="image-modal-backdrop" data-image-close></div>
+    <div class="image-modal-content">
+      <button type="button" class="image-modal-close" aria-label="Close" data-image-close>&times;</button>
+      <img class="image-modal-img" src="" alt="">
+    </div>
+  </div>
+
+  <script src="../main.js?v=23"></script>
+  <script src="../game.js?v=3"></script>
+  <script type="module" src="../js/demos/surface-pipeline-diagnosis.js?v=1"></script>
+  <script type="module" src="../js/demos/lexisnexis-thumb.js?v=92"></script>
+  <script type="module" src="../js/demos/pulse-thumb-v4.js?v=92"></script>
+  <script type="module" src="../js/demos/ghost-thumb-v4.js?v=92"></script>
+  <script type="module" src="../js/demos/origin-aware-thumb-expansion.js?v=92"></script>
+</body>
+</html>
