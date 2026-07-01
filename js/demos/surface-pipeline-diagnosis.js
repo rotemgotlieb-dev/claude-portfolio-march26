@@ -1,132 +1,162 @@
-/* Surface Labs — Pipeline Diagnosis (interactive body demo, Pattern C)
+/* Surface Labs — Pipeline Diagnosis (interactive, auto-restarting, Pattern C)
  * ====================================================================
- * A faithful, miniature recreation of Rotem's live lead-magnet at
- * withsurface.com/lp/pipeline-diagnosis: four one-tap questions, one per
- * funnel stage (Capture / Qualify / Route / Convert). The lowest-scoring
- * stage surfaces as "the leak" on a 4-segment funnel, lit coral.
+ * A clickable, miniature recreation of Rotem's live lead magnet at
+ * withsurface.com/lp/pipeline-diagnosis. Two questions: click an answer
+ * to advance, and after the second answer the view slides up to the
+ * diagnostic graph — a 4-stage funnel where the leaking stage lights
+ * coral, with a one-line verdict. Nothing below the verdict (no CTA).
+ * A few seconds after the result, it resets to the first question on its
+ * own (the loop restarts), ready for the next visitor.
  *
- * Pattern C (real user interaction): plain click listeners + state
- * classes. No engine loop, no Choreography, no LoopObserver — the only
- * engine import is prefersReduced (to drop transitions, NOT to disable
- * the demo: a recruiter must still be able to operate it).
+ * Pattern C (real user interaction): plain click listeners + state. The
+ * only engine imports are LoopObserver (clear pending timers / re-arm
+ * when it scrolls out of and back into view) and prefersReduced (paint
+ * the static diagnostic graph, no motion).
  *
- * HONESTY: stages + mechanic are real; the question copy and 0/1/2
- * scoring are illustrative (the production copy lives in Surface's
- * private repo). The caption states this. Leak is conveyed by color AND
- * text (accessible). Earlier-stage tie-break (fix upstream first).
+ * HONESTY: the four funnel STAGES (Capture / Qualify / Route / Convert)
+ * and the leak-diagnosis mechanic are the real product loop. The two
+ * question prompts and the fixed QUALIFY verdict are illustrative (the
+ * production scoring + copy live in Surface's private repo). Leak is
+ * conveyed by color AND text.
  */
-
-import { prefersReduced } from './_engine/index.js';
+import { LoopObserver, prefersReduced } from './_engine/index.js';
 
 const ROOT_ID = 'surfacePipelineDiagnosis';
 
-/* Illustrative questions; the funnel STAGES are the real product loop. */
-const STAGES = [
-  { key: 'CAPTURE', q: 'How do inbound leads reach your team?',
-    opts: [['Routed the moment they land', 2], ['A form someone checks daily', 1], ['They fill a form and wait', 0]] },
-  { key: 'QUALIFY', q: 'How are new leads qualified?',
-    opts: [['Scored automatically on arrival', 2], ['A rep eyeballs each one', 1], ['Everyone gets the same reply', 0]] },
-  { key: 'ROUTE', q: 'How fast is the first response?',
-    opts: [['Under a minute', 2], ['Within the day', 1], ['A few days, if at all', 0]] },
-  { key: 'CONVERT', q: 'What happens to no-shows and stalls?',
-    opts: [['Re-engaged automatically', 2], ['A manual nudge, sometimes', 1], ['Nothing, they go cold', 0]] }
+const QUESTIONS = [
+  { stage: 'CAPTURE', q: 'How do inbound leads reach your team?',
+    opts: ['Routed the moment they land', 'A form someone checks daily', 'They fill a form and wait'] },
+  { stage: 'QUALIFY', q: 'How are new leads qualified?',
+    opts: ['Scored automatically on arrival', 'A rep reads each one', 'Everyone gets the same reply'] }
 ];
+
+/* Diagnostic output across all four stages. QUALIFY is the leak:
+   shortest bar (h:0 = stub), lit coral. */
+const FUNNEL = [
+  { key: 'CAPTURE', h: 2 },
+  { key: 'QUALIFY', h: 0, leak: true },
+  { key: 'ROUTE',   h: 1 },
+  { key: 'CONVERT', h: 2 }
+];
+
+const RESTART_AFTER = 4500; /* ms held on the result before the loop restarts */
 
 function init(root) {
   const reduce = prefersReduced();
-  if (reduce) root.classList.add('sd-reduced');
-
   const qWrap = root.querySelector('[data-sd-questions]');
-  const segs = Array.from(root.querySelectorAll('[data-sd-seg]'));
   const result = root.querySelector('[data-sd-result]');
   const funnel = root.querySelector('[data-sd-funnel]');
   const verdict = root.querySelector('[data-sd-verdict]');
-  const again = root.querySelector('[data-sd-again]');
   if (!qWrap || !result || !funnel || !verdict) return;
 
   let step = 0;
-  const health = [null, null, null, null];
+  let busy = false;          /* locked during a transition (guards double-clicks) */
+  let timers = [];
+  const clearTimers = () => { timers.forEach(clearTimeout); timers = []; };
+  const later = (fn, ms) => { const t = setTimeout(fn, ms); timers.push(t); return t; };
 
-  function paintProgress() {
-    segs.forEach((s, i) => {
-      s.classList.toggle('is-filled', health[i] !== null);
-      s.classList.toggle('is-active', i === step);
-    });
-  }
-
-  function renderQuestion() {
-    const st = STAGES[step];
+  function renderQuestion(i, animateIn) {
+    const q = QUESTIONS[i];
     qWrap.innerHTML =
-      '<span class="sd-q-stage">Stage ' + (step + 1) + ' of 4 &middot; ' + st.key + '</span>' +
-      '<p class="sd-q-text">' + st.q + '</p>' +
+      '<span class="sd-q-stage">Stage ' + (i + 1) + ' of 2 &middot; ' + q.stage + '</span>' +
+      '<p class="sd-q-text">' + q.q + '</p>' +
       '<div class="sd-opts">' +
-      st.opts.map(o => '<button type="button" class="sd-opt" data-h="' + o[1] + '">' + o[0] + '</button>').join('') +
+      q.opts.map(o => '<button type="button" class="sd-opt">' + o + '</button>').join('') +
       '</div>';
-    qWrap.classList.remove('is-advancing');
-    paintProgress();
+    if (animateIn) {
+      qWrap.classList.add('is-advancing');                 /* start hidden */
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => qWrap.classList.remove('is-advancing'))); /* fade in */
+    } else {
+      qWrap.classList.remove('is-advancing');
+    }
   }
 
-  function advance(h, btn) {
-    if (btn) btn.classList.add('is-selected');
-    health[step] = h;
-    paintProgress();
-    const go = () => {
-      step += 1;
-      if (step >= STAGES.length) { showResult(); return; }
-      renderQuestion();
-    };
-    if (reduce) { go(); return; }
-    qWrap.classList.add('is-advancing');
-    setTimeout(go, 220);
+  function buildFunnel() {
+    funnel.innerHTML = FUNNEL.map(s =>
+      '<div class="sd-fseg' + (s.leak ? ' is-leak' : '') + '">' +
+        '<div class="sd-fbar" data-h="' + s.h + '"></div>' +
+        '<span class="sd-flabel">' + s.key + '</span>' +
+      '</div>').join('');
   }
 
-  /* Lowest health wins; strict < means the EARLIEST stage wins a tie
-     (fix the funnel from the top). */
-  function leakStage() {
-    let min = 99, idx = 0;
-    for (let i = 0; i < 4; i++) { if (health[i] < min) { min = health[i]; idx = i; } }
-    return idx;
+  function fillFunnel() {
+    const bars = funnel.querySelectorAll('.sd-fbar');
+    bars.forEach((b, i) => {
+      const h = parseInt(b.getAttribute('data-h'), 10);
+      const scale = 0.18 + (h / 2) * 0.82; /* floor so the leak still shows a stub */
+      if (reduce) { b.style.transform = 'scaleY(' + scale + ')'; }
+      else { setTimeout(() => { b.style.transform = 'scaleY(' + scale + ')'; }, 90 * i); }
+    });
   }
 
   function showResult() {
-    const leak = leakStage();
-    funnel.innerHTML = STAGES.map((st, i) =>
-      '<div class="sd-fseg' + (i === leak ? ' is-leak' : '') + '">' +
-        '<div class="sd-fbar" data-h="' + health[i] + '"></div>' +
-        '<span class="sd-flabel">' + st.key + '</span>' +
-      '</div>').join('');
-    verdict.innerHTML = 'Your pipeline leaks at <b>' + STAGES[leak].key + '</b>.';
     qWrap.style.display = 'none';
     result.hidden = false;
-
-    const bars = Array.from(funnel.querySelectorAll('.sd-fbar'));
-    const fill = () => bars.forEach((b, i) => {
-      const h = parseInt(b.getAttribute('data-h'), 10);
-      const scale = 0.18 + (h / 2) * 0.82; /* floor so a leak still shows a stub */
-      if (reduce) { b.style.transform = 'scaleY(' + scale + ')'; }
-      else { setTimeout(() => { b.style.transform = 'scaleY(' + scale + ')'; }, 70 * i); }
+    buildFunnel();
+    verdict.innerHTML = 'Your pipeline leaks at <b>QUALIFY</b>.';
+    requestAnimationFrame(() => {
+      result.classList.add('is-in');                       /* slide up + fade in */
+      requestAnimationFrame(() => requestAnimationFrame(fillFunnel));
     });
-    if (reduce) fill();
-    else requestAnimationFrame(() => requestAnimationFrame(fill));
+    busy = false;
+    later(restart, RESTART_AFTER);                         /* auto-restart the loop */
   }
 
-  function reset() {
+  function advance() {
+    qWrap.classList.add('is-advancing');                   /* fade current question out */
+    if (step === 0) {
+      later(() => { step = 1; renderQuestion(1, true); busy = false; }, 300);
+    } else {
+      later(showResult, 300);
+    }
+  }
+
+  function resetState(animateIn) {
+    clearTimers();
     step = 0;
-    for (let i = 0; i < 4; i++) health[i] = null;
+    busy = false;
     result.hidden = true;
+    result.classList.remove('is-in');
+    funnel.innerHTML = '';
+    verdict.innerHTML = '';
     qWrap.style.display = '';
-    segs.forEach(s => s.classList.remove('is-filled', 'is-active'));
-    renderQuestion();
+    renderQuestion(0, animateIn);
+  }
+
+  function restart() { resetState(true); }                 /* loop back to Q1 */
+
+  /* Reduced motion: static diagnostic graph, no question cycle, no loop. */
+  if (reduce) {
+    root.classList.add('sd-reduced');
+    qWrap.style.display = 'none';
+    result.hidden = false;
+    result.classList.add('is-in');
+    buildFunnel();
+    verdict.innerHTML = 'Your pipeline leaks at <b>QUALIFY</b>.';
+    fillFunnel();
+    return;
   }
 
   qWrap.addEventListener('click', (e) => {
     const btn = e.target.closest('.sd-opt');
-    if (!btn || btn.classList.contains('is-selected')) return;
-    advance(parseInt(btn.getAttribute('data-h'), 10), btn);
+    if (!btn || busy || qWrap.classList.contains('is-advancing')) return;
+    busy = true;
+    btn.classList.add('is-selected');
+    later(advance, 280);
   });
-  if (again) again.addEventListener('click', reset);
 
-  renderQuestion();
+  /* Re-arm cleanly when the widget scrolls out of and back into view: clear
+     any pending auto-restart so it never fires off-screen, and reset to Q1. */
+  let armed = false;
+  const observer = new LoopObserver({
+    element: root,
+    onEnter: () => { if (!armed) { armed = true; resetState(false); } },
+    onExit: () => { armed = false; clearTimers(); }
+  });
+
+  resetState(false);   /* paint Q1 before the observer arms */
+  observer.start();
 }
 
 const rootEl = document.getElementById(ROOT_ID);

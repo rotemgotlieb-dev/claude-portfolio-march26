@@ -6,7 +6,7 @@
    ffmpeg -i in.mov -c:v libx264 -profile:v main -level 4.0 -pix_fmt yuv420p -r 30 -fps_mode cfr -crf 24 -preset medium -movflags +faststart -an out.mp4
 3. **Poster:** extract at t=0.5s (loops) / t=2s (demos): ffmpeg -i in.mp4 -ss 2 -vframes 1 -q:v 4 poster.jpg
 4. **No opaque overlay at parse** (JS-state classes like .page-transition.active NEVER ship in HTML).
-5. **No ancestor with opacity:0 / display:none / visibility:hidden / offscreen transform at parse.** iOS decides autoplay ONCE at parse. Fix: `.reveal:has(video) { opacity:1; transform:none; }`.
+5. **No ancestor with opacity:0 / display:none / visibility:hidden / offscreen transform at parse.** iOS decides autoplay ONCE at parse. Fix: `.reveal:has(video) { opacity:1; transform:none; }` AND `.fade-in:has(video)` (2026-07-01: the Surface hero video sat in a .fade-in wrapper and iOS showed the play button; EVERY opacity-0-at-parse wrapper class needs the :has(video) exemption).
 6. **Parse-time .play() for above-fold videos**, viewport-scoped via getBoundingClientRect (NEVER unscoped — decoder saturation starved cursor RAF). Canonical at main.js attemptVideoAutoplay(). readyState guard required for end-of-body scripts.
 7. **Verify ffprobe on every new file:** profile=Main, level≤40, yuv420p, 30/1 CFR, faststart, no audio. Then test on REAL iPhone at deployed URL.
 

@@ -3,25 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="How I work with AI: the operating model behind three products shipped in 2026. The fork, the verify habit, and why green tests are not a working product.">
+  <meta name="description" content="How I design and ship with AI. The operating model behind two AI products and marketing pages shipped to production at Surface Labs, a YC company.">
   <meta name="theme-color" content="#FAFAF8">
-  <link rel="canonical" href="https://rotemgotlieb.com/process.html">
+  <link rel="canonical" href="https://www.rotemgotlieb.com/process.html">
   <meta name="author" content="Rotem Gotlieb">
-  <meta property="og:title" content="How I Work With AI · Rotem Gotlieb">
-  <meta property="og:description" content="The operating model behind three products shipped in 2026. The fork, the verify habit, and why green tests are not a working product.">
-  <meta property="og:image" content="https://rotemgotlieb.com/og-image.png">
-  <meta property="og:url" content="https://rotemgotlieb.com/process.html">
+  <meta property="og:title" content="How I Design and Ship With AI · Rotem Gotlieb">
+  <meta property="og:description" content="The operating model behind two AI products and marketing pages shipped to production at Surface Labs, a YC company.">
+  <meta property="og:image" content="https://www.rotemgotlieb.com/og-image.png">
+  <meta property="og:url" content="https://www.rotemgotlieb.com/process.html">
   <meta property="og:type" content="article">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="How I Work With AI · Rotem Gotlieb">
-  <meta name="twitter:description" content="The operating model behind three products shipped in 2026. The fork, the verify habit, and why green tests are not a working product.">
-  <meta name="twitter:image" content="https://rotemgotlieb.com/og-image.png">
-  <title>How I Work With AI · Rotem Gotlieb</title>
+  <meta name="twitter:title" content="How I Design and Ship With AI · Rotem Gotlieb">
+  <meta name="twitter:description" content="The operating model behind two AI products and marketing pages shipped to production at Surface Labs, a YC company.">
+  <meta name="twitter:image" content="https://www.rotemgotlieb.com/og-image.png">
+  <title>How I Design and Ship With AI · Rotem Gotlieb</title>
   <style>.page-transition.active{position:fixed;inset:0;background:#FAFAF8;z-index:9998;opacity:1;}</style>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1A1A'/><text x='50%25' y='52%25' dominant-baseline='central' text-anchor='middle' font-family='system-ui,-apple-system,sans-serif' font-weight='900' font-size='20' fill='%23FAFAF8'>R</text></svg>">
   <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1A1A'/><text x='50%25' y='52%25' dominant-baseline='central' text-anchor='middle' font-family='system-ui,-apple-system,sans-serif' font-weight='900' font-size='20' fill='%23FAFAF8'>R</text></svg>">
-  <script>(function(){/* dark mode disabled 2026-05-13: keep theme=light. Restore: revert this <script> + .theme-toggle CSS hide */})();</script>
-  <link rel="stylesheet" href="styles.css?v=94">
+  <script>(function(){/* dark mode disabled 2026-05-13: keep theme=light. */})();</script>
+  <link rel="stylesheet" href="styles.css?v=96">
 </head>
 <body>
 
@@ -59,13 +59,15 @@
     <aside class="case-sidebar">
       <a href="index.html" class="sidebar-home">&#8592; HOME</a>
       <div class="sidebar-nav">
-        <a href="#fork" class="sidebar-link">THE FORK</a>
-        <a href="#green" class="sidebar-link">TESTS VS TRUTH</a>
-        <a href="#verify" class="sidebar-link">HOW WE VERIFY</a>
-        <a href="#memory" class="sidebar-link">MEMORY AS SYSTEM</a>
-        <a href="#seams" class="sidebar-link">SHOW THE SEAMS</a>
-        <a href="#proof" class="sidebar-link">WHAT IT SHIPPED</a>
-        <a href="#bring" class="sidebar-link">WHAT I'D BRING</a>
+        <a href="#the-loop" class="sidebar-link">THE LOOP</a>
+        <a href="#the-fork" class="sidebar-link">THE FORK</a>
+        <a href="#the-system" class="sidebar-link">THE SYSTEM</a>
+        <a href="#tests-truth" class="sidebar-link">TESTS VS TRUTH</a>
+        <a href="#discipline" class="sidebar-link">DISCIPLINE</a>
+        <a href="#memory" class="sidebar-link">MEMORY</a>
+        <a href="#motion" class="sidebar-link">MOTION SYSTEM</a>
+        <a href="#shipped" class="sidebar-link">WHAT SHIPPED</a>
+        <a href="#bring" class="sidebar-link">WHAT I&#39;D BRING</a>
       </div>
       <a href="#main-content" class="sidebar-top">&#8593; BACK TO TOP</a>
     </aside>
@@ -73,173 +75,150 @@
     <!-- Content -->
     <div class="case-content">
       <div class="case-content-inner">
-        <span class="section-label fade-in" data-delay="0.3" style="margin-top: 88px;">Process · 2026</span>
-        <h1 class="case-title fade-in" data-delay="0.5" style="padding-top: 12px;">How I work with AI.</h1>
-        <p class="process-lead fade-in" data-delay="0.7">I shipped three products this year with an AI building beside me. Not autocomplete, a real operating model. The split is clear. It brings velocity and breadth. I bring taste and the bar. Here is how the work actually happens.</p>
+        <span class="section-label fade-in" data-delay="0.3" style="margin-top: 88px;">Process &middot; 2026</span>
+        <h1 class="case-title fade-in" data-delay="0.5" style="padding-top: 12px;">How I design and ship with AI.</h1>
+        <p class="process-lead fade-in" data-delay="0.7">An operating model, not a vibe. This year I designed and shipped two AI products of my own, and most recently marketing pages to production at Surface Labs, a YC company. The AI brings velocity and breadth. I bring taste and the bar. Here is how the work actually happens.</p>
 
         <article class="case-body">
 
-          <section id="fork" class="case-section reveal">
+          <section id="the-loop" class="case-section reveal">
+            <span class="section-label">The loop</span>
+            <h2>From a Claude design to a merged pull request.</h2>
+            <p>This is how I work now, proven on a live company site. I joined Surface Labs, a YC company building an AI-native GTM platform, as a contract design engineer. I design a page in Claude, then build it myself in the production repo.</p>
+            <p>Thirteen-plus core pages are merged and live. More sit in review, where new work belongs. I never self-merge.</p>
+            <p>Watch the handoff that never happens: the design becomes the code becomes the merged PR.</p>
+          </section>
+
+          <div class="sf-video-frame reveal">
+            <div class="sf-video-chrome">
+              <video class="sf-video" autoplay muted loop playsinline preload="metadata"
+                poster="video/process-loop-poster.jpg"
+                aria-label="The operating model: a design forms in a Claude design surface, becomes a typed data object in a code editor, then ships as a pull request that fills a review bar and stamps merged.">
+                <source src="video/process-loop.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+
+          <section id="the-fork" class="case-section reveal">
             <span class="section-label">The fork model</span>
-            <h2>Every decision is a fork.</h2>
-            <p>The AI does not wait to be told, and it does not run loose. For anything that matters it lays out a fork: the real options, a recommendation, and the tradeoff between them. I lock one.</p>
-            <p>Sometimes I take the recommendation. Sometimes I overrule it. On the Pulse case study spine I chose the riskier option B over the safe A, because a signature signal was worth the saturation risk. The AI then builds what I locked, not what it preferred.</p>
-            <p>One rule sits above all of it. No production code until the mockup is approved. Pulse's home screen went through four mockups before a single real line shipped, and each round of redlines caught something the words had hidden. A hover arrow colliding with wrapped text. A tour spotlight ten pixels off.</p>
+            <h2>Every decision is a fork. I lock one.</h2>
+            <p>The AI does not wait to be told, and it does not run loose. For anything that matters it lays out a fork: real options, a recommendation, and the tradeoff between them. I lock one, sometimes against the recommendation, and it builds what I lock.</p>
+            <p>One rule sits above all of it. No production code until the mockup is approved.</p>
           </section>
 
-          <div class="proc-demo reveal">
-            <div class="fork-demo" id="forkDemo" aria-label="A decision laid out as three options with one locked in.">
-              <div class="fork-source">
-                <span class="fork-source-label">DECISION</span>
-                <span class="fork-source-q">Case study spine</span>
-              </div>
-              <div class="fork-options">
-                <div class="fork-opt" data-opt="A">
-                  <span class="fork-opt-tag">A</span>
-                  <span class="fork-opt-text">Safe rhythm</span>
-                  <span class="fork-opt-rec">rec</span>
-                </div>
-                <div class="fork-opt" data-opt="B">
-                  <span class="fork-opt-tag">B</span>
-                  <span class="fork-opt-text">Signature signal</span>
-                  <span class="fork-opt-lock">LOCKED</span>
-                </div>
-                <div class="fork-opt" data-opt="C">
-                  <span class="fork-opt-tag">C</span>
-                  <span class="fork-opt-text">Minimal</span>
-                </div>
-              </div>
-              <div class="fork-cursor" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="#1A1A1A" stroke="#FAFAF8" stroke-width="1"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/></svg>
-              </div>
+          <div class="sf-video-frame reveal">
+            <div class="sf-video-chrome">
+              <video class="sf-video" autoplay muted loop playsinline preload="metadata"
+                poster="video/process-fork-poster.jpg"
+                aria-label="The fork: a decision card shows three options with a recommendation on A; the cursor considers each, then locks B over the recommendation, and a gate line reads no production code until the mockup is approved.">
+                <source src="video/process-fork.mp4" type="video/mp4">
+              </video>
             </div>
           </div>
-          <p class="proc-demo-caption">The recommendation was A. I locked B. The AI builds what I lock.</p>
 
-          <section id="green" class="case-section reveal">
+          <section id="the-system" class="case-section reveal">
+            <span class="section-label">The system</span>
+            <h2>One engine, every page on-brand.</h2>
+            <p>Speed without a system produces off-brand pages, so I built the system first. Every new page starts as a small file of content, and a shared template turns it into the finished page, on-brand automatically.</p>
+            <p>A token check in CI blocks raw hex. Pages stay on the kit before they merge. The full artifact story lives in the <a href="work/surface-labs.html">Surface Labs case study</a>.</p>
+            <p>Watch one typed object resolve into a finished, on-brand Surface page.</p>
+          </section>
+
+          <div class="sf-video-frame reveal">
+            <div class="sf-video-chrome">
+              <video class="sf-video" autoplay muted loop playsinline preload="metadata"
+                poster="video/process-system-poster.jpg"
+                aria-label="The template engine: a typed data object on the left is typed line by line, a beam fires, and a complete on-brand Surface marketing page builds itself section by section on the right.">
+                <source src="video/process-system.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+
+          <section id="tests-truth" class="case-section reveal">
             <span class="section-label">Tests versus truth</span>
-            <h2>Passing tests are not a working product.</h2>
-            <p>This is the lesson all three products taught me, each one on its own. Pulse had 116 tests green and the type checker clean while a compare panel sat there contradicting the heatmap right beside it. Ghost shipped headings rendered white on white, invisible, every test still passing.</p>
-            <p>The tests asserted that things existed. They could not see that things were wrong. Mechanical gates check syntax and contracts. They are blind to whether the pixels are right.</p>
+            <h2>Green tests are not a working product.</h2>
+            <p>Pulse and Ghost both taught me this. Pulse held 116 tests green and a clean typecheck while a compare panel contradicted the heatmap beside it. Ghost shipped headings rendered white on white, invisible, every test still passing. Tests assert that things exist; they cannot see that the pixels are wrong.</p>
+            <p>So I verify like a skeptic. The AI reviews its own work adversarially: reviewers raise findings, then separate refuters attack each one before it counts. On Pulse that loop confirmed 16 real bugs with 0 false positives, while 116 of 116 tests passed.</p>
+            <p>All green. Build clean. The readout still lies about the canvas beside it.</p>
           </section>
 
-          <div class="proc-demo reveal">
-            <div class="green-demo" id="greenDemo" aria-label="A test suite passing while the live screen renders a contradiction.">
-              <div class="gd-terminal">
-                <div class="gd-term-bar">
-                  <span class="gd-term-lights"><i></i><i></i><i></i></span>
-                  <span class="gd-term-title">pnpm test</span>
-                </div>
-                <div class="gd-term-body" data-gd-rows></div>
-                <div class="gd-term-summary">
-                  <span class="gd-pass"><span class="gd-pass-count" data-gd-count>0</span> / 116 passed</span>
-                  <span class="gd-build" data-gd-build>build</span>
-                </div>
-              </div>
-              <div class="gd-ui">
-                <div class="gd-ui-bar">pulse.app/observatory</div>
-                <div class="gd-heat" aria-hidden="true"><span class="gd-heat-peak"></span></div>
-                <div class="gd-readout" data-gd-readout>
-                  <span class="gd-readout-label">COMPARE</span>
-                  <span class="gd-readout-status" data-gd-status>quiet &middot; 0 issues</span>
-                  <div class="gd-flag" data-gd-flag aria-hidden="true"></div>
-                </div>
-              </div>
+          <div class="sf-video-frame reveal">
+            <div class="sf-video-chrome">
+              <video class="sf-video" autoplay muted loop playsinline preload="metadata"
+                poster="video/process-verify-poster.jpg"
+                aria-label="Tests versus truth: a terminal counts to 116 of 116 passing beside a UI readout that says quiet, zero issues while the heatmap glows hot; a coral flag names the contradiction, then a raise, refute, verdict flow resolves with 16 confirmed and 0 false positives.">
+                <source src="video/process-verify.mp4" type="video/mp4">
+              </video>
             </div>
           </div>
-          <p class="proc-demo-caption">All green. Build clean. The readout still lies about the canvas beside it.</p>
 
-          <section id="verify" class="case-section reveal">
-            <span class="section-label">How we verify</span>
-            <h2>So we verify like skeptics.</h2>
-            <p>If green is not enough, something has to look at the rendered thing. Two habits close the gap.</p>
-            <p>First, the AI reviews its own work adversarially. Independent reviewers raise findings, then separate refuters try to disprove each one before it counts. On Pulse, two passes confirmed sixteen real bugs with zero false positives, while every test stayed green. Structured skepticism sees what a checkmark cannot.</p>
-            <p>Second, nothing I have not watched gets shown to you. Every animation on this site was checked frame by frame in a real browser before it shipped. A deploy is not live until an anonymous request returns it correctly, not when the dashboard says the build passed.</p>
+          <section id="discipline" class="case-section reveal">
+            <span class="section-label">Shipped with discipline</span>
+            <h2>Six early merges out. Three reviewed PRs in.</h2>
+            <p>Six merges once landed before they were cleared. I reverted all of them, then re-shipped the same work as consolidated, reviewed pull requests. The revert is the point: a healthy main branch matters more than my commit count.</p>
+            <p>On a live company repo, what you take back out matters as much as what you ship.</p>
           </section>
 
-          <div class="verdict-card reveal" aria-label="How a finding earns its place: three reviewers raise it, two refuters attack it, only survivors ship.">
-            <div class="verdict-flow">
-              <div class="verdict-stage">
-                <span class="verdict-stage-label">RAISE</span>
-                <div class="verdict-dots verdict-dots--review"><i></i><i></i><i></i></div>
-                <span class="verdict-stage-sub">3 reviewers</span>
-              </div>
-              <span class="verdict-arrow" aria-hidden="true">&rarr;</span>
-              <div class="verdict-stage">
-                <span class="verdict-stage-label">REFUTE</span>
-                <div class="verdict-dots verdict-dots--refute"><i></i><i></i></div>
-                <span class="verdict-stage-sub">2 refuters</span>
-              </div>
-              <span class="verdict-arrow" aria-hidden="true">&rarr;</span>
-              <div class="verdict-stage">
-                <span class="verdict-stage-label">VERDICT</span>
-                <div class="verdict-result">survives</div>
-              </div>
-            </div>
-            <div class="verdict-stat">
-              <span class="verdict-stat-num">16</span> confirmed
-              <span class="verdict-stat-div">&middot;</span>
-              <span class="verdict-stat-num verdict-stat-num--zero">0</span> false positives
-              <span class="verdict-stat-div">&middot;</span>
-              while <span class="verdict-stat-num">116/116</span> tests passed
+          <div class="sf-video-frame reveal">
+            <div class="sf-video-chrome">
+              <video class="sf-video" autoplay muted loop playsinline preload="metadata"
+                poster="video/process-revert-poster.jpg"
+                aria-label="Discipline: a single main-branch line; six early-merge nodes cluster and tint the line coral, a revert sweep removes them and the line snaps back to clean cyan, then three consolidated reviewed nodes settle.">
+                <source src="video/process-revert.mp4" type="video/mp4">
+              </video>
             </div>
           </div>
 
           <section id="memory" class="case-section reveal">
             <span class="section-label">Memory as a system</span>
             <h2>Memory is infrastructure, not notes.</h2>
-            <p>The method only compounds if the AI remembers. Early on that meant one file it read every session. Thirteen hundred lines, around forty thousand tokens, most of it irrelevant to the task at hand.</p>
-            <p>I re-architected it into a small always loaded core, topical rules pulled in only when the matching work starts, and a checklist of past failures read only at review time. Session start cost dropped by a factor of sixty to eighty. Every bug a review catches becomes one line in that checklist, so the next session never re-debugs it.</p>
-            <p>This is the same instinct as a design token. Solve a thing once, encode the solution as infrastructure, and stop solving it.</p>
+            <p>A method only compounds if the AI remembers. Early on that meant one file read every session, around forty thousand tokens, mostly irrelevant to the task. I re-architected it: a small always-loaded core, topical rule files pulled only when the matching work starts, a failure checklist read only at review time.</p>
+            <p>Session-start cost dropped roughly sixty to eighty times, and each bug a review catches becomes one line, so the next session never re-debugs it. Same instinct as a design token: solve a thing once, encode the solution as infrastructure, then stop solving it.</p>
           </section>
 
-          <div class="proc-demo reveal">
-            <div class="mem-demo" id="memDemo" aria-label="A bloated always-read memory file distilled into a lean core plus rules on demand.">
-              <div class="mem-before">
-                <div class="mem-file">
-                  <span class="mem-file-name">learnings.md</span>
-                  <div class="mem-lines" aria-hidden="true"></div>
-                </div>
-                <span class="mem-meta"><span class="mem-token" data-mem-count>40,000</span> tokens &middot; read every session</span>
-              </div>
-              <div class="mem-after" data-mem-after>
-                <div class="mem-core">core &middot; ~510 tokens</div>
-                <div class="mem-chips">
-                  <span class="mem-chip">rules/animation</span>
-                  <span class="mem-chip">rules/video</span>
-                  <span class="mem-chip">rules/design</span>
-                  <span class="mem-chip mem-chip--immune">immune &middot; review only</span>
-                </div>
-                <span class="mem-meta mem-meta--after"><span class="mem-token mem-token--after">~510</span> tokens at session start</span>
-              </div>
+          <div class="sf-video-frame reveal">
+            <div class="sf-video-chrome">
+              <video class="sf-video" autoplay muted loop playsinline preload="metadata"
+                poster="video/process-memory-poster.jpg"
+                aria-label="Memory as infrastructure: one tall forty-thousand-token file splits into a lean always-loaded core plus topical rule cards pulled on demand plus a review-only checklist, and the session-start counter drops from forty thousand to about five hundred ten.">
+                <source src="video/process-memory.mp4" type="video/mp4">
+              </video>
             </div>
           </div>
-          <p class="proc-demo-caption">One file read every session becomes a lean core, with the rest pulled in only when it is needed.</p>
 
-          <section id="seams" class="case-section reveal">
-            <span class="section-label">Show the seams</span>
-            <h2>The seams are the proof.</h2>
-            <p>None of these launches were clean, and I left the evidence in. Ghost's first deploy returned an error on every route behind a login wall, then served a dead site because a framework preset guessed wrong, then stalled because an old email address looked to the platform like a paywall. Pulse's entire compare feature once vanished below a certain screen width, because its only output lived in a column that could hide.</p>
-            <p>Most case studies claim a smooth line from idea to launch. This one shows the debugging. A method is only worth trusting when you can see where it broke and how it recovered.</p>
+          <section id="motion" class="case-section reveal">
+            <span class="section-label">The motion system</span>
+            <h2>One codebase renders every film.</h2>
+            <p>At Surface Labs I built a Remotion video system, not a one-off render. Each film is one small data file, and the same timing logic places every bar and every sound cue, so swapping the data re-syncs both automatically (the films play silent here).</p>
+            <p>One codebase renders the same film square, vertical, and wide. I composed this on Surface tokens and synthesized the sound kit in code. No stock assets, no drift.</p>
+            <p>Watch one timing function drive the bars and the sound cues at once.</p>
           </section>
 
-          <div class="seam-log reveal" aria-label="A sample of real launch-day failures and their recoveries.">
-            <div class="seam-log-bar"><span class="seam-log-dot"></span> launch log</div>
-            <ul class="seam-log-rows">
-              <li><span class="seam-tag seam-tag--fail">FAIL</span> every route 404s behind Vercel SSO <span class="seam-fix">turned protection off</span></li>
-              <li><span class="seam-tag seam-tag--fail">FAIL</span> build green, site dead, preset autodetected wrong <span class="seam-fix">pinned the framework</span></li>
-              <li><span class="seam-tag seam-tag--fail">FAIL</span> compare panel hides under 1400px <span class="seam-fix">output never routed through a hideable column again</span></li>
-              <li><span class="seam-tag seam-tag--rule">RULE</span> a deploy is not live until an anonymous request returns 200</li>
-            </ul>
+          <div class="sf-video-frame reveal">
+            <div class="sf-video-chrome">
+              <video class="sf-video" autoplay muted loop playsinline preload="metadata"
+                poster="video/process-motion-poster.jpg"
+                aria-label="The video system: a left data panel, a center leaderboard of bars racing up, and a bottom sound-cue track; one timing value forks into two strikes on the same frame, one landing a bar and one lighting a sound cue, then the frame reflows across wide, square, and vertical formats.">
+                <source src="video/process-motion.mp4" type="video/mp4">
+              </video>
+            </div>
           </div>
 
-          <section id="proof" class="case-section reveal">
+          <section id="shipped" class="case-section reveal">
             <span class="section-label">What it shipped</span>
-            <h2>What the method shipped.</h2>
-            <p>Three products this year, built this way, and you can open two of them right now.</p>
+            <h2>The method shipped four things you can open.</h2>
+            <p>Surface Labs runs in production, Pulse and Ghost run live, and the fourth is the site you are reading. All four were built this way.</p>
           </section>
 
           <div class="proof-grid reveal">
+            <div class="proof-item">
+              <span class="proof-name">Surface Labs</span>
+              <p class="proof-line">Marketing pages designed in Claude and shipped to production. Live on withsurface.com.</p>
+              <div class="proof-links">
+                <a href="https://withsurface.com/?from=portfolio" target="_blank" rel="noopener" class="proof-link proof-link--live">Live site &#8599;</a>
+                <a href="work/surface-labs.html" class="proof-link">Case study &rarr;</a>
+              </div>
+            </div>
             <div class="proof-item">
               <span class="proof-name">Pulse</span>
               <p class="proof-line">A living UX observatory. Scrub time, watch friction heat up, ship the fix.</p>
@@ -266,12 +245,24 @@
           </div>
 
           <section id="bring" class="outcome-section reveal">
-            <span class="section-label">What I'd bring</span>
-            <h2>What I'd bring to your team.</h2>
-            <p>A real operating model for building with AI, not a vibe. A bias toward shipping the whole loop, research through production code. And the discipline to verify what actually renders, not just what compiles.</p>
+            <span class="section-label">What I&#39;d bring</span>
+            <h2>What I&#39;d bring to your team.</h2>
+            <p>An operating model you have now seen end to end: fork, build, verify, revert, remember. This year it shipped Pulse, Ghost, and thirteen-plus core pages merged live at Surface Labs.</p>
+            <p>And the discipline to verify what renders, not what compiles. Nothing reaches you that I have not watched myself.</p>
             <p>If that is the designer you are hiring, I would love to talk.</p>
-            <p style="margin-top: 32px;"><a href="mailto:rotem.gotlieb@gmail.com" class="cta-link">Get in touch &rarr;</a></p>
           </section>
+
+          <div class="sf-video-frame reveal">
+            <div class="sf-video-chrome">
+              <video class="sf-video" autoplay muted loop playsinline preload="metadata"
+                poster="video/process-close-poster.jpg"
+                aria-label="The method as a loop: six nodes, fork, system, verify, revert, memory, ship, on a spine; a token travels lighting each, a return arc closes the loop, and it resolves on an email pill.">
+                <source src="video/process-close.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+
+          <p style="margin-top: 32px;"><a href="mailto:rotem.gotlieb@gmail.com" class="cta-link">Get in touch &rarr;</a></p>
 
         </article>
       </div>
@@ -293,6 +284,7 @@
       </div>
       <div class="footer-nav">
         <a href="index.html">Home</a>
+        <a href="process.html">Process</a>
         <a href="about.html">About</a>
       </div>
     </div>
@@ -300,8 +292,5 @@
 
   <script src="main.js?v=23"></script>
   <script src="game.js?v=3"></script>
-  <script type="module" src="js/demos/process-fork.js?v=1"></script>
-  <script type="module" src="js/demos/process-green-broken.js?v=1"></script>
-  <script type="module" src="js/demos/process-memory.js?v=1"></script>
 </body>
 </html>

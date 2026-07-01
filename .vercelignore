@@ -19,3 +19,6 @@ sandbox-*.html
 CLAUDE.md
 *.log
 .DS_Store
+
+# Conductor scratch
+.context/

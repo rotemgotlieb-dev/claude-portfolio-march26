@@ -53,6 +53,7 @@
 [data-theme="dark"] .thumb-pulse       { background: #1A2030; }
 [data-theme="dark"] .thumb-ghost       { background: #201A30; }
 [data-theme="dark"] .thumb-gotefigure  { background: #3E3A30; }
+[data-theme="dark"] .thumb-surface     { background: #18282A; }
 [data-theme="dark"] .page-transition { background: var(--bg-primary); }
 [data-theme="dark"] .outcome-section { background: var(--bg-secondary); }
 [data-theme="dark"] .custom-cursor             { border-color: #F0F0EC; }
@@ -487,6 +488,9 @@ nav.scrolled {
   transition: opacity 600ms var(--ease-smooth), transform 600ms var(--ease-smooth);
 }
 .reveal:has(video) { opacity: 1; transform: none; }
+/* iOS gate 5: a video with an opacity-0 ancestor at parse never autoplays.
+   The Surface hero video sits in a .fade-in wrapper — exempt it too. */
+.fade-in:has(video) { opacity: 1; transform: none; }
 .reveal.revealed { opacity: 1; transform: translateY(0); }
 
 
@@ -536,6 +540,14 @@ nav.scrolled {
   display: block;
   white-space: nowrap;
 }
+/* Mobile: the two-line nowrap clamp shrank the H1 below the subtitle
+   (hierarchy inversion at 375px). Let the headline wrap and stay dominant. */
+@media (max-width: 600px) {
+  .hero-text { font-size: 28px; }
+  .hero-text-line { display: inline; white-space: normal; }
+  /* the two spans sit flush in the HTML; restore the word gap when inlined */
+  .hero-text-line + .hero-text-line::before { content: " "; }
+}
 
 .hero-subtitle {
   font-size: 24px;
@@ -546,6 +558,16 @@ nav.scrolled {
   margin: 18px 0 0;
   letter-spacing: -0.01em;
 }
+/* The one link in the hero (the flagship case study) must read as a link. */
+.hero-subtitle a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--text-muted, #999);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: text-decoration-color 180ms ease, color 180ms ease;
+}
+.hero-subtitle a:hover { color: var(--text-primary); text-decoration-color: var(--text-primary); }
 
 
 /* ============================================
@@ -633,6 +655,23 @@ nav.scrolled {
   margin-bottom: 4px;
 }
 
+/* "Now shipping" status pill on the Surface lead card (the "new work"
+   indicator). Cyan = Surface's accent. */
+.bento-status {
+  display: inline-flex; align-items: center; gap: 5px;
+  margin-right: 8px; padding: 2px 8px 2px 7px;
+  border-radius: 999px;
+  background: rgba(42,155,187,0.12);
+  color: #1f8aa8;
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.07em; text-transform: uppercase;
+  vertical-align: 1px;
+}
+.bento-status::before {
+  content: ''; width: 5px; height: 5px; border-radius: 50%;
+  background: #2a9bbb; flex-shrink: 0;
+}
+
 .project-title {
   font-size: 18px; font-weight: 500;
   color: var(--text-primary);
@@ -651,6 +690,7 @@ nav.scrolled {
 .thumb-pulse      { background: #E8ECF2; }
 .thumb-ghost      { background: #EDE8F0; }
 .thumb-gotefigure { background: #F0EDE8; }
+.thumb-surface    { background: #EEF7FA; }
 
 
 /* ============================================
@@ -7143,6 +7183,64 @@ body.modal-open { overflow: hidden; }
      v5.1 thumb module will inject .thumb-halo.thumb-halo--ghost. */
   background-image: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Cdefs%3E%3CradialGradient%20id%3D%27g%27%20cx%3D%2750%25%27%20cy%3D%2750%25%27%20r%3D%2750%25%27%3E%3Cstop%20offset%3D%270%25%27%20stop-color%3D%27%235B6E80%27%20stop-opacity%3D%270.85%27%2F%3E%3Cstop%20offset%3D%2760%25%27%20stop-color%3D%27%235B6E80%27%20stop-opacity%3D%270.40%27%2F%3E%3Cstop%20offset%3D%27100%25%27%20stop-color%3D%27%235B6E80%27%20stop-opacity%3D%270%27%2F%3E%3C%2FradialGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%2732%27%20height%3D%2732%27%20fill%3D%27url(%23g)%27%2F%3E%3C%2Fsvg%3E");
 }
+.thumb-halo--surface {
+  /* Soft cyan glow for Surface Labs. Dimmed so the light background reads
+     light (the dots carry the colour, not the field). */
+  opacity: 0.34;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Cdefs%3E%3CradialGradient%20id%3D%27g%27%20cx%3D%2750%25%27%20cy%3D%2760%25%27%20r%3D%2750%25%27%3E%3Cstop%20offset%3D%270%25%27%20stop-color%3D%27%232a9bbb%27%20stop-opacity%3D%270.7%27%2F%3E%3Cstop%20offset%3D%2760%25%27%20stop-color%3D%27%232a9bbb%27%20stop-opacity%3D%270.3%27%2F%3E%3Cstop%20offset%3D%27100%25%27%20stop-color%3D%27%232a9bbb%27%20stop-opacity%3D%270%27%2F%3E%3C%2FradialGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%2732%27%20height%3D%2732%27%20fill%3D%27url(%23g)%27%2F%3E%3C%2Fsvg%3E");
+}
+
+/* ====================================================================
+   SURFACE LABS — "Surface Wave" thumbnail (surface-thumb.js).
+   A tilted 3D dot-plane; a travelling wave lifts the dots and sweeps a
+   cyan->coral band across. Sizes in cqw so it scales between the bento
+   and Other Work boxes. JS writes per-dot transform/opacity/colour.
+   ==================================================================== */
+/* Make the thumb wrapper a container so the (sibling) hook label scales to
+   the thumb, not the viewport. */
+.bento-card-thumb.thumb-surface, .project-thumbnail.thumb-surface { container-type: size; }
+.sfw-stage {
+  position: absolute; inset: 0; z-index: 2; overflow: hidden;
+  perspective: 52cqw; container-type: size;
+  /* soft top edge only — the endless-horizon dissolve is mostly done in JS
+     (atmospheric depth-fade on the far rows), this just kills any hard edge */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 6%, #000 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 6%, #000 100%);
+}
+.sfw-plane { position: absolute; inset: -85% -15% -14% -15%; transform-style: preserve-3d; will-change: transform; }
+.sfw-dot {
+  position: absolute; width: 4.7cqw; height: 4.7cqw; border-radius: 50%;
+  background: #2a9bbb; transform: translate(-50%, -50%);
+  will-change: transform, opacity;
+}
+/* Centered hook lockup — bold + front-and-centre, melted into the wave by a
+   soft edgeless scrim. pointer-events:none so the hover ripple passes through. */
+.sfw-label {
+  position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 2.2cqw; text-align: center; padding: 0 10cqw;
+}
+.sfw-label::before {
+  content: ''; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: 96%; height: 76%; z-index: -1;
+  background: radial-gradient(ellipse at center,
+    rgba(238,247,250,0.66) 0%, rgba(238,247,250,0.40) 44%, rgba(238,247,250,0) 72%);
+}
+/* Our own type (Satoshi, the portfolio font) — never a Surface brand face. */
+.sfw-label-eyebrow {
+  font-family: 'Satoshi', sans-serif; font-weight: 700;
+  font-size: 3.3cqw; letter-spacing: 0.2em; text-transform: uppercase;
+  color: #126C82;
+  text-shadow: 0 0.2cqw 1.4cqw rgba(238,247,250,1), 0 0 2cqw rgba(238,247,250,0.9);
+  margin-bottom: 0.6cqw;
+}
+.sfw-label-hook {
+  display: block; max-width: 60cqw; margin: 0 auto;
+  font-family: 'Satoshi', sans-serif; font-weight: 800;
+  font-size: 7.6cqw; line-height: 1.05; letter-spacing: -0.02em;
+  color: #14262B; text-shadow: 0 0.4cqw 2.6cqw rgba(238,247,250,0.9), 0 0 2cqw rgba(238,247,250,0.8);
+  text-wrap: balance;
+}
 
 /* Dark-mode halo dim — the halo's warm orange-pink would overpower the
    dark shell at 0.85 opacity; drop to 0.5 so it still tints the rim
@@ -7556,6 +7654,11 @@ body.modal-open { overflow: hidden; }
   color: rgba(31,29,26,0.55);
   text-transform: uppercase;
   margin-bottom: 8px;
+  /* clear the fixed check badge (top-right) so text never runs under it */
+  padding-right: 34px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .plh-diag-eyebrow-dot {
   width: 6px; height: 6px;
@@ -9190,6 +9293,25 @@ html, body { overflow-x: clip; }
   box-shadow: 0 4px 14px rgba(26, 26, 26, 0.07);
 }
 
+/* Surface Labs — "pages I designed" cluster under the case title. Reuses
+   .case-live-row + .case-live-link--quiet; foregrounds Rotem's real pages
+   instead of the site homepage (the homepage lives in Outcome below). */
+.sf-toplinks { margin: 16px 0 6px; }
+.sf-toplinks-label {
+  display: block; font-size: 12px; font-weight: 500;
+  color: var(--text-muted); text-transform: uppercase;
+  letter-spacing: 0.06em; margin-bottom: 11px;
+}
+.sf-toplinks .case-live-row { margin: 0 0 12px; }
+.sf-toplinks-more {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px; color: #888; text-decoration: none;
+  transition: color 180ms ease;
+  /* 44px hit area without shifting layout */
+  padding-block: 12px; margin-block: -12px;
+}
+.sf-toplinks-more:hover { color: #2a9bbb; }
+
 /* ====================================================================
    PROCESS PAGE DEMOS (2026-06-10) — fork / green-broken / verdict /
    memory / seam-log / proof. Built loops replace the old static PNGs.
@@ -9687,15 +9809,16 @@ html, body { overflow-x: clip; }
 .sd-seg.is-active { background: rgba(42,155,187,0.22); box-shadow: inset 0 0 0 1.5px var(--sf-cyan); }
 .sd-seg.is-filled { background: var(--sf-cyan); }
 .sd-q-stage { font-family: var(--sf-mono); font-size: 10px; letter-spacing: 0.12em; color: #9a9a95; text-transform: uppercase; }
-.sd-q-text { font-size: 16px; font-weight: 500; color: var(--sf-ink); margin: 8px 0 14px; }
+.sd-q-text { font-size: 20px; line-height: 1.4; font-weight: 500; color: var(--sf-ink); margin: 10px 0 16px; letter-spacing: -0.01em; }
 .sd-opts { display: flex; flex-direction: column; gap: 8px; }
-.sd-opt { position: relative; text-align: left; font-size: 14px; color: var(--sf-ink); border: 1px solid var(--sf-line); border-radius: 6px; background: #fff; padding: 13px 40px 13px 16px; cursor: pointer; transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease; font-family: inherit; }
+.sd-opt { position: relative; text-align: left; font-size: 15px; color: var(--sf-ink); border: 1px solid var(--sf-line); border-radius: 6px; background: #fff; padding: 14px 40px 14px 16px; cursor: pointer; transition: border-color 200ms ease, background 200ms ease, box-shadow 200ms ease; font-family: inherit; width: 100%; }
 .sd-opt:hover { border-color: #b8c0be; background: rgba(42,155,187,0.03); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
 .sd-opt.is-selected { border-color: var(--sf-cyan); background: rgba(42,155,187,0.06); }
 .sd-opt.is-selected::after { content: ''; position: absolute; right: 16px; top: 50%; transform: translateY(-50%); width: 8px; height: 8px; border-radius: 50%; background: var(--sf-cyan); }
 .sd-questions { transition: opacity 220ms ease, transform 220ms ease; }
 .sd-questions.is-advancing { opacity: 0; transform: translateY(-6px); }
-.sd-result { border-top: 1px solid var(--sf-line); padding-top: 18px; }
+.sd-result { border-top: 1px solid var(--sf-line); padding-top: 18px; opacity: 0; transform: translateY(16px); transition: opacity 460ms ease, transform 520ms cubic-bezier(0.23,1,0.32,1); }
+.sd-result.is-in { opacity: 1; transform: translateY(0); }
 .sd-result-eyebrow { display: block; font-family: var(--sf-mono); font-size: 10px; letter-spacing: 0.14em; color: #9a9a95; text-transform: uppercase; margin-bottom: 14px; }
 .sd-funnel { display: flex; align-items: flex-end; gap: 8px; height: 128px; margin-bottom: 20px; }
 .sd-fseg { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
@@ -9703,16 +9826,24 @@ html, body { overflow-x: clip; }
 .sd-fseg.is-leak .sd-fbar { background: var(--sf-coral); }
 .sd-flabel { font-family: var(--sf-mono); font-size: 9px; letter-spacing: 0.06em; color: #8a8a85; text-transform: uppercase; margin-top: 7px; text-align: center; }
 .sd-fseg.is-leak .sd-flabel { color: var(--sf-coral); }
-.sd-verdict { font-size: 18px; font-weight: 500; color: var(--sf-ink); margin: 0 0 20px; letter-spacing: -0.01em; }
+.sd-verdict { font-size: 18px; font-weight: 500; color: var(--sf-ink); margin: 0; letter-spacing: -0.01em; opacity: 0; transition: opacity 420ms ease 620ms; }
+.sd-result.is-in .sd-verdict { opacity: 1; }
 .sd-verdict b { color: var(--sf-coral); font-weight: 700; }
 .sd-cta { display: inline-block; font-size: 13px; font-weight: 500; color: #fff; background: var(--sf-cyan); border-radius: 6px; padding: 10px 18px; text-decoration: none; }
 .sd-again { display: block; margin-top: 14px; font-family: var(--sf-mono); font-size: 10px; letter-spacing: 0.1em; color: #9a9a95; background: none; border: none; cursor: pointer; text-transform: uppercase; padding: 0; }
-.sd-reduced .sd-questions, .sd-reduced .sd-seg, .sd-reduced .sd-fbar, .sd-reduced .sd-opt { transition: none !important; }
+.sd-reduced .sd-questions, .sd-reduced .sd-seg, .sd-reduced .sd-fbar, .sd-reduced .sd-opt, .sd-reduced .sd-result, .sd-reduced .sd-verdict { transition: none !important; }
 
 /* ---- Hero video (Remotion cube header) ---- */
 .case-hero-demo:has(.sf-hero-video) { opacity: 1 !important; transform: none !important; }
 .sf-hero-video-frame { line-height: 0; overflow: hidden; min-width: 0; }
 .sf-hero-video { display: block; width: 100%; max-width: 100%; height: auto; }
+/* Mobile: the 1920x560 hero shrinks to a ~109px strip at 375. Fix a taller
+   frame and cover-crop; the headline is dead-center so only the side cube
+   grids shed. */
+@media (max-width: 640px) {
+  .sf-hero-video-frame { height: 190px; }
+  .sf-hero-video { height: 100%; object-fit: cover; object-position: center; }
+}
 
 /* ---- Embedded Remotion videos ---- */
 .sf-video-frame { margin: 76px 0 48px; }
@@ -9728,8 +9859,9 @@ html, body { overflow-x: clip; }
 .sf-pp-lights { display: flex; gap: 7px; flex: 0 0 auto; }
 .sf-pp-lights span { width: 10px; height: 10px; border-radius: 50%; background: #d9d9d4; }
 .sf-pp-url { flex: 0 1 auto; min-width: 0; font-family: ui-monospace,'SF Mono',SFMono-Regular,Menlo,monospace; font-size: 12px; color: #8a8a85; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.sf-pp-live { margin-left: auto; font-family: ui-monospace,'SF Mono',SFMono-Regular,Menlo,monospace; font-size: 11px; letter-spacing: 0.06em; color: #2a9bbb; text-transform: uppercase; white-space: nowrap; flex: 0 0 auto; }
-.sf-page-preview:hover .sf-pp-live { color: #1f7d96; }
+/* One live-CTA per state: the balloon pill (.sf-pp-cta) is the resting
+   affordance; the browser-bar label was a duplicate. */
+.sf-pp-live { display: none; }
 .sf-pp-shot { aspect-ratio: 1440 / 420; overflow: hidden; line-height: 0; background: #fff; }
 .sf-pp-shot img { display: block; width: 100%; height: auto; }
 /* Live badge — balloon: materialises huge with organic warped edges, slowly deflates to pill */
