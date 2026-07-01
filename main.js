@@ -312,6 +312,35 @@
     attemptVideoAutoplay();
   }
 
+  /* ---- AUTOPLAY RESURRECTION (layer 7, 2026-07-01) ----
+     If the browser refused autoplay at parse (iOS Low Power Mode, older
+     WebKit without :has(), any policy), the first real user gesture
+     unlocks playback. Replay every paused autoplay video on the first
+     touch / click / key / scroll, then keep listening: Low Power Mode
+     pauses videos again when they leave the viewport, so each gesture
+     re-kicks whatever is paused but should be playing. Muted+playsinline
+     only, so this can never produce sound. */
+  (function () {
+    function resurrect() {
+      document.querySelectorAll('video[autoplay]').forEach(function (v) {
+        if (!v.paused) return;
+        var rect = v.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          v.play().catch(function () {});
+        }
+      });
+    }
+    ['touchstart', 'pointerdown', 'keydown'].forEach(function (t) {
+      window.addEventListener(t, resurrect, { capture: true, passive: true });
+    });
+    var scrollTick = false;
+    window.addEventListener('scroll', function () {
+      if (scrollTick) return;
+      scrollTick = true;
+      setTimeout(function () { scrollTick = false; resurrect(); }, 250);
+    }, { capture: true, passive: true });
+  })();
+
 
   /* ---- SCROLL REVEAL ---- */
   var revealEls = document.querySelectorAll('.reveal');

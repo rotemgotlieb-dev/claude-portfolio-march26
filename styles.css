@@ -491,6 +491,10 @@ nav.scrolled {
 /* iOS gate 5: a video with an opacity-0 ancestor at parse never autoplays.
    The Surface hero video sits in a .fade-in wrapper — exempt it too. */
 .fade-in:has(video) { opacity: 1; transform: none; }
+/* Explicit fallback for browsers without :has() (older iOS drops the two
+   rules above silently): every video-containing wrapper also carries a
+   literal .has-video class in the HTML. */
+.reveal.has-video, .fade-in.has-video { opacity: 1; transform: none; }
 .reveal.revealed { opacity: 1; transform: translateY(0); }
 
 
