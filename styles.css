@@ -609,11 +609,12 @@ nav.scrolled {
   position: relative;
   overflow: hidden;
   flex-shrink: 0;
+  flex-grow: 1;            /* fill extra card height so short-text cards don't leave whitespace under the visual */
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 16 / 9;    /* natural size; grows past this when the grid row stretches the card */
   transition: transform 500ms var(--ease-smooth);
 }
 

@@ -458,20 +458,23 @@
     document.body.appendChild(cursor);
     document.body.classList.add('cursor-active');
 
-    var mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0;
-    var smoothing = 0.15;
+    // Instant 1:1 tracking, no lerp. A smoothed cursor trails the pointer and
+    // reads as latency (the whole point of a custom cursor dies if it lags).
+    // One transform write per frame max, and the RAF is scheduled only on
+    // movement, so nothing runs while the mouse is idle.
+    var mouseX = 0, mouseY = 0, rafPending = false;
 
     document.addEventListener('mousemove', function (e) {
       mouseX = e.clientX;
       mouseY = e.clientY;
+      if (!rafPending) {
+        rafPending = true;
+        requestAnimationFrame(function () {
+          cursor.style.transform = 'translate3d(' + mouseX + 'px, ' + mouseY + 'px, 0)';
+          rafPending = false;
+        });
+      }
     });
-
-    (function animate() {
-      cursorX += (mouseX - cursorX) * smoothing;
-      cursorY += (mouseY - cursorY) * smoothing;
-      cursor.style.transform = 'translate(' + cursorX + 'px, ' + cursorY + 'px)';
-      requestAnimationFrame(animate);
-    })();
 
     var hoverTargets = 'a, button, .bento-card, .other-work-card, .sidebar-link';
     document.addEventListener('mouseover', function (e) {
