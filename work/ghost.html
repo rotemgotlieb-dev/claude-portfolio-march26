@@ -21,7 +21,9 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1A1A'/><text x='50%25' y='52%25' dominant-baseline='central' text-anchor='middle' font-family='system-ui,-apple-system,sans-serif' font-weight='900' font-size='20' fill='%23FAFAF8'>R</text></svg>">
   <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1A1A'/><text x='50%25' y='52%25' dominant-baseline='central' text-anchor='middle' font-family='system-ui,-apple-system,sans-serif' font-weight='900' font-size='20' fill='%23FAFAF8'>R</text></svg>">
   <script>(function(){/* dark mode disabled 2026-05-13: keep theme=light. Restore: revert this <script> + .theme-toggle CSS hide */})();</script>
-  <link rel="stylesheet" href="../styles.css?v=98">
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap">
+  <link rel="stylesheet" href="../styles.css?v=99">
 </head>
 <body>
 
@@ -234,10 +236,6 @@
             Open the live demo
             <span class="case-live-arrow" aria-hidden="true">&#8599;</span>
           </a>
-          <a class="case-live-link case-live-link--quiet" style="--live-accent:#4F46E5" href="https://ghost.rotemgotlieb.com?from=portfolio" target="_blank" rel="noopener">
-            Visit the site
-            <span class="case-live-arrow" aria-hidden="true">&#8599;</span>
-          </a>
         </div>
 
         <div class="metadata-grid fade-in" data-delay="0.7">
@@ -262,20 +260,17 @@
         <article class="case-body">
 
           <section id="overview" class="case-section reveal">
-            <span class="section-label">Overview</span>
             <h2>Design systems break silently. Ghost makes the drift visible.</h2>
-            <p>Ghost is a design-system reality scanner, designed, built, and shipped as a live product. It compares the Figma source of truth against what production actually renders.</p>
+            <p>Ghost is a design-system reality scanner, designed, built, and shipped as a live product on <strong>49 unit and 19 end-to-end tests</strong>, $0 a month to run. It compares the Figma source of truth against what production actually renders.</p>
           </section>
 
           <section id="the-problem" class="case-section reveal">
-            <span class="section-label">The Problem</span>
             <h2>Nobody checks if production matches the spec.</h2>
             <p>A hardcoded padding here, a hex digit there, a radius eyeballed from 8 to 6. None are bugs. All pass code review. Six months later, your product is three products wearing the same logo.</p>
             <p>Chromatic, Percy, and Applitools catch regressions against <em>previous code</em>. None answer the designer's question: does production match the design system?</p>
           </section>
 
           <section id="the-insight" class="case-section reveal">
-            <span class="section-label">The Insight</span>
             <h2>Designers check work by holding the spec next to the output.</h2>
             <p>Spec on one side, production on the other, gap visible in one motion. No report required.</p>
           </section>
@@ -460,13 +455,11 @@
           <p class="demo-frame-caption">Drag right to reveal production drift. Annotations name what changed.</p>
 
           <section id="the-solution" class="case-section reveal">
-            <span class="section-label">The Solution</span>
             <h2>Drag to reveal. Detect, diagnose, remediate.</h2>
             <p><strong>Markers carry the diagnosis:</strong> red for breaking, amber for drift, blue for undocumented variants. The AI Fix Flow closes the loop in one workflow. No competitor offers this.</p>
           </section>
 
           <section id="design-process" class="case-section reveal">
-            <span class="section-label">Design Process</span>
             <h2>Three pivots made Ghost what it is.</h2>
             <p><strong>The slider moved from buried feature to hero.</strong> The first build hid it three clicks deep. I rebuilt the dashboard around it.</p>
             <p><strong>The dashboard became an investigation workspace.</strong> Dashboards monitor; Ghost investigates. Spec, production, and deviations sit visible at once.</p>
@@ -697,7 +690,6 @@
           <p class="demo-frame-caption">Click any chip to compare design against production.</p>
 
           <section id="key-decisions" class="case-section reveal">
-            <span class="section-label">Key Decisions</span>
             <h2>Clinical precision as the visual identity.</h2>
             <p>Clash Display for headings, DM Sans for body, JetBrains Mono for data. The tone is surgical: "deviation detected," not "violation found." Drift isn't anyone's fault, and the tool shouldn't assign blame.</p>
           </section>
@@ -759,7 +751,6 @@
           <p class="demo-frame-caption">Restraint.</p>
 
           <section id="outcome" class="outcome-section reveal">
-            <span class="section-label">Outcome</span>
             <h2>A concept that became a shipped product.</h2>
             <p>Ghost started from a gap I hit at LexisNexis. The token pipeline we shipped solved how tokens get <em>defined</em>, not whether production uses them. Ghost is the half I couldn't solve the first time, now live at ghost.rotemgotlieb.com.</p>
             <p>The live demo scans Meridian UI, a payments dashboard built as Ghost's canon, and reports 7 deviations on prepared data. Behind it: 49 unit tests, 19 end-to-end tests, Lighthouse 0.95+ on every route, zero type suppressions, $0 a month to run.</p>

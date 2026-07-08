@@ -3,7 +3,7 @@
    v7: Rebuilt intro animation from scratch
    ============================================ */
 
-@import url('https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap');
+/* Satoshi now loaded via parallel <link rel=stylesheet> in <head> (non-blocking) */
 
 /* --- Variables --- */
 :root {
@@ -9805,6 +9805,9 @@ html, body { overflow-x: clip; }
 .sd-bar { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: #F4F5F4; border-bottom: 1px solid var(--sf-line); }
 .sd-lights { display: flex; gap: 7px; flex: 0 0 auto; }
 .sd-lights span { width: 10px; height: 10px; border-radius: 50%; background: #d9d9d4; }
+.sd-lights span:nth-child(1) { background: #FF5F57; }
+.sd-lights span:nth-child(2) { background: #FEBC2E; }
+.sd-lights span:nth-child(3) { background: #28C840; }
 .sd-url { font-family: var(--sf-mono); font-size: 12px; color: #8a8a85; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 56vw; }
 .sd-stage { padding: 22px 22px 24px; }
 .sd-eyebrow { font-family: var(--sf-mono); font-size: 10px; letter-spacing: 0.16em; color: var(--sf-cyan); text-transform: uppercase; }
@@ -9863,6 +9866,9 @@ html, body { overflow-x: clip; }
 .sf-pp-bar { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: #F4F5F4; border-bottom: 1px solid #e6e6e3; }
 .sf-pp-lights { display: flex; gap: 7px; flex: 0 0 auto; }
 .sf-pp-lights span { width: 10px; height: 10px; border-radius: 50%; background: #d9d9d4; }
+.sf-pp-lights span:nth-child(1) { background: #FF5F57; }
+.sf-pp-lights span:nth-child(2) { background: #FEBC2E; }
+.sf-pp-lights span:nth-child(3) { background: #28C840; }
 .sf-pp-url { flex: 0 1 auto; min-width: 0; font-family: ui-monospace,'SF Mono',SFMono-Regular,Menlo,monospace; font-size: 12px; color: #8a8a85; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 /* One live-CTA per state: the balloon pill (.sf-pp-cta) is the resting
    affordance; the browser-bar label was a duplicate. */

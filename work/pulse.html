@@ -21,7 +21,9 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1A1A'/><text x='50%25' y='52%25' dominant-baseline='central' text-anchor='middle' font-family='system-ui,-apple-system,sans-serif' font-weight='900' font-size='20' fill='%23FAFAF8'>R</text></svg>">
   <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1A1A'/><text x='50%25' y='52%25' dominant-baseline='central' text-anchor='middle' font-family='system-ui,-apple-system,sans-serif' font-weight='900' font-size='20' fill='%23FAFAF8'>R</text></svg>">
   <script>(function(){/* dark mode disabled 2026-05-13: keep theme=light. Restore: revert this <script> + .theme-toggle CSS hide */})();</script>
-  <link rel="stylesheet" href="../styles.css?v=98">
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap">
+  <link rel="stylesheet" href="../styles.css?v=99">
 </head>
 <body>
 
@@ -212,28 +214,24 @@
         <article class="case-body">
 
           <section id="overview" class="case-section reveal">
-            <span class="section-label">Overview</span>
             <h2>A UX intelligence tool built for designers, not analysts.</h2>
-            <p>Pulse is an AI-native product I designed and built end to end in code. It diagnoses friction in production interfaces, anchored to your design system at the component level.</p>
+            <p>Pulse is an AI-native product I designed and built end to end in code, verified by an adversarial review that caught <strong>16 real bugs with 0 false positives</strong>. It diagnoses friction in production interfaces, anchored to your design system at the component level.</p>
             <p>I built it because every analytics tool speaks to analysts. Hotjar reports bounce rates. FullStory buries insights in enterprise search. Contentsquare maps friction to revenue, not components.</p>
           </section>
 
           <section id="the-problem" class="case-section reveal">
-            <span class="section-label">The Problem</span>
             <h2>Designers ship components. Their tools report on pages.</h2>
             <p>A designer doesn't need "bounce rate increased 12% on /onboarding." She needs to know users click submit 3.2 times because the disabled state looks enabled. That's a WCAG 1.4.3 violation.</p>
             <p>The gap is translation, not data. Pages are too coarse, sessions too granular. Components are the unit designers think in.</p>
           </section>
 
           <section id="the-insight" class="case-section reveal">
-            <span class="section-label">The Insight</span>
             <h2>Make the heatmap an interface, not a visualization.</h2>
             <p>You can look at a Hotjar heatmap. You can't ask it a question.</p>
             <p>Hover a hot zone and the diagnosis arrives with a fix attached. The blob became a tool.</p>
           </section>
 
           <section id="the-solution" class="case-section reveal">
-            <span class="section-label">The Solution</span>
             <h2>The Living Observatory.</h2>
             <p>A procedural wireframe renders in code, not screenshots. Four heatmap layers (Friction, Rage Clicks, Dead Clicks, Attention) overlay it in OKLab-interpolated thermal palettes.</p>
             <p>Every diagnosis anchors to the component you shipped, not the page. It names the users affected and a token-level fix.</p>
@@ -427,7 +425,6 @@
           </section>
 
           <section id="design-process" class="case-section reveal">
-            <span class="section-label">Design Process</span>
             <h2>Every change started as an annotation.</h2>
             <p><strong>My two-Claude method:</strong> I annotate a component, Claude Code executes, I review what ships back. This loop built every part of Pulse. Below, one real instance.</p>
 
@@ -495,7 +492,6 @@
           </section>
 
           <section id="outcome" class="outcome-section reveal">
-            <span class="section-label">Outcome</span>
             <h2>A concept that shipped as a live product.</h2>
             <p><strong>17 issues authored across five pages. 32 components tracked. Six procedural wireframes rendered in code. Four heatmap layers. Twelve build phases on a single branch in a focused day, on top of six weeks of part-time work.</strong></p>
             <p>The canvas isn't the point; the strategic argument is. Pulse names its competitors, what it won't build (predictive heatmaps, mobile, Figma integration), and its buyer: a Director of Design.</p>
