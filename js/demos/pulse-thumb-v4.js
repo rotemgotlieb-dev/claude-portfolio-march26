@@ -189,11 +189,6 @@ var PLOH_MARKUP = (
     '<div class="ploh-bar"></div>' +
     '<div class="ploh-status" aria-hidden="true">' +
       '<span class="ploh-status-dot"></span>' +
-      '<span class="ploh-status-label">LIVE</span>' +
-    '</div>' +
-    '<div class="ploh-counter" aria-hidden="true">' +
-      '<span class="ploh-counter-label">EVENTS</span>' +
-      '<span class="ploh-counter-num">12,847</span>' +
     '</div>' +
     /* Real column labels + count badges (canonical Pulse kanban
      * vocabulary, matching the case-study hero). Authenticity upgrade
