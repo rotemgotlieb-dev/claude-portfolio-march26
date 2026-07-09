@@ -170,10 +170,6 @@ function initInstance(stage) {
 var GFT_MARKUP = (
   '<div class="gft-stage" data-ghost-thumb aria-hidden="true">' +
     '<div class="gft-halo" aria-hidden="true"></div>' +
-    '<div class="gft-header">' +
-      '<span class="gft-header-label">Deviations · Scan 007</span>' +
-      '<span class="gft-header-count">21 found</span>' +
-    '</div>' +
     '<div class="gft-body">' +
       '<div class="gft-list">' +
         '<div class="gft-row" data-row="0">' +

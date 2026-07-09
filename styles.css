@@ -6851,7 +6851,7 @@ body.modal-open { overflow: hidden; }
 /* Body: list left + detail panel right */
 .gft-body {
   position: absolute;
-  top: 11cqi;
+  top: 5cqi;
   left: 5cqi;
   right: 5cqi;
   bottom: 5cqi;
